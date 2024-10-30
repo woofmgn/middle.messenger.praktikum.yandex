@@ -1,0 +1,17 @@
+.input-container {
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    margin-bottom: 8px;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 9px;
+    color: #999
+  }
+
+  &__input-element {
+
+  }
+}

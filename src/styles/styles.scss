@@ -1,0 +1,10 @@
+:root {
+  font-family: 'Inter';
+  box-sizing: border-box;
+}
+
+@import './normalize.scss';
+@import '../components/layout/layout.scss';
+@import '../components/authContainer/authContainer.scss';
+@import '../components/authTitle/authTitle.scss';
+@import '../components/input/input.scss';
