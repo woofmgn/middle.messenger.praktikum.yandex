@@ -16,11 +16,20 @@
 
 <body>
   {{#> layout }}
-  {{#> authContainer}}
-  {{> authTitle text="Регистрация"}}
-  {{> input label="yaInput" name="yaName"}}
-  {{> button label="Войти"}}
-  {{/ authContainer}}
+    {{#> authContainer}}
+      {{> authTitle text="Регистрация"}}
+      {{#> authForm}}
+        {{> input label="Почта" name="email"}}
+        {{> input label="Логин" name="login"}}
+        {{> input label="Имя" name="first_name"}}
+        {{> input label="Фамилия" name="second_name"}}
+        {{> input label="Телефон" name="phone"}}
+        {{> input label="Пароль" name="password"}}
+        {{> input label="Пароль (ещё раз)" name="password-check"}}
+        {{> button optClass="button-auth" label="Зарегистрироваться" type="submit"}}
+      {{/ authForm}}
+      {{> link optionalClass='auth-link' to='#' label='Войти'}}
+    {{/ authContainer}}
   {{/ layout }}
 </body>
 

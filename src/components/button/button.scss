@@ -1,0 +1,14 @@
+@import '../../styles/vars.scss';
+
+.button {
+  padding: 12px 0;
+  background-color: $primary-blue;
+  border-radius: 8px;
+  border: none;
+  color: $white;
+  cursor: pointer;
+}
+
+.button-auth {
+  margin-top: 31px;
+}
