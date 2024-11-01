@@ -2,15 +2,21 @@ import Handlebars from 'handlebars';
 import * as Components from './components';
 import * as Pages from './pages';
 
+import emptyAvatar from './assets/image/empty-avatar.svg';
+
 const pages = {
   signin: [Pages.SigninPage],
   signup: [Pages.SignupPage],
   error: [Pages.ErrorPage],
   notFound: [Pages.NotFoundPage],
+  profile: [
+    Pages.ProfilePage,
+    {
+      imageUrl: emptyAvatar,
+      editUser: true,
+    },
+  ],
 };
-
-console.log('Components', Components);
-console.log('Pages', Pages);
 
 Object.entries(Components).forEach(([name, template]) => {
   Handlebars.registerPartial(name, template);
@@ -26,7 +32,7 @@ function navigate(page: string) {
   container.innerHTML = temlpatingFunction(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('notFound'));
+document.addEventListener('DOMContentLoaded', () => navigate('profile'));
 
 document.addEventListener('click', (e) => {
   //@ts-ignore
@@ -38,4 +44,3 @@ document.addEventListener('click', (e) => {
     e.stopImmediatePropagation();
   }
 });
-

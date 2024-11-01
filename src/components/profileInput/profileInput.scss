@@ -1,0 +1,42 @@
+@import '../../styles/vars.scss';
+
+.profile-input-container {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 10px;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $gray-light-secondary;
+    padding: 0 0 10px 0;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 13px;
+    color: $primary-font-color;
+  }
+
+  &__input-element {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: 500;
+    color: $gray-primary;
+    text-align: right;
+  }
+
+  &__error-text {
+    position: absolute;
+    bottom: -14px;
+    left: 0;
+    font-size: 8px;
+    line-height: 8px;
+    color: $error-red-color;
+  }
+}

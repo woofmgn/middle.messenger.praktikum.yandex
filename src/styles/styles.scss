@@ -3,15 +3,7 @@
   box-sizing: border-box;
 }
 
-@import './vars.scss';
-
-// @import '../pages/404/404.scss';
-
-// @import './normalize.scss';
-// @import '../components/layout/layout.scss';
-// @import '../components/authContainer/authContainer.scss';
-// @import '../components/authTitle/authTitle.scss';
-// @import '../components/authForm/authForm.scss';
-// @import '../components/input/input.scss';
-// @import '../components/button/button.scss';
-// @import '../components/link/link.scss';
+#app {
+  width: 100%;
+  height: 100vh;
+}

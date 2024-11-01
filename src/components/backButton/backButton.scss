@@ -1,0 +1,19 @@
+@import '../../styles/vars.scss';
+
+.back-container {
+  width: 64px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-light;
+
+  &__button {
+    background-image: url('../../assets/image/arrow-left-button.svg');
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}

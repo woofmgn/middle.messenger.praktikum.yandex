@@ -9,6 +9,16 @@
   cursor: pointer;
 }
 
+.button_text {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  color: $primary-blue;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
 .button-auth {
   margin-top: 31px;
 }
