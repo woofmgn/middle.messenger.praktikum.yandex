@@ -1,16 +1,18 @@
 <div class="profile-layout">
   {{> BackButton}}
-  <div class="profile-container">
+  <section class="profile-container">
     <div class="profile-container__avatar-wrapper">
       <img src={{imageUrl}} class="profile-container__avatar"/>
     </div>
     <h1 class="profile-container__username">Иван</h1>
-    {{#if editUser}}
-      {{> ProfileUserForm}}
+    {{#if userForm}}
+      {{> ProfileUserForm editUser=editUser}}
       {{else}}
-      {{!-- {{> ProfilePasswordForm}} --}}
+      {{> ProfilePasswordForm}}
     {{/if}}
-        <ul class="profile-button-container"> 
+    {{#if editUser}}
+    {{else}}
+    <ul class="profile-button-container"> 
       <li class="profile-button-container__item">
         {{> Button btnText="true" label='Изменить данные'}}
       </li>
@@ -18,8 +20,12 @@
         {{> Button btnText="true" label='Изменить пароль'}}
       </li>
       <li class="profile-button-container__item">
-        {{> Button btnText="true" label='Выйти'}}
+        {{> Button btnText="true" label='Выйти' optClass='profile-button-container__logout-button'}}
       </li>
     </ul>
-  </div>
+    {{/if}}
+  </section>
 </div>
+{{#if openModal}}
+{{> ProfileModal title="Загрузите файл"}}
+{{/if}}

@@ -9,3 +9,4 @@ export { BackButton } from './backButton';
 export { ProfileInput } from './profileInput';
 export { ProfileUserForm } from './profileUserForm';
 export { ProfilePasswordForm } from './profilePasswordForm';
+export { ProfileModal } from './profileModal';

@@ -5,6 +5,7 @@
   {{> ProfileInput name='last_name' label='Фамилия' value='Иванов'}}
   {{> ProfileInput name='display_name' label='Имя в чате' value='Иван'}}
   {{> ProfileInput name='phone' label='Телефон' value='+7(909)9673030'}}
+  {{#if editUser}}
   {{> Button label='Сохранить' type='submit' optClass='profile-form__submit-button'}}
+  {{/if}}
 </form>
-

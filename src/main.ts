@@ -13,7 +13,9 @@ const pages = {
     Pages.ProfilePage,
     {
       imageUrl: emptyAvatar,
-      editUser: true,
+      editUser: false,
+      userForm: true,
+      openModal: true,
     },
   ],
 };
