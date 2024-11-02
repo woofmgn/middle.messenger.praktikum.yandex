@@ -1,0 +1,42 @@
+@import '../../styles/vars.scss';
+
+.chat-list {
+  width: 310px;
+  height: 100%;
+  padding: 0 10px 21px 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar { 
+    display: none;
+  }
+
+  &__header {
+    padding-top: 21px;
+    width: 310px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: $white;
+  }
+
+  &__to-profile-link {
+    display: flex;
+    font-size: 12px;
+    line-height: 12px;
+    color: $gray-primary;
+    align-self: flex-end;
+  }
+
+  &__list-wrapper {
+    list-style: none;
+    padding: 0;
+    // margin: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}

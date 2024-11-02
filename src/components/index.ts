@@ -10,3 +10,6 @@ export { ProfileInput } from './profileInput';
 export { ProfileUserForm } from './profileUserForm';
 export { ProfilePasswordForm } from './profilePasswordForm';
 export { ProfileModal } from './profileModal';
+export { ChatList } from './chatList';
+export { SearchInput } from './searchInput';
+export { Contact } from './contact';
