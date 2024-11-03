@@ -50,7 +50,7 @@ function navigate(page: string) {
   container.innerHTML = temlpatingFunction(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('messenger'));
+document.addEventListener('DOMContentLoaded', () => navigate('navigation'));
 
 document.addEventListener('click', (e) => {
   //@ts-ignore
