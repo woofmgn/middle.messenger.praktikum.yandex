@@ -1,0 +1,11 @@
+<section class="chat">
+  <div class="chat__wrapper">
+  {{#if empty}}
+    {{> EmptyMessages}}
+  {{else}}
+    {{> ChatHeader}}
+    {{> MessagesBoard date="10 июня" time="11:20" messages=messages}}
+    {{> ChatInput}}
+  {{/if}}
+  </div>
+</section>

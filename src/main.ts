@@ -3,7 +3,8 @@ import * as Components from './components';
 import * as Pages from './pages';
 
 import emptyAvatar from './assets/image/empty-avatar.svg';
-import { contacts } from './utils/conts';
+import emptyContactAvatar from './assets/image/empty-contact-avatar.svg';
+import { contacts, messages } from './utils/conts';
 
 const pages = {
   signin: [Pages.SigninPage],
@@ -23,6 +24,11 @@ const pages = {
     Pages.MessengerPage,
     {
       contactList: contacts,
+      empty: false,
+      avatar: emptyContactAvatar,
+      name: 'Себастьян',
+      dropdown: false,
+      messages: messages,
     },
   ],
   navigation: [Pages.NavigationPage],
@@ -42,7 +48,7 @@ function navigate(page: string) {
   container.innerHTML = temlpatingFunction(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('navigation'));
+document.addEventListener('DOMContentLoaded', () => navigate('messenger'));
 
 document.addEventListener('click', (e) => {
   //@ts-ignore
