@@ -1,0 +1,20 @@
+<div class="modal-layout">
+  <div class="modal-overlay"></div>
+  <div class="modal">
+    <h2 class="modal__title">
+      {{#if userModalAdd}}
+        Добавить пользователя
+        {{else}}
+        Удалить пользователя
+      {{/if}}
+    </h2>
+    <form action="" class="modal__form modal__form-user">
+      {{> AuthInput name='login' label='Логин'}}
+      {{#if userModalAdd}}
+        {{> Button type='submit' label='Добавить'}}
+        {{else}}
+        {{> Button type='submit' label='Удалить'}}
+      {{/if}}
+    </form>
+  </div>
+</div>

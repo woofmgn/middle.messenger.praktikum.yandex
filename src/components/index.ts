@@ -19,3 +19,4 @@ export { ChatHeader } from './chatHeader';
 export { ChatDropdown } from './chatDropdown';
 export { MessagesBoard } from './messagesBoard';
 export { ChatInput } from './chatInput';
+export { UserModal } from './userModal';

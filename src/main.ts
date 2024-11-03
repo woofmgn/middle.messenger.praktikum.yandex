@@ -29,6 +29,8 @@ const pages = {
       name: 'Себастьян',
       dropdown: false,
       messages: messages,
+      userModal: false,
+      userModalAdd: false,
     },
   ],
   navigation: [Pages.NavigationPage],
