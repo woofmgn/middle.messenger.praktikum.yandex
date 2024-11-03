@@ -1,0 +1,44 @@
+@import '../../styles/vars.scss';
+
+.chat-header {
+  padding: 0;
+  display: flex;
+  position: relative;
+
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $gray-light-secondary;
+  }
+
+  &__user-info {
+    display: flex;
+    gap: 10px;
+  }
+
+  // &__avatar {
+
+  // }
+
+  &__username {
+    margin: auto 0;
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: 600;
+  }
+
+  &__button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 50%;
+    background-color: #F5F5F5;
+    background-image: url('../../assets/image/dots.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+}
