@@ -25,6 +25,7 @@ const pages = {
       contactList: contacts,
     },
   ],
+  navigation: [Pages.NavigationPage],
 };
 
 Object.entries(Components).forEach(([name, template]) => {
@@ -41,11 +42,12 @@ function navigate(page: string) {
   container.innerHTML = temlpatingFunction(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('messenger'));
+document.addEventListener('DOMContentLoaded', () => navigate('navigation'));
 
 document.addEventListener('click', (e) => {
   //@ts-ignore
-  const page = e.target.getAttribute('page');
+  const page = e.target.getAttribute('data-page');
+  console.log('page');
   if (page) {
     navigate(page);
 
