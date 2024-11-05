@@ -1,0 +1,11 @@
+<form class="profile-form">
+  {{> ProfileInput name='email' label='Почта' value='pochta@yandex.ru'}}
+  {{> ProfileInput name='login' label='Логин' value='ivanivanov'}}
+  {{> ProfileInput name='first_name' label='Имя' value='Иван'}}
+  {{> ProfileInput name='last_name' label='Фамилия' value='Иванов'}}
+  {{> ProfileInput name='display_name' label='Имя в чате' value='Иван'}}
+  {{> ProfileInput name='phone' label='Телефон' value='+7(909)9673030'}}
+  {{#if editUser}}
+  {{> Button label='Сохранить' type='submit' optClass='profile-form__submit-button'}}
+  {{/if}}
+</form>

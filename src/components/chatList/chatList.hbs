@@ -1,0 +1,13 @@
+<section class="chat-list">
+  <div class="chat-list__container">
+    <div class="chat-list__header">
+      {{> Link to='#' label='Профиль' optionalClass='chat-list__to-profile-link'}}
+      {{> SearchInput }}
+    </div>
+    <ul class="chat-list__list-wrapper">
+      {{#each contactList}}
+        {{> Contact this}}
+      {{/each}}
+    </ul>
+  </div>
+</section>
