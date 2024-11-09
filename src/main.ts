@@ -41,7 +41,8 @@ Object.entries(Components).forEach(([name, template]) => {
 });
 
 function navigate(page: string) {
-  //@ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   const [source, context] = pages[page];
   const container = document.getElementById('app')!;
 
@@ -53,7 +54,8 @@ function navigate(page: string) {
 document.addEventListener('DOMContentLoaded', () => navigate('navigation'));
 
 document.addEventListener('click', (e) => {
-  //@ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   const page = e.target.getAttribute('data-page');
   console.log('page');
   if (page) {
