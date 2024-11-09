@@ -12,7 +12,7 @@ https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/3
 ```
 npm i - установка зависимостей
 npm run start - сборка и запуск проекта
-npm run вум - запуск проекта в режиме разработки
+npm run dev - запуск проекта в режиме разработки
 npm run build - сборка проекта
 ```
 
