@@ -3,6 +3,10 @@ import Block from '../../utils/Block';
 
 type TSigninProps = {
   className: string;
+  formState: {
+    data: Record<string, string>;
+    error: Record<string, string>;
+  };
 };
 
 export default class Signin extends Block {
@@ -10,6 +14,10 @@ export default class Signin extends Block {
     super('div', {
       ...props,
       className: 'auth-layout',
+      formState: {
+        data: {},
+        error: {},
+      },
       AuthTitle: new AuthTitle({
         text: 'Вход',
       }),
@@ -17,11 +25,37 @@ export default class Signin extends Block {
         id: 'login',
         name: 'login',
         label: 'Логин',
+        onBlur: (e) => console.log('AuthLoginInput blur', e),
+        onChange: (e) => {
+          const target = e.target as HTMLInputElement;
+          this.setProps({
+            formState: {
+              ...this.props.formState,
+              data: {
+                ...this.props.formState.data,
+                [target.name]: target.value,
+              },
+            },
+          });
+        },
       }),
       AuthPasswordInput: new AuthInput({
         id: 'password',
         name: 'password',
         label: 'Пароль',
+        onBlur: (e) => console.log('AuthPasswordInput blur', e),
+        onChange: (e) => {
+          const target = e.target as HTMLInputElement;
+          this.setProps({
+            formState: {
+              ...this.props.formState,
+              data: {
+                ...this.props.formState.data,
+                [target.name]: target.value,
+              },
+            },
+          });
+        },
       }),
       Button: new Button({
         label: 'Войти',
@@ -29,7 +63,7 @@ export default class Signin extends Block {
         type: 'submit',
         onClick: (e) => {
           e.preventDefault();
-          console.log(e.target);
+          console.log('form submit', this.props.formState.data);
         },
       }),
       Link: new Link({

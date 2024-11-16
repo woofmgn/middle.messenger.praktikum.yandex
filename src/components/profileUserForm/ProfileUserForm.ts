@@ -1,32 +1,28 @@
-import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import Block from '../../utils/Block';
+import { Button } from '../button';
+import { ProfileInput } from '../profileInput';
 
-type TSigninProps = {
-  className: string;
-  formState: {
-    data: Record<string, string>;
-    error: Record<string, string>;
-  };
+type TProfileUserFormProps = {
+  editUser: boolean;
+  onSubmit: () => void;
 };
 
-export default class SignupPage extends Block {
-  constructor(props: TSigninProps) {
-    super('div', {
+export default class ProfileUserForm extends Block {
+  constructor(props: TProfileUserFormProps) {
+    super('form', {
       ...props,
-      className: 'auth-layout',
+      className: 'profile-form',
       formState: {
         data: {},
         error: {},
       },
-      AuthTitle: new AuthTitle({
-        text: 'Регистрация',
-      }),
-      EmailInput: new AuthInput({
+      EmailInput: new ProfileInput({
         id: 'email',
         name: 'email',
         label: 'Почта',
-        onBlur: (e) => console.log('EmailInput blur', e),
-        onChange: (e) => {
+        value: 'pochta@yandex.ru',
+        onBlur: (e) => console.log('EmailInput', e),
+        onChange: (e: Event) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
             formState: {
@@ -39,11 +35,12 @@ export default class SignupPage extends Block {
           });
         },
       }),
-      LoginilInput: new AuthInput({
+      LoginInput: new ProfileInput({
         id: 'login',
         name: 'login',
         label: 'Логин',
-        onBlur: (e) => console.log('LoginilInput blur', e),
+        value: 'ivanivanov',
+        onBlur: (e) => console.log('LoginInput', e),
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -57,11 +54,12 @@ export default class SignupPage extends Block {
           });
         },
       }),
-      FirstNameInput: new AuthInput({
+      FirstNameInput: new ProfileInput({
         id: 'first_name',
         name: 'first_name',
         label: 'Имя',
-        onBlur: (e) => console.log('FirstNameInput blur', e),
+        value: 'Иван',
+        onBlur: (e) => console.log('FirstNameInput', e),
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -75,11 +73,12 @@ export default class SignupPage extends Block {
           });
         },
       }),
-      SecondNameInput: new AuthInput({
-        id: 'second_name',
-        name: 'second_name',
+      LastNameInput: new ProfileInput({
+        id: 'last_name',
+        name: 'last_name',
         label: 'Фамилия',
-        onBlur: (e) => console.log('SecondNameInput blur', e),
+        value: 'Иванов',
+        onBlur: (e) => console.log('LastNameInput', e),
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -93,47 +92,31 @@ export default class SignupPage extends Block {
           });
         },
       }),
-      PhoneInput: new AuthInput({
+      ChatNameInput: new ProfileInput({
+        id: 'display_name',
+        name: 'display_name',
+        label: 'Имя в чате',
+        value: 'Иван',
+        onBlur: (e) => console.log('ChatNameInput', e),
+        onChange: (e) => {
+          const target = e.target as HTMLInputElement;
+          this.setProps({
+            formState: {
+              ...this.props.formState,
+              data: {
+                ...this.props.formState.data,
+                [target.name]: target.value,
+              },
+            },
+          });
+        },
+      }),
+      PhoneInput: new ProfileInput({
         id: 'phone',
         name: 'phone',
         label: 'Телефон',
-        onBlur: (e) => console.log('PhoneInput blur', e),
-        onChange: (e) => {
-          const target = e.target as HTMLInputElement;
-          this.setProps({
-            formState: {
-              ...this.props.formState,
-              data: {
-                ...this.props.formState.data,
-                [target.name]: target.value,
-              },
-            },
-          });
-        },
-      }),
-      PasswordInput: new AuthInput({
-        id: 'password',
-        name: 'password',
-        label: 'Пароль',
-        onBlur: (e) => console.log('PasswordInput blur', e),
-        onChange: (e) => {
-          const target = e.target as HTMLInputElement;
-          this.setProps({
-            formState: {
-              ...this.props.formState,
-              data: {
-                ...this.props.formState.data,
-                [target.name]: target.value,
-              },
-            },
-          });
-        },
-      }),
-      PasswordCheckInput: new AuthInput({
-        id: 'password-check',
-        name: 'password-check',
-        label: 'Пароль (ещё раз)',
-        onBlur: (e) => console.log('PasswordCheckInput blur', e),
+        value: '+7(909)9673030',
+        onBlur: (e) => console.log('PhoneInput', e),
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -148,38 +131,29 @@ export default class SignupPage extends Block {
         },
       }),
       Button: new Button({
-        label: 'Зарегистрироваться',
-        optClass: 'button-auth',
+        label: 'Сохранить',
         type: 'submit',
+        optClass: 'profile-form__submit-button',
         onClick: (e) => {
           e.preventDefault();
           console.log('form submit', this.props.formState.data);
+          props.onSubmit();
         },
-      }),
-      Link: new Link({
-        label: 'Войти',
-        to: '#',
-        optionalClass: 'auth-link',
       }),
     });
   }
 
   render(): string {
     return `
-      <section class="auth-container">
-        {{{AuthTitle}}}
-        <form action="" class="auth-form">
-          {{{EmailInput}}}
-          {{{LoginilInput}}}
-          {{{FirstNameInput}}}
-          {{{SecondNameInput}}}
-          {{{PhoneInput}}}
-          {{{PasswordInput}}}
-          {{{PasswordCheckInput}}}
-          {{{Button}}}
-        </form>
-        {{{Link}}}
-      </section>
+      {{{EmailInput}}}
+      {{{LoginInput}}}
+      {{{FirstNameInput}}}
+      {{{LastNameInput}}}
+      {{{ChatNameInput}}}
+      {{{PhoneInput}}}
+      {{#if editUser}}
+        {{{Button}}}
+      {{/if}}
     `;
   }
 }

@@ -2,7 +2,6 @@ import Handlebars from 'handlebars';
 import * as Components from './components';
 import * as Pages from './pages';
 
-import emptyAvatar from './assets/image/empty-avatar.svg';
 import emptyContactAvatar from './assets/image/empty-contact-avatar.svg';
 import { contacts, messages } from './utils/conts';
 import renderDOM from './utils/renderDom';
@@ -14,12 +13,12 @@ const pages = {
   notFound: [Pages.NotFoundPage],
   profile: [
     Pages.ProfilePage,
-    {
-      imageUrl: emptyAvatar,
-      editUser: false,
-      userForm: true,
-      openModal: false,
-    },
+    // {
+    //   imageUrl: emptyAvatar,
+    //   editUser: false,
+    //   userForm: true,
+    //   openModal: false,
+    // },
   ],
   messenger: [
     Pages.MessengerPage,

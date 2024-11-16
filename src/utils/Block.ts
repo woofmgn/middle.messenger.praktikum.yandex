@@ -16,9 +16,9 @@ export default abstract class Block {
   props;
   children: Record<string, Block>;
 
-  _element: HTMLElement | null = null;
-  _meta: { tagName: string; props: Record<string, unknown> } | null = null;
-  _id = uuid();
+  private _element: HTMLElement | null = null;
+  private _meta: { tagName: string; props: Record<string, unknown> } | null = null;
+  private _id = uuid();
 
   constructor(tagName = 'div', propsAndChildren: Record<string, unknown> = {}) {
     const { props, children } = this._getChildrenAndProps(propsAndChildren);
@@ -35,7 +35,7 @@ export default abstract class Block {
     this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildrenAndProps(propsAndChildren: Record<string, unknown>) {
+  private _getChildrenAndProps(propsAndChildren: Record<string, unknown>) {
     const children: Record<string, Block> = {};
     const props: Record<string, unknown> = {};
 
@@ -68,14 +68,14 @@ export default abstract class Block {
     return { children, props };
   }
 
-  _registerEvents(eventBus: EventBus) {
+  private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  _createResources() {
+  private _createResources() {
     if (!this._meta) {
       return;
     }
@@ -84,8 +84,8 @@ export default abstract class Block {
     this._element = this._createDocumentElement(tagName);
     if (typeof props.className === 'string') {
       const classes = props.className.split(' ').filter((item) => item !== 'undefined');
-      console.log('classes', classes);
-      console.log(this._element);
+      // console.log('classes', classes);
+      // console.log(this._element);
       this._element.classList.add(...classes);
     }
 
@@ -106,7 +106,7 @@ export default abstract class Block {
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount();
   }
 
@@ -117,7 +117,7 @@ export default abstract class Block {
     this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: TProps, newProps: TProps) {
+  private _componentDidUpdate(oldProps: TProps, newProps: TProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -130,7 +130,7 @@ export default abstract class Block {
     return true;
   }
 
-  setProps = (nextProps: TProps) => {
+  public setProps = (nextProps: TProps) => {
     if (!nextProps) {
       return;
     }
@@ -142,7 +142,7 @@ export default abstract class Block {
     return this._element;
   }
 
-  _render() {
+  private _render() {
     this._removeEvents();
     const block = this._compile();
 
@@ -159,11 +159,11 @@ export default abstract class Block {
     this._addEvents();
   }
 
-  render() {
+  public render() {
     return '';
   }
 
-  _addEvents() {
+  private _addEvents() {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName) => {
@@ -174,7 +174,7 @@ export default abstract class Block {
     });
   }
 
-  _removeEvents() {
+  private _removeEvents() {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName) => {
@@ -185,7 +185,7 @@ export default abstract class Block {
     });
   }
 
-  _compile() {
+  private _compile() {
     const propsAndStubs = { ...this.props };
 
     Object.entries(this.children).forEach(([key, child]) => {
@@ -217,12 +217,12 @@ export default abstract class Block {
     return fragment.content;
   }
 
-  getContent() {
+  public getContent() {
     return this.element as HTMLElement;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  _makePropsProxy(props: any) {
+  private _makePropsProxy(props: any) {
     return new Proxy(props, {
       get(target, prop) {
         const value = target[prop];
@@ -239,16 +239,16 @@ export default abstract class Block {
     });
   }
 
-  _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string) {
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
     return document.createElement(tagName);
   }
 
-  show() {
+  public show() {
     this.getContent().style.display = 'block';
   }
 
-  hide() {
+  public hide() {
     this.getContent().style.display = 'none';
   }
 }
