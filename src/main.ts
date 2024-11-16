@@ -5,6 +5,7 @@ import * as Pages from './pages';
 import emptyAvatar from './assets/image/empty-avatar.svg';
 import emptyContactAvatar from './assets/image/empty-contact-avatar.svg';
 import { contacts, messages } from './utils/conts';
+import renderDOM from './utils/renderDom';
 
 const pages = {
   signin: [Pages.SigninPage],
@@ -36,18 +37,26 @@ const pages = {
   navigation: [Pages.NavigationPage],
 };
 
+// console.log('Components', Components);
 Object.entries(Components).forEach(([name, template]) => {
+  if (typeof template === 'function') {
+    return;
+  }
   Handlebars.registerPartial(name, template);
 });
 
 function navigate(page: string) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
+  //@ts-ignore
   const [source, context] = pages[page];
+  if (typeof source === 'function') {
+    renderDOM(new source({}));
+    return;
+  }
+
   const container = document.getElementById('app')!;
 
   const temlpatingFunction = Handlebars.compile(source);
-  console.log('html', temlpatingFunction(context));
   container.innerHTML = temlpatingFunction(context);
 }
 

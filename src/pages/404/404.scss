@@ -1,4 +1,12 @@
+/* stylelint-disable-next-line import-notation */
 @import '../../styles/vars.scss';
+
+.layout {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .not-fount {
   display: flex;
@@ -6,7 +14,7 @@
   align-items: center;
 
   &__title {
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
     font-size: 40px;
     line-height: 40px;
     font-weight: 500;
@@ -14,7 +22,7 @@
   }
 
   &__text {
-    margin: 0 0 69px 0;
+    margin: 0 0 69px;
     font-size: 20px;
     line-height: 20px;
     font-weight: 500;

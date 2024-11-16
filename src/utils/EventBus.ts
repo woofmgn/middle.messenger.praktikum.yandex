@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TListener = (...args: any[]) => void;
 
-export class EventBus {
+export default class EventBus {
   listeners: Record<string, TListener[]>;
 
   constructor() {
