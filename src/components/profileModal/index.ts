@@ -1,3 +1,3 @@
 import './profileModal.scss';
 
-export { default as ProfileModal } from './profileModal.hbs?raw';
+export { default as ProfileModal } from './ProfileModal';

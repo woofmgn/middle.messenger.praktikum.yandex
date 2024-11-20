@@ -65,7 +65,6 @@ document.addEventListener('click', (e) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-expect-error
   const page = e.target.getAttribute('data-page');
-  console.log('page');
   if (page) {
     navigate(page);
 

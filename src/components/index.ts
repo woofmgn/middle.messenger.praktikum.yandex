@@ -8,6 +8,7 @@ export { ProfileInput } from './profileInput';
 export { ProfileUserForm } from './profileUserForm';
 export { ProfilePasswordForm } from './profilePasswordForm';
 export { ProfileModal } from './profileModal';
+export { FileInput } from './fileInput';
 export { ChatList } from './chatList';
 export { Chat } from './chat';
 export { SearchInput } from './searchInput';

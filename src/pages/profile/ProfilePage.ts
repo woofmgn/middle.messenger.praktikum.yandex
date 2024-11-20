@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 import emptyAvatar from '../../assets/image/empty-avatar.svg';
-import { Button, ProfilePasswordForm, ProfileUserForm } from '../../components';
+import { Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
 
 type TProfilePageProps = {
   imageUrl: string;
@@ -9,7 +9,7 @@ type TProfilePageProps = {
     avatar: string;
     isShownUserForm: boolean;
     isShownUserButton: boolean;
-    openModal: boolean;
+    isOpenModal: boolean;
   };
 };
 
@@ -22,7 +22,7 @@ export default class PropfilePage extends Block {
         avatar: emptyAvatar,
         isShownUserForm: true,
         isShownUserButton: true,
-        openModal: false,
+        isOpenModal: false,
       },
       ProfileUserForm: new ProfileUserForm({
         editUser: false,
@@ -63,15 +63,27 @@ export default class PropfilePage extends Block {
         optClass: 'profile-button-container__logout-button',
         onClick: () => console.log('button click'),
       }),
+      ButtonAvatar: new Button({
+        btnText: true,
+        optClass: 'profile-container__avatar-button',
+        label: '',
+        onClick: () => {
+          this.setProps({ ...this.props, state: { ...this.props.state, isOpenModal: true } });
+        },
+      }),
+      ProfileModal: new ProfileModal({
+        title: 'Загрузите файл',
+        onCloseModal: () => {
+          this.setProps({ ...this.props, state: { ...this.props.state, isOpenModal: false } });
+        },
+      }),
     });
   }
   render(): string {
     console.log('state.avatar.emptyAvatar', this.props.state.avatar.emptyAvatar);
     return `
       <section class="profile-container">
-        <div class="profile-container__avatar-wrapper">
-          <img src={{this.props.state.avatar.emptyAvatar}} class="profile-container__avatar" alt="Изображение аватара пользователя"/>
-        </div>
+        {{{ButtonAvatar}}}
         <h1 class="profile-container__username">Иван</h1>
         {{#if state.isShownUserForm}}
           {{{ProfileUserForm}}}
@@ -91,11 +103,10 @@ export default class PropfilePage extends Block {
             </li>
           </ul>
         {{else}}
-
         {{/if}}
       </section>
-      {{#if openModal}}
-        {{> ProfileModal title="Загрузите файл"}}
+      {{#if state.isOpenModal}}
+        {{{ProfileModal}}}
       {{/if}}
     `;
   }
