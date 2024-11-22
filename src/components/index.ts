@@ -13,7 +13,6 @@ export { ChatList } from './chatList';
 export { Chat } from './chat';
 export { SearchInput } from './searchInput';
 export { Contact } from './contact';
-export { EmptyMessages } from './emptyMessages';
 export { ChatHeader } from './chatHeader';
 export { ChatDropdown } from './chatDropdown';
 export { MessagesBoard } from './messagesBoard';

@@ -1,3 +1,3 @@
 import './chatDropdown.scss';
 
-export {default as ChatDropdown} from './chatDropdown.hbs?raw';
+export { default as ChatDropdown } from './ChatDropdown';

@@ -11,15 +11,7 @@ const pages = {
   signup: [Pages.SignupPage],
   error: [Pages.ErrorPage],
   notFound: [Pages.NotFoundPage],
-  profile: [
-    Pages.ProfilePage,
-    // {
-    //   imageUrl: emptyAvatar,
-    //   editUser: false,
-    //   userForm: true,
-    //   openModal: false,
-    // },
-  ],
+  profile: [Pages.ProfilePage],
   messenger: [
     Pages.MessengerPage,
     {

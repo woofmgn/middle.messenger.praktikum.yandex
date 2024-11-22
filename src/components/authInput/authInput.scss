@@ -1,3 +1,4 @@
+/* stylelint-disable import-notation */
 @import '../../styles/vars.scss';
 
 .input-container {
@@ -15,7 +16,7 @@
   }
 
   &__input-element {
-    padding: 0 0 7px 0;
+    padding: 0 0 7px;
     border: none;
     border-bottom: 1px solid $primary-blue;
     outline: none;

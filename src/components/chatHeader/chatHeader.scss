@@ -1,3 +1,4 @@
+/* stylelint-disable-next-line import-notation */
 @import '../../styles/vars.scss';
 
 .chat-header {
@@ -31,7 +32,7 @@
     height: 25px;
     border: none;
     border-radius: 50%;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
     background-image: url('../../assets/image/dots.svg');
     background-repeat: no-repeat;
     background-position: center;
