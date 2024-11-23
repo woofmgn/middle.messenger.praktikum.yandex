@@ -9,6 +9,9 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "warn"
+  },
   "ignorePatterns": ["dist", ".eslintrc.json"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["prettier", "@typescript-eslint", "eslint-plugin-prettier"]

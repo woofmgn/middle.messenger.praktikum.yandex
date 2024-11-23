@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 import emptyAvatar from '../../assets/image/empty-avatar.svg';
-import { Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
+import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
 
 type TProfilePageProps = {
   imageUrl: string;
@@ -24,6 +24,7 @@ export default class PropfilePage extends Block {
         isShownUserButton: true,
         isOpenModal: false,
       },
+      BackButton: new BackButton(),
       ProfileUserForm: new ProfileUserForm({
         editUser: false,
         onSubmit: () => {
@@ -82,6 +83,7 @@ export default class PropfilePage extends Block {
   render(): string {
     console.log('state.avatar.emptyAvatar', this.props.state.avatar.emptyAvatar);
     return `
+      {{{BackButton}}}
       <section class="profile-container">
         {{{ButtonAvatar}}}
         <h1 class="profile-container__username">Иван</h1>

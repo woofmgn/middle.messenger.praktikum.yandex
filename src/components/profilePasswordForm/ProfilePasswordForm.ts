@@ -8,7 +8,6 @@ type TProfilePasswordFormProps = {
 };
 
 export default class ProfilePasswordForm extends Block {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(props: TProfilePasswordFormProps) {
     super('form', {
       ...props,

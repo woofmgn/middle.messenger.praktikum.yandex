@@ -1,10 +1,10 @@
 import Block from '../../utils/Block';
+import { checkValidityForm, validation } from '../../utils/formValidation';
 import { AuthInput } from '../authInput';
 import { Button } from '../button';
 
 type TUserModalProps = {
   onClose: () => void;
-  // modalTypeAdd: boolean
 };
 
 export default class UserModal extends Block {
@@ -12,7 +12,7 @@ export default class UserModal extends Block {
     super('div', {
       ...props,
       className: 'modal-layout',
-      formData: {
+      formState: {
         data: {},
         error: {},
       },
@@ -31,23 +31,44 @@ export default class UserModal extends Block {
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
-            formData: {
-              ...this.props.formData,
+            formState: {
+              ...this.props.formState,
               data: {
-                ...this.props.formData.data,
+                ...this.props.formState.data,
                 [target.name]: target.value,
               },
             },
           });
         },
-        onBlur: (e) => console.log('blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('login', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.UserInput.setProps({ error: errorMessage });
+        },
       }),
       AddButton: new Button({
         label: 'Добавить',
         type: 'submit',
         onClick: (e) => {
           e.preventDefault();
-          console.log('submit', this.props.formData.data);
+          const isValid = checkValidityForm(this.props.formState.error);
+          if (!isValid) {
+            return;
+          }
+
+          console.log('submit', this.props.formState.data);
         },
       }),
       RemoveButton: new Button({
@@ -55,7 +76,12 @@ export default class UserModal extends Block {
         type: 'submit',
         onClick: (e) => {
           e.preventDefault();
-          console.log('submit', this.props.formData.data);
+          const isValid = checkValidityForm(this.props.formState.error);
+          if (!isValid) {
+            return;
+          }
+
+          console.log('submit', this.props.formState.data);
         },
       }),
     });

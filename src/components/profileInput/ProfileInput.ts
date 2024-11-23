@@ -2,7 +2,6 @@ import Block from '../../utils/Block';
 import Input from './Input';
 
 type TProfileInputProps = {
-  // Input: Input;
   name: string;
   type?: string;
   id: string;

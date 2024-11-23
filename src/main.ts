@@ -2,8 +2,6 @@ import Handlebars from 'handlebars';
 import * as Components from './components';
 import * as Pages from './pages';
 
-import emptyContactAvatar from './assets/image/empty-contact-avatar.svg';
-import { contacts, messages } from './utils/conts';
 import renderDOM from './utils/renderDom';
 
 const pages = {
@@ -12,23 +10,10 @@ const pages = {
   error: [Pages.ErrorPage],
   notFound: [Pages.NotFoundPage],
   profile: [Pages.ProfilePage],
-  messenger: [
-    Pages.MessengerPage,
-    {
-      contactList: contacts,
-      empty: false,
-      avatar: emptyContactAvatar,
-      name: 'Себастьян',
-      dropdown: false,
-      messages: messages,
-      userModal: false,
-      userModalAdd: false,
-    },
-  ],
+  messenger: [Pages.MessengerPage],
   navigation: [Pages.NavigationPage],
 };
 
-// console.log('Components', Components);
 Object.entries(Components).forEach(([name, template]) => {
   if (typeof template === 'function') {
     return;

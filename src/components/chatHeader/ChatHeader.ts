@@ -42,7 +42,6 @@ export default class ChatHeader extends Block {
         onRemoveUser: () => this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: false }),
       }),
       UserModal: new UserModal({
-        // modalTypeAdd: modalTypeAdd,
         onClose: () => this.setProps({ ...this.props, isOpenedModal: false }),
       }),
     });
