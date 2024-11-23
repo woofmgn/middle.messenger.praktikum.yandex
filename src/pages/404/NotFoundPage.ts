@@ -1,14 +1,9 @@
 import { Link } from '../../components';
 import Block from '../../utils/Block';
 
-type TNotFoundPageProps = {
-  Link: Link;
-};
-
 export default class NotFoundPage extends Block {
-  constructor(props: TNotFoundPageProps) {
+  constructor() {
     super('div', {
-      ...props,
       className: 'layout',
       Link: new Link({ label: 'Назад к чатам', to: '#' }),
     });

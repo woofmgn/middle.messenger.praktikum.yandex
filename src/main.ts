@@ -21,12 +21,17 @@ Object.entries(Components).forEach(([name, template]) => {
   Handlebars.registerPartial(name, template);
 });
 
-function navigate(page: string) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const [source, context] = pages[page];
+function navigate(page: keyof typeof pages) {
+  const pageInfo = pages[page];
+  if (!pageInfo) {
+    console.error(`Page "${page}" not found`);
+    return;
+  }
+
+  const [source, context] = pageInfo;
+
   if (typeof source === 'function') {
-    renderDOM(new source({}));
+    renderDOM(new source());
     return;
   }
 
@@ -38,10 +43,9 @@ function navigate(page: string) {
 
 document.addEventListener('DOMContentLoaded', () => navigate('navigation'));
 
-document.addEventListener('click', (e) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
-  const page = e.target.getAttribute('data-page');
+document.addEventListener('click', (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const page = target.getAttribute('data-page') as keyof typeof pages;
   if (page) {
     navigate(page);
 

@@ -1,14 +1,9 @@
 import { Link } from '../../components';
 import Block from '../../utils/Block';
 
-type TErrorPageProps = {
-  Link: Link;
-};
-
 export default class ErrorPage extends Block {
-  constructor(props: TErrorPageProps) {
+  constructor() {
     super('div', {
-      ...props,
       className: 'layout',
       Link: new Link({ label: 'Назад к чатам', to: '#' }),
     });

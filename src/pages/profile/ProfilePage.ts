@@ -2,21 +2,9 @@ import Block from '../../utils/Block';
 import emptyAvatar from '../../assets/image/empty-avatar.svg';
 import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
 
-type TProfilePageProps = {
-  imageUrl: string;
-  userForm: boolean;
-  state: {
-    avatar: string;
-    isShownUserForm: boolean;
-    isShownUserButton: boolean;
-    isOpenModal: boolean;
-  };
-};
-
 export default class PropfilePage extends Block {
-  constructor(props: TProfilePageProps) {
+  constructor() {
     super('div', {
-      ...props,
       className: 'profile-layout',
       state: {
         avatar: emptyAvatar,
