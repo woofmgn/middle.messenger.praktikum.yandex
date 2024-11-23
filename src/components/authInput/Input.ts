@@ -4,6 +4,7 @@ type TInputProps = {
   optionalClass?: string;
   name: string;
   id: string;
+  type?: string;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
 };
@@ -16,6 +17,7 @@ export default class Input extends Block {
       attrs: {
         name: props.name,
         id: props.id,
+        type: props.type || 'text',
       },
       events: {
         change: props.onChange,

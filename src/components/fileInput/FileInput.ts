@@ -23,7 +23,7 @@ export default class FileInput extends Block {
 
   render(): string {
     return `
-      <label class="file-input__input-label" for="avatar">Выбрать файл на компьютере</label>
+      <!-- <label class="file-input__input-label" for="avatar">Выбрать файл на компьютере</label> --!>
       {{{FileInputField}}}
       <span class="file-input__file-input-error">Нужно выбрать файл</span>
     `;
