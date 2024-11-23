@@ -58,14 +58,16 @@ export const INPUT_TYPE = {
 };
 
 export const validation = (name: keyof typeof INPUT_TYPE, value: string) => {
+  let message = '';
   for (const currentPattern of INPUT_TYPE[name]) {
     const result = new RegExp(currentPattern.pattern).test(value);
+    console.log('res', result);
     if (!result) {
-      console.log(result);
-      return currentPattern.message;
+      message = currentPattern.message;
+      break;
     }
-    return '';
   }
+  return message;
 };
 
 export const checkValidityForm = (errors: Record<string, string> = {}) => {

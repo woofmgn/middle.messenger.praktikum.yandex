@@ -61,6 +61,7 @@ export default class Signin extends Block {
         id: 'password',
         name: 'password',
         label: 'Пароль',
+        type: 'password',
         onBlur: (e) => {
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('password', target.value);
