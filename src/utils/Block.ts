@@ -133,7 +133,7 @@ export default abstract class Block {
   }
 
   componentDidUpdate(oldProps: TProps, newProps: TProps) {
-    // console.log('componentDidUpdate', oldProps, newProps);
+    console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 
