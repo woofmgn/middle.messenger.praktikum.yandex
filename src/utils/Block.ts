@@ -84,8 +84,6 @@ export default abstract class Block {
     this._element = this._createDocumentElement(tagName);
     if (typeof props.className === 'string') {
       const classes = props.className.split(' ').filter((item) => item !== 'undefined');
-      // console.log('classes', classes);
-      // console.log(this._element);
       this._element.classList.add(...classes);
     }
 
