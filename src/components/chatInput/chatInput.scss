@@ -10,7 +10,7 @@
   display: flex;
   gap: 10px;
 
-   &__element {
+  &__element {
     width: 100%;
     border: none;
     outline-color: $gray-light-secondary;
@@ -33,9 +33,9 @@
         color: transparent;
       }
     }
-   }
+  }
 
-   &__button {
+  &__button {
     background-image: url('../../assets/image/arrow-left-button.svg');
     transform: rotate(180deg);
     width: 28px;
@@ -43,5 +43,6 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
-   }
+    pointer-events: auto;
+  }
 }

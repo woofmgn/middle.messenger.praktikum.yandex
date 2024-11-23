@@ -8,10 +8,10 @@
 .links-list {
   display: flex;
   flex-direction: column;
-  gap:12px;
+  gap: 12px;
   list-style: none;
-}
 
-.links-list__item {
-  text-decoration: none;
+  &__item {
+    text-decoration: none;
+  }
 }

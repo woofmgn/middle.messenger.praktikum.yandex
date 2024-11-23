@@ -12,14 +12,14 @@
     flex-direction: column;
     overflow-y: scroll;
 
-    &::-webkit-scrollbar { 
+    &::-webkit-scrollbar {
       display: none;
     }
   }
 }
 
 .message-date {
-  margin: 0 auto 30px auto;
+  margin: 0 auto 30px;
   font-size: 12px;
   line-height: 12px;
   font-weight: 500;
@@ -41,7 +41,7 @@
     flex-direction: column;
     padding: 11px;
     max-width: 402px;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     border-radius: 12px;
 
     &_type_owner {
