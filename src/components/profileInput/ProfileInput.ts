@@ -4,9 +4,11 @@ import Input from './Input';
 type TProfileInputProps = {
   // Input: Input;
   name: string;
+  type?: string;
   id: string;
   label: string;
   value: string;
+  error?: string;
   optionalClass?: string;
   onBlur: (e: Event) => void;
   onChange: (e: Event) => void;
@@ -19,6 +21,7 @@ export default class ProfileInput extends Block {
       className: 'profile-input-container',
       Input: new Input({
         id: props.id,
+        type: props.type || 'text',
         name: props.name,
         optionalClass: props.optionalClass,
         value: props.value,

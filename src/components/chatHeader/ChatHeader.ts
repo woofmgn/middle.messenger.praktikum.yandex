@@ -28,7 +28,13 @@ export default class ChatHeader extends Block {
       isOpenedModal: false,
       modalTypeAdd: true,
       HeaderButton: new HeaderButton({
-        onClick: () => this.setProps({ ...this.props, isShownDropdown: true }),
+        onClick: () => {
+          if (this.props.isShownDropdown) {
+            this.setProps({ ...this.props, isShownDropdown: false });
+            return;
+          }
+          this.setProps({ ...this.props, isShownDropdown: true });
+        },
       }),
       ChatDropdown: new ChatDropdown({
         onClose: () => this.setProps({ ...this.props, isShownDropdown: false }),

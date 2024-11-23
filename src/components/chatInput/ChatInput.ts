@@ -41,32 +41,28 @@ class Button extends Block {
   }
 }
 
-type TChatInputProps = {
-  value: string;
-  onChange: (e: Event) => void;
-  onBlur: (e: Event) => void;
-  onSubmit: () => void;
-};
-
 export default class ChatInput extends Block {
-  constructor(props: TChatInputProps) {
-    super('div', {
-      ...props,
+  constructor() {
+    super('form', {
       className: 'chat-footer-container',
+      formData: {
+        data: {},
+      },
       Input: new Input({
         name: 'message',
         placeholder: 'Сообщение',
         type: 'text',
         onChange: (e) => {
-          props.onChange(e);
+          const target = e.target as HTMLInputElement;
+          this.setProps({ ...this.props, formData: { data: { [target.name]: target.value } } });
+          console.log('onChange', target.value);
         },
-        onBlur: props.onBlur,
+        onBlur: (e) => console.log('blur', e),
       }),
       Button: new Button({
         onClick: (e) => {
           e.preventDefault();
-          console.log('submit');
-          props.onSubmit();
+          console.log('submit', this.props.formData);
         },
       }),
     });

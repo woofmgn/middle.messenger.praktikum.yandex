@@ -17,6 +17,12 @@ export default class UserModal extends Block {
         error: {},
       },
       isOpenedModal: false,
+      CloseButton: new Button({
+        label: '',
+        btnText: true,
+        optClass: 'modal__cancel-button',
+        onClick: props.onClose,
+      }),
       UserInput: new AuthInput({
         label: 'Логин',
         name: 'login',
@@ -25,10 +31,10 @@ export default class UserModal extends Block {
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
-            formState: {
-              ...this.props.formState,
+            formData: {
+              ...this.props.formData,
               data: {
-                ...this.props.formState.data,
+                ...this.props.formData.data,
                 [target.name]: target.value,
               },
             },
@@ -39,12 +45,18 @@ export default class UserModal extends Block {
       AddButton: new Button({
         label: 'Добавить',
         type: 'submit',
-        onClick: () => console.log('submit'),
+        onClick: (e) => {
+          e.preventDefault();
+          console.log('submit', this.props.formData.data);
+        },
       }),
       RemoveButton: new Button({
         label: 'Удалить',
         type: 'submit',
-        onClick: () => console.log('submit'),
+        onClick: (e) => {
+          e.preventDefault();
+          console.log('submit', this.props.formData.data);
+        },
       }),
     });
   }
@@ -53,6 +65,7 @@ export default class UserModal extends Block {
     return `
       <div class="modal-overlay"></div>
       <div class="modal">
+        {{{CloseButton}}}
         <h2 class="modal__title">
           {{#if modalTypeAdd}}
             Добавить пользователя

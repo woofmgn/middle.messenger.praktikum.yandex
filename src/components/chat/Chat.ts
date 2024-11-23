@@ -8,11 +8,7 @@ import { ChatInput } from '../chatInput';
 export default class Chat extends Block {
   constructor() {
     super('section', {
-      // ...props,
       className: 'chat',
-      formData: {
-        data: {},
-      },
       ChatHeader: new ChatHeader({
         avatar: avatarImg,
         name: 'Альбрехт',
@@ -21,35 +17,7 @@ export default class Chat extends Block {
         messages: messages,
         date: '10 июня',
       }),
-      ChatInput: new ChatInput({
-        value: '',
-        onChange: (e) => {
-          const target = e.target as HTMLInputElement;
-          console.log(target.value);
-          this.setProps({
-            ...this.props,
-            formData: {
-              ...this.props.formData,
-              data: {
-                [target.name]: target.value,
-              },
-            },
-          });
-        },
-        onBlur: (e) => console.log('blur', e),
-        onSubmit: () => {
-          console.log(this.props.formData.data);
-          this.setProps({
-            ...this.props,
-            formData: {
-              ...this.props.formData,
-              data: {
-                message: '',
-              },
-            },
-          });
-        },
-      }),
+      ChatInput: new ChatInput(),
     });
   }
 

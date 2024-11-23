@@ -96,6 +96,15 @@ export default abstract class Block {
         }
 
         this._element.setAttribute(attrName, attrValue);
+
+        if (attrName === 'disable' && attrValue) {
+          console.log(1);
+          this._element.setAttribute('disabled', attrValue);
+        }
+        if (attrName === 'disable' && !attrValue) {
+          console.log(2);
+          this._element.removeAttribute('disabled');
+        }
       });
     }
   }
@@ -126,7 +135,7 @@ export default abstract class Block {
   }
 
   componentDidUpdate(oldProps: TProps, newProps: TProps) {
-    console.log(oldProps, newProps);
+    // console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 

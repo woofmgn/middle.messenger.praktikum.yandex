@@ -3,6 +3,7 @@ import Block from '../../utils/Block';
 type TInputFieldProps = {
   id: string;
   name: string;
+  placeholder: string;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
 };
@@ -15,6 +16,7 @@ export default class InputField extends Block {
       attrs: {
         id: props.id,
         name: props.name,
+        placeholder: props.placeholder,
       },
       events: {
         change: props.onChange,

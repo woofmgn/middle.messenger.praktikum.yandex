@@ -14,6 +14,7 @@ export default class SearchInput extends Block {
       SearchChatInput: new InputField({
         id: 'message',
         name: 'message',
+        placeholder: 'Поиск',
         onChange: (e) => {
           console.log('change', e);
           props.onChange(e);
@@ -29,10 +30,9 @@ export default class SearchInput extends Block {
   render(): string {
     return `
       <div class="search-input__label-wrapper">
-        <div class="search-input__img"></div>
-        <label for="search-chat" class="search-input__label">Поиск</label>
+        <label for="search-chat" class="search-input__label"></label>
+        {{{SearchChatInput}}}
       </div>
-      <input type="text" id="search-chat" name="message" class="search-input__element">
     `;
   }
 }
