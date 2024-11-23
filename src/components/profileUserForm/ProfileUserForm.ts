@@ -232,7 +232,7 @@ export default class ProfileUserForm extends Block {
         optClass: 'profile-form__submit-button',
         onClick: (e) => {
           e.preventDefault();
-          const isValid = checkValidityForm(this.props.formState.errors);
+          const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {
             return;
           }

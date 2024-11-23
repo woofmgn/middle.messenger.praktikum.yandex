@@ -102,7 +102,6 @@ export default class ProfilePasswordForm extends Block {
           const errorMessage = validation('password', target.value);
 
           if (this.props.formState.data.newPassword !== target.value) {
-            console.log('кузуфе', this.props.formState.data.newPassword, target.value);
             this.setProps({
               ...this.props,
               formState: {

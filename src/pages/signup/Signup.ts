@@ -1,5 +1,6 @@
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import Block from '../../utils/Block';
+import { checkValidityForm, validation } from '../../utils/formValidation';
 
 type TSigninProps = {
   className: string;
@@ -25,7 +26,23 @@ export default class SignupPage extends Block {
         id: 'email',
         name: 'email',
         label: 'Почта',
-        onBlur: (e) => console.log('EmailInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('email', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.EmailInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -39,11 +56,28 @@ export default class SignupPage extends Block {
           });
         },
       }),
+
       LoginilInput: new AuthInput({
         id: 'login',
         name: 'login',
         label: 'Логин',
-        onBlur: (e) => console.log('LoginilInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('login', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.LoginilInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -57,11 +91,28 @@ export default class SignupPage extends Block {
           });
         },
       }),
+
       FirstNameInput: new AuthInput({
         id: 'first_name',
         name: 'first_name',
         label: 'Имя',
-        onBlur: (e) => console.log('FirstNameInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('name', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.FirstNameInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -75,11 +126,28 @@ export default class SignupPage extends Block {
           });
         },
       }),
+
       SecondNameInput: new AuthInput({
         id: 'second_name',
         name: 'second_name',
         label: 'Фамилия',
-        onBlur: (e) => console.log('SecondNameInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('name', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.SecondNameInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -93,11 +161,28 @@ export default class SignupPage extends Block {
           });
         },
       }),
+
       PhoneInput: new AuthInput({
         id: 'phone',
         name: 'phone',
         label: 'Телефон',
-        onBlur: (e) => console.log('PhoneInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('phone', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.PhoneInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -111,11 +196,28 @@ export default class SignupPage extends Block {
           });
         },
       }),
+
       PasswordInput: new AuthInput({
         id: 'password',
         name: 'password',
         label: 'Пароль',
-        onBlur: (e) => console.log('PasswordInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('password', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.PasswordInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -129,11 +231,44 @@ export default class SignupPage extends Block {
           });
         },
       }),
+
       PasswordCheckInput: new AuthInput({
         id: 'password-check',
         name: 'password-check',
         label: 'Пароль (ещё раз)',
-        onBlur: (e) => console.log('PasswordCheckInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('password', target.value);
+
+          if (this.props.formState.data.password !== target.value) {
+            this.setProps({
+              ...this.props,
+              formState: {
+                ...this.props.formState,
+                error: {
+                  ...this.props.formState.error,
+                  [target.name]: 'Пароли не совпадают',
+                },
+              },
+            });
+
+            this.children.PasswordCheckInput.setProps({ error: 'Пароли не совпадают' });
+            return;
+          }
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.PasswordCheckInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -147,12 +282,18 @@ export default class SignupPage extends Block {
           });
         },
       }),
+
       Button: new Button({
         label: 'Зарегистрироваться',
         optClass: 'button-auth',
         type: 'submit',
         onClick: (e) => {
           e.preventDefault();
+          const isValid = checkValidityForm(this.props.formState.error);
+          if (!isValid) {
+            return;
+          }
+
           console.log('form submit', this.props.formState.data);
         },
       }),

@@ -1,5 +1,6 @@
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import Block from '../../utils/Block';
+import { checkValidityForm, validation } from '../../utils/formValidation';
 
 type TSigninProps = {
   className: string;
@@ -25,7 +26,23 @@ export default class Signin extends Block {
         id: 'login',
         name: 'login',
         label: 'Логин',
-        onBlur: (e) => console.log('AuthLoginInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('login', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.AuthLoginInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -39,11 +56,28 @@ export default class Signin extends Block {
           });
         },
       }),
+
       AuthPasswordInput: new AuthInput({
         id: 'password',
         name: 'password',
         label: 'Пароль',
-        onBlur: (e) => console.log('AuthPasswordInput blur', e),
+        onBlur: (e) => {
+          const target = e.target as HTMLInputElement;
+          const errorMessage = validation('password', target.value);
+
+          this.setProps({
+            ...this.props,
+            formState: {
+              ...this.props.formState,
+              error: {
+                ...this.props.formState.error,
+                [target.name]: errorMessage,
+              },
+            },
+          });
+
+          this.children.AuthPasswordInput.setProps({ error: errorMessage });
+        },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({
@@ -57,12 +91,18 @@ export default class Signin extends Block {
           });
         },
       }),
+
       Button: new Button({
         label: 'Войти',
         optClass: 'button-auth',
         type: 'submit',
         onClick: (e) => {
           e.preventDefault();
+          const isValid = checkValidityForm(this.props.formState.error);
+          if (!isValid) {
+            return;
+          }
+
           console.log('form submit', this.props.formState.data);
         },
       }),

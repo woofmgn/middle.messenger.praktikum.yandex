@@ -6,6 +6,7 @@ type TAuthInputProps = {
   id: string;
   label: string;
   optionalClass?: string;
+  error?: string;
   onBlur: (e: Event) => void;
   onChange: (e: Event) => void;
 };
@@ -16,9 +17,6 @@ export default class AuthInput extends Block {
       ...props,
       className: 'input-container',
       name: props.name,
-      // attrs: {
-      //   for: props.id,
-      // },
       Input: new Input({
         id: props.id,
         name: props.name,
