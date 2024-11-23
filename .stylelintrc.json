@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-prettier/recommended",
-    "stylelint-scss"
-  ],
+  "extends": ["stylelint-config-standard", "stylelint-prettier/recommended", "stylelint-scss"],
   "rules": {
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
@@ -11,9 +7,6 @@
     "scss/selector-no-redundant-nesting-selector": true,
     "import-notation": null
   },
-  "ignoreFiles": [
-    "build/*",
-    "dist/*"
-  ],
+  "ignoreFiles": ["build/*", "dist/*"],
   "plugins": ["stylelint-scss"]
 }
