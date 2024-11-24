@@ -5,12 +5,12 @@
     "es2020": true
   },
   "extends": [
-    // "eslint-config-airbnb-base",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/no-unused-vars": "off",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }]
   },
   "ignorePatterns": ["dist", ".eslintrc.json"],
   "parser": "@typescript-eslint/parser",

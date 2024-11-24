@@ -2,18 +2,9 @@ import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
-type TSigninProps = {
-  className: string;
-  formState: {
-    data: Record<string, string>;
-    error: Record<string, string>;
-  };
-};
-
 export default class Signin extends Block {
-  constructor(props: TSigninProps) {
+  constructor() {
     super('div', {
-      ...props,
       className: 'auth-layout',
       formState: {
         data: {},
