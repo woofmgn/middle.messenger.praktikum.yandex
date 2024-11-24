@@ -1,4 +1,4 @@
-https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/3
+https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/7
 
 ## Приложение мессенджер
 
