@@ -5,7 +5,14 @@ import { MessagesBoard } from '../messagesBoard';
 import avatarImg from '../../assets/image/empty-contact-avatar.svg';
 import { ChatInput } from '../chatInput';
 
-export default class Chat extends Block {
+type TChatProps = {
+  className: string;
+  ChatHeader: ChatHeader;
+  MessagesBoard: MessagesBoard;
+  ChatInput: ChatInput;
+};
+
+export default class Chat extends Block<TChatProps> {
   constructor() {
     super('section', {
       className: 'chat',

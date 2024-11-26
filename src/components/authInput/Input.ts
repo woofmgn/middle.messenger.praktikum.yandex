@@ -1,15 +1,7 @@
 import Block from '../../utils/Block';
+import { TInputProps } from './authInput.types';
 
-type TInputProps = {
-  optionalClass?: string;
-  name: string;
-  id: string;
-  type?: string;
-  onChange: (e: Event) => void;
-  onBlur: (e: Event) => void;
-};
-
-export default class Input extends Block {
+export default class Input extends Block<TInputProps> {
   constructor(props: TInputProps) {
     super('input', {
       ...props,

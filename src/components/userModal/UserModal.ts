@@ -1,13 +1,23 @@
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
-import { AuthInput } from '../authInput';
+import { AuthInput, TAuthInputError } from '../authInput';
 import { Button } from '../button';
 
 type TUserModalProps = {
+  className?: string;
+  formState?: {
+    data: Record<string, string>;
+    error: Record<string, string>;
+  };
+  isOpenedModal?: boolean;
+  CloseButton?: Button;
+  UserInput?: AuthInput;
+  AddButton?: Button;
+  RemoveButton?: Button;
   onClose: () => void;
 };
 
-export default class UserModal extends Block {
+export default class UserModal extends Block<TUserModalProps> {
   constructor(props: TUserModalProps) {
     super('div', {
       ...props,
@@ -28,6 +38,8 @@ export default class UserModal extends Block {
         name: 'login',
         id: 'login',
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -41,6 +53,8 @@ export default class UserModal extends Block {
           });
         },
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('login', target.value);
 
@@ -55,13 +69,16 @@ export default class UserModal extends Block {
             },
           });
 
-          this.children.UserInput.setProps({ error: errorMessage });
+          const child = this.children.UserInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
       }),
       AddButton: new Button({
         label: 'Добавить',
         type: 'submit',
         onClick: (e) => {
+          if (!this.props.formState) return;
+
           e.preventDefault();
           const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {
@@ -75,6 +92,8 @@ export default class UserModal extends Block {
         label: 'Удалить',
         type: 'submit',
         onClick: (e) => {
+          if (!this.props.formState) return;
+
           e.preventDefault();
           const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {

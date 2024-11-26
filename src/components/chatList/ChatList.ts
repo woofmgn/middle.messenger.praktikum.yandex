@@ -4,7 +4,14 @@ import { Contact } from '../contact';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
 
-export default class ChatList extends Block {
+type TChatListProps = {
+  className?: string;
+  Link: Link;
+  SearchInput: SearchInput;
+  contactList: Contact[];
+};
+
+export default class ChatList extends Block<TChatListProps> {
   constructor() {
     super('section', {
       className: 'chat-list',

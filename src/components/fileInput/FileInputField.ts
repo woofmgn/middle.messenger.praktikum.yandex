@@ -4,11 +4,14 @@ type TFileInputFieldProps = {
   id: string;
   name: string;
   type: string;
+  className?: string;
+  attrs?: Record<string, string>;
+  events?: Record<string, (e: Event) => void>;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
 };
 
-export default class FileInputField extends Block {
+export default class FileInputField extends Block<TFileInputFieldProps> {
   constructor(props: TFileInputFieldProps) {
     super('input', {
       ...props,

@@ -1,14 +1,26 @@
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 import { Button } from '../button';
-import { ProfileInput } from '../profileInput';
+import { ProfileInput, TProfileInputProps } from '../profileInput';
 
-type TProfileUserFormProps = {
+export type TProfileUserFormProps = {
   editUser: boolean;
+  className?: string;
+  formState?: {
+    data: Record<string, string>;
+    error: Record<string, string>;
+  };
+  EmailInput?: ProfileInput;
+  LoginInput?: ProfileInput;
+  FirstNameInput?: ProfileInput;
+  LastNameInput?: ProfileInput;
+  ChatNameInput?: ProfileInput;
+  PhoneInput?: ProfileInput;
+  Button?: Button;
   onSubmit: () => void;
 };
 
-export default class ProfileUserForm extends Block {
+export default class ProfileUserForm extends Block<TProfileUserFormProps> {
   constructor(props: TProfileUserFormProps) {
     super('form', {
       ...props,
@@ -23,6 +35,8 @@ export default class ProfileUserForm extends Block {
         label: 'Почта',
         value: 'pochta@yandex.ru',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           console.log('props.editUser', props.editUser);
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('email', target.value);
@@ -38,9 +52,12 @@ export default class ProfileUserForm extends Block {
             },
           });
 
-          this.children.EmailInput.setProps({ error: errorMessage });
+          const child = this.children.EmailInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e: Event) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -61,6 +78,8 @@ export default class ProfileUserForm extends Block {
         label: 'Логин',
         value: 'ivanivanov',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('login', target.value);
 
@@ -75,9 +94,12 @@ export default class ProfileUserForm extends Block {
             },
           });
 
-          this.children.LoginInput.setProps({ error: errorMessage });
+          const child = this.children.LoginInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -98,6 +120,8 @@ export default class ProfileUserForm extends Block {
         label: 'Имя',
         value: 'Иван',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('name', target.value);
 
@@ -112,9 +136,12 @@ export default class ProfileUserForm extends Block {
             },
           });
 
-          this.children.FirstNameInput.setProps({ error: errorMessage });
+          const child = this.children.FirstNameInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -135,6 +162,8 @@ export default class ProfileUserForm extends Block {
         label: 'Фамилия',
         value: 'Иванов',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('name', target.value);
 
@@ -149,9 +178,12 @@ export default class ProfileUserForm extends Block {
             },
           });
 
-          this.children.LastNameInput.setProps({ error: errorMessage });
+          const child = this.children.LastNameInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -175,6 +207,8 @@ export default class ProfileUserForm extends Block {
           console.log('ChatNameInput', e);
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -195,6 +229,8 @@ export default class ProfileUserForm extends Block {
         label: 'Телефон',
         value: '+7(909)9673030',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('phone', target.value);
 
@@ -209,9 +245,12 @@ export default class ProfileUserForm extends Block {
             },
           });
 
-          this.children.PhoneInput.setProps({ error: errorMessage });
+          const child = this.children.PhoneInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -231,6 +270,8 @@ export default class ProfileUserForm extends Block {
         type: 'submit',
         optClass: 'profile-form__submit-button',
         onClick: (e) => {
+          if (!this.props.formState) return;
+
           e.preventDefault();
           const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {

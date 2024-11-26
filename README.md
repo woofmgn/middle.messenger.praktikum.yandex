@@ -1,6 +1,10 @@
-https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/3
+https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/7
 
 ## Приложение мессенджер
+
+В приложении использован компонентный подход и реактивность,
+шаблонизация с ипользованием handlebars.
+
 
 После запуска приложения вы окажетесь на главной странице со списком доступных страниц-модулей,
 где можно будет перейти на интересующую страницу.

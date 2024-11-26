@@ -1,14 +1,7 @@
 import Block from '../../utils/Block';
+import { TChatInputProps, TInputButtonProps, TInputProps } from './chatInput.types';
 
-type TInputProps = {
-  type: string;
-  name: string;
-  placeholder: string;
-  onChange: (e: Event) => void;
-  onBlur: (e: Event) => void;
-};
-
-class Input extends Block {
+export class Input extends Block<TInputProps> {
   constructor(props: TInputProps) {
     super('input', {
       ...props,
@@ -26,8 +19,8 @@ class Input extends Block {
   }
 }
 
-class Button extends Block {
-  constructor(props: { onClick: (e: MouseEvent) => void }) {
+export class InputButton extends Block<TInputButtonProps> {
+  constructor(props: TInputButtonProps) {
     super('button', {
       ...props,
       className: 'chat-input__button',
@@ -41,7 +34,7 @@ class Button extends Block {
   }
 }
 
-export default class ChatInput extends Block {
+export default class ChatInput extends Block<TChatInputProps> {
   constructor() {
     super('form', {
       className: 'chat-footer-container',
@@ -59,7 +52,7 @@ export default class ChatInput extends Block {
         },
         onBlur: (e) => console.log('blur', e),
       }),
-      Button: new Button({
+      Button: new InputButton({
         onClick: (e) => {
           e.preventDefault();
           console.log('submit', this.props.formData);

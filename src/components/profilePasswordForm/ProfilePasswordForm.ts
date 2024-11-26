@@ -1,13 +1,22 @@
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 import { Button } from '../button';
-import { ProfileInput } from '../profileInput';
+import { ProfileInput, TProfileInputProps } from '../profileInput';
 
 type TProfilePasswordFormProps = {
+  className?: string;
+  formState?: {
+    data: Record<string, string>;
+    error: Record<string, string>;
+  };
+  OldPasswordInput?: ProfileInput;
+  NewPasswordInput?: ProfileInput;
+  RepeatNewPasswordInput?: ProfileInput;
+  Button?: Button;
   onSubmit: () => void;
 };
 
-export default class ProfilePasswordForm extends Block {
+export default class ProfilePasswordForm extends Block<TProfilePasswordFormProps> {
   constructor(props: TProfilePasswordFormProps) {
     super('form', {
       ...props,
@@ -23,6 +32,8 @@ export default class ProfilePasswordForm extends Block {
         label: 'Старый пароль',
         value: '*****',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('password', target.value);
 
@@ -37,9 +48,12 @@ export default class ProfilePasswordForm extends Block {
             },
           });
 
-          this.children.OldPasswordInput.setProps({ error: errorMessage });
+          const child = this.children.OldPasswordInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -60,6 +74,8 @@ export default class ProfilePasswordForm extends Block {
         type: 'password',
         value: '*****',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('password', target.value);
 
@@ -74,9 +90,12 @@ export default class ProfilePasswordForm extends Block {
             },
           });
 
-          this.children.NewPasswordInput.setProps({ error: errorMessage });
+          const child = this.children.NewPasswordInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -97,8 +116,11 @@ export default class ProfilePasswordForm extends Block {
         label: 'Повторите новый пароль',
         value: '*****',
         onBlur: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('password', target.value);
+          const child = this.children.RepeatNewPasswordInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
 
           if (this.props.formState.data.newPassword !== target.value) {
             this.setProps({
@@ -112,7 +134,7 @@ export default class ProfilePasswordForm extends Block {
               },
             });
 
-            this.children.RepeatNewPasswordInput.setProps({ error: 'Пароли не совпадают' });
+            child.setProps({ error: errorMessage });
             return;
           }
 
@@ -127,9 +149,11 @@ export default class ProfilePasswordForm extends Block {
             },
           });
 
-          this.children.RepeatNewPasswordInput.setProps({ error: errorMessage });
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
             ...this.props,
@@ -147,8 +171,10 @@ export default class ProfilePasswordForm extends Block {
         label: 'Сохранить',
         type: 'submit',
         onClick: (e) => {
+          if (!this.props.formState) return;
+
           e.preventDefault();
-          const isValid = checkValidityForm(this.props.formState.errors);
+          const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {
             return;
           }

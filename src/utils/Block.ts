@@ -2,9 +2,8 @@ import EventBus from './EventBus';
 import { v4 as uuid } from 'uuid';
 import Handlebars from 'handlebars';
 
-type TProps = Record<string, unknown>;
-
-export default abstract class Block {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default abstract class Block<Props extends Record<string, any>> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -13,14 +12,14 @@ export default abstract class Block {
   };
 
   eventBus: EventBus;
-  props;
-  children: Record<string, Block>;
+  props: Props;
+  children: Record<string, Block<Props>>;
 
   private _element: HTMLElement | null = null;
-  private _meta: { tagName: string; props: Record<string, unknown> } | null = null;
+  private _meta: { tagName: string; props: Props } | null = null;
   private _id = uuid();
 
-  constructor(tagName = 'div', propsAndChildren: Record<string, unknown> = {}) {
+  constructor(tagName = 'div', propsAndChildren: Props = {} as Props) {
     const { props, children } = this._getChildrenAndProps(propsAndChildren);
     this.props = this._makePropsProxy(props);
     this.children = children;
@@ -35,9 +34,9 @@ export default abstract class Block {
     this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  private _getChildrenAndProps(propsAndChildren: Record<string, unknown>) {
-    const children: Record<string, Block> = {};
-    const props: Record<string, unknown> = {};
+  private _getChildrenAndProps(propsAndChildren: Props) {
+    const children: Record<string, Block<Props>> = {};
+    const props: Props = {} as Props;
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -45,14 +44,15 @@ export default abstract class Block {
           if (Array.isArray(obj)) {
             obj.forEach((secondObj) => {
               if (secondObj instanceof Block) {
-                children[key] = value as unknown as Block;
+                children[key] = value as unknown as Block<Props>;
               }
             });
           }
           if (obj instanceof Block) {
-            children[key] = value as unknown as Block;
+            children[key] = value as unknown as Block<Props>;
           } else {
-            props[key] = value;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            props[key as keyof Props] = value as any;
           }
         });
 
@@ -61,7 +61,7 @@ export default abstract class Block {
       if (value instanceof Block) {
         children[key] = value;
       } else {
-        props[key] = value;
+        props[key as keyof Props] = value;
       }
     });
 
@@ -93,11 +93,11 @@ export default abstract class Block {
           return;
         }
 
-        this._element.setAttribute(attrName, attrValue);
+        this._element.setAttribute(attrName, attrValue as string);
 
         if (attrName === 'disable' && attrValue) {
           console.log(1);
-          this._element.setAttribute('disabled', attrValue);
+          this._element.setAttribute('disabled', attrValue as string);
         }
         if (attrName === 'disable' && !attrValue) {
           console.log(2);
@@ -124,7 +124,7 @@ export default abstract class Block {
     this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  private _componentDidUpdate(oldProps: TProps, newProps: TProps) {
+  private _componentDidUpdate(oldProps: Props, newProps: Props) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -132,12 +132,12 @@ export default abstract class Block {
     this._render();
   }
 
-  componentDidUpdate(oldProps: TProps, newProps: TProps) {
+  componentDidUpdate(oldProps: Props, newProps: Props) {
     console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 
-  public setProps = (nextProps: TProps) => {
+  public setProps = (nextProps: Props) => {
     if (!nextProps) {
       return;
     }
@@ -197,8 +197,12 @@ export default abstract class Block {
 
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         propsAndStubs[key] = child.map((component) => `<div data-id="${component._id}"></div>`);
       } else {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
       }
     });

@@ -1,7 +1,12 @@
 import { Link } from '../../components';
 import Block from '../../utils/Block';
 
-export default class NotFoundPage extends Block {
+type TNotFoundPageProps = {
+  className?: string;
+  Link?: Link;
+};
+
+export default class NotFoundPage extends Block<TNotFoundPageProps> {
   constructor() {
     super('div', {
       className: 'layout',

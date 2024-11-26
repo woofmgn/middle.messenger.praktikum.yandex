@@ -2,11 +2,13 @@ import Block from '../../utils/Block';
 import FileInputField from './FileInputField';
 
 type TFileInputProps = {
+  className?: string;
+  FileInputField?: FileInputField;
   onBlur: (e: Event) => void;
   onChange: (e: Event) => void;
 };
 
-export default class FileInput extends Block {
+export default class FileInput extends Block<TFileInputProps> {
   constructor(props: TFileInputProps) {
     super('div', {
       ...props,

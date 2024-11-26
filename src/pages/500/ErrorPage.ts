@@ -1,7 +1,11 @@
 import { Link } from '../../components';
 import Block from '../../utils/Block';
 
-export default class ErrorPage extends Block {
+type TErrorPageProps = {
+  className?: string;
+  Link?: Link;
+};
+export default class ErrorPage extends Block<TErrorPageProps> {
   constructor() {
     super('div', {
       className: 'layout',

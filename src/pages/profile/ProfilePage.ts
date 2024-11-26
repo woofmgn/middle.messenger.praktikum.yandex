@@ -1,8 +1,27 @@
 import Block from '../../utils/Block';
 import emptyAvatar from '../../assets/image/empty-avatar.svg';
 import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
+import { TProfileUserFormProps } from '../../components/profileUserForm/ProfileUserForm';
 
-export default class PropfilePage extends Block {
+type TPropfilePageProps = {
+  className?: string;
+  state: {
+    avatar: string;
+    isShownUserForm: boolean;
+    isShownUserButton: boolean;
+    isOpenModal: boolean;
+  };
+  BackButton?: BackButton;
+  ProfileUserForm?: ProfileUserForm;
+  ProfilePasswordForm?: ProfilePasswordForm;
+  ButtonChangeData?: Button;
+  ButtonChangePassword?: Button;
+  ButtonLogout?: Button;
+  ButtonAvatar?: Button;
+  ProfileModal?: ProfileModal;
+};
+
+export default class PropfilePage extends Block<TPropfilePageProps> {
   constructor() {
     super('div', {
       className: 'profile-layout',
@@ -17,7 +36,8 @@ export default class PropfilePage extends Block {
         editUser: false,
         onSubmit: () => {
           this.setProps({ ...this.props, state: { ...this.props.state, isShownUserButton: true } });
-          this.children.ProfileUserForm.setProps({ editUser: false });
+          const child = this.children.ProfileUserForm as unknown as Block<Pick<TProfileUserFormProps, 'editUser'>>;
+          child.setProps({ editUser: true });
         },
       }),
       ProfilePasswordForm: new ProfilePasswordForm({
@@ -33,7 +53,8 @@ export default class PropfilePage extends Block {
           e.preventDefault();
           console.log('click');
           this.setProps({ ...this.props, state: { ...this.props.state, isShownUserButton: false } });
-          this.children.ProfileUserForm.setProps({ editUser: true });
+          const child = this.children.ProfileUserForm as unknown as Block<Pick<TProfileUserFormProps, 'editUser'>>;
+          child.setProps({ editUser: true });
         },
       }),
       ButtonChangePassword: new Button({
@@ -69,7 +90,7 @@ export default class PropfilePage extends Block {
     });
   }
   render(): string {
-    console.log('state.avatar.emptyAvatar', this.props.state.avatar.emptyAvatar);
+    console.log('state.avatar.emptyAvatar', this.props.state.avatar);
     return `
       {{{BackButton}}}
       <section class="profile-container">

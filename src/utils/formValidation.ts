@@ -8,10 +8,6 @@ export const INPUT_TYPE = {
       pattern: /^[^\d\s]+$/,
       message: 'Без пробелов и без цифр',
     },
-    {
-      pattern: /^[\w-_]+$/,
-      message: 'Нельзя использовать спецсимволы',
-    },
   ],
   login: [
     {

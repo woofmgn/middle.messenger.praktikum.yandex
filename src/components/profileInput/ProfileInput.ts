@@ -1,23 +1,26 @@
 import Block from '../../utils/Block';
 import Input from './Input';
 
-type TProfileInputProps = {
+export type TProfileInputProps = {
   name: string;
   type?: string;
   id: string;
   label: string;
   value: string;
   error?: string;
+  className?: string;
   optionalClass?: string;
+  Input?: Input;
   onBlur: (e: Event) => void;
   onChange: (e: Event) => void;
 };
 
-export default class ProfileInput extends Block {
+export default class ProfileInput extends Block<TProfileInputProps> {
   constructor(props: TProfileInputProps) {
     super('div', {
       ...props,
       className: 'profile-input-container',
+      error: props.error,
       Input: new Input({
         id: props.id,
         type: props.type || 'text',
