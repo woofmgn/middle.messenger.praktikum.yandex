@@ -2,60 +2,51 @@ import Handlebars from 'handlebars';
 import * as Components from './components';
 import * as Pages from './pages';
 
-import emptyAvatar from './assets/image/empty-avatar.svg';
-import emptyContactAvatar from './assets/image/empty-contact-avatar.svg';
-import { contacts, messages } from './utils/conts';
+import renderDOM from './utils/renderDom';
+import Block from './utils/Block';
 
 const pages = {
   signin: [Pages.SigninPage],
   signup: [Pages.SignupPage],
   error: [Pages.ErrorPage],
   notFound: [Pages.NotFoundPage],
-  profile: [
-    Pages.ProfilePage,
-    {
-      imageUrl: emptyAvatar,
-      editUser: false,
-      userForm: true,
-      openModal: false,
-    },
-  ],
-  messenger: [
-    Pages.MessengerPage,
-    {
-      contactList: contacts,
-      empty: false,
-      avatar: emptyContactAvatar,
-      name: 'Себастьян',
-      dropdown: false,
-      messages: messages,
-      userModal: false,
-      userModalAdd: false,
-    },
-  ],
+  profile: [Pages.ProfilePage],
+  messenger: [Pages.MessengerPage],
   navigation: [Pages.NavigationPage],
 };
 
 Object.entries(Components).forEach(([name, template]) => {
+  if (typeof template === 'function') {
+    return;
+  }
   Handlebars.registerPartial(name, template);
 });
 
-function navigate(page: string) {
-  //@ts-ignore
-  const [source, context] = pages[page];
+function navigate(page: keyof typeof pages) {
+  const pageInfo = pages[page];
+  if (!pageInfo) {
+    console.error(`Page "${page}" not found`);
+    return;
+  }
+
+  const [source, context] = pageInfo;
+
+  if (typeof source === 'function') {
+    renderDOM(new source() as Block<Record<string, unknown>>);
+    return;
+  }
+
   const container = document.getElementById('app')!;
 
   const temlpatingFunction = Handlebars.compile(source);
-  console.log('html', temlpatingFunction(context));
   container.innerHTML = temlpatingFunction(context);
 }
 
 document.addEventListener('DOMContentLoaded', () => navigate('navigation'));
 
-document.addEventListener('click', (e) => {
-  //@ts-ignore
-  const page = e.target.getAttribute('data-page');
-  console.log('page');
+document.addEventListener('click', (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const page = target.getAttribute('data-page') as keyof typeof pages;
   if (page) {
     navigate(page);
 

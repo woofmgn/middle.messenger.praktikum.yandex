@@ -1,6 +1,10 @@
-https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/3
+https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/7
 
 ## Приложение мессенджер
+
+В приложении использован компонентный подход и реактивность,
+шаблонизация с ипользованием handlebars.
+
 
 После запуска приложения вы окажетесь на главной странице со списком доступных страниц-модулей,
 где можно будет перейти на интересующую страницу.
@@ -12,7 +16,7 @@ https://github.com/woofmgn/middle.messenger.praktikum.yandex/pull/3
 ```
 npm i - установка зависимостей
 npm run start - сборка и запуск проекта
-npm run вум - запуск проекта в режиме разработки
+npm run dev - запуск проекта в режиме разработки
 npm run build - сборка проекта
 ```
 
