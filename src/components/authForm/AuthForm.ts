@@ -4,7 +4,7 @@ type TAuthFormProps = {
   className: string;
 };
 
-export default class AuthForm extends Block {
+export default class AuthForm extends Block<TAuthFormProps> {
   constructor(props: TAuthFormProps) {
     super('form', {
       ...props,

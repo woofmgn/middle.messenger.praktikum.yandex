@@ -3,6 +3,7 @@ import * as Components from './components';
 import * as Pages from './pages';
 
 import renderDOM from './utils/renderDom';
+import Block from './utils/Block';
 
 const pages = {
   signin: [Pages.SigninPage],
@@ -31,7 +32,7 @@ function navigate(page: keyof typeof pages) {
   const [source, context] = pageInfo;
 
   if (typeof source === 'function') {
-    renderDOM(new source());
+    renderDOM(new source() as Block<Record<string, unknown>>);
     return;
   }
 

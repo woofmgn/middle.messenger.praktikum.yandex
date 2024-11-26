@@ -1,8 +1,26 @@
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
+import { TAuthInputError } from '../../components/authInput';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
-export default class SignupPage extends Block {
+type TSignupPageProps = {
+  className?: string;
+  formState: {
+    data: Record<string, string>;
+    error: Record<string, string>;
+  };
+  AuthTitle?: AuthTitle;
+  EmailInput?: AuthInput;
+  LoginilInput?: AuthInput;
+  FirstNameInput?: AuthInput;
+  SecondNameInput?: AuthInput;
+  PhoneInput?: AuthInput;
+  PasswordInput?: AuthInput;
+  PasswordCheckInput?: AuthInput;
+  Button?: Button;
+  Link?: Link;
+};
+export default class SignupPage extends Block<TSignupPageProps> {
   constructor() {
     super('div', {
       className: 'auth-layout',
@@ -32,7 +50,8 @@ export default class SignupPage extends Block {
             },
           });
 
-          this.children.EmailInput.setProps({ error: errorMessage });
+          const child = this.children.EmailInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
@@ -67,7 +86,8 @@ export default class SignupPage extends Block {
             },
           });
 
-          this.children.LoginilInput.setProps({ error: errorMessage });
+          const child = this.children.LoginilInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
@@ -102,7 +122,8 @@ export default class SignupPage extends Block {
             },
           });
 
-          this.children.FirstNameInput.setProps({ error: errorMessage });
+          const child = this.children.FirstNameInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
@@ -137,7 +158,8 @@ export default class SignupPage extends Block {
             },
           });
 
-          this.children.SecondNameInput.setProps({ error: errorMessage });
+          const child = this.children.SecondNameInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
@@ -172,7 +194,8 @@ export default class SignupPage extends Block {
             },
           });
 
-          this.children.PhoneInput.setProps({ error: errorMessage });
+          const child = this.children.PhoneInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
@@ -207,7 +230,8 @@ export default class SignupPage extends Block {
             },
           });
 
-          this.children.PasswordInput.setProps({ error: errorMessage });
+          const child = this.children.PasswordInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
@@ -230,6 +254,7 @@ export default class SignupPage extends Block {
         onBlur: (e) => {
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('password', target.value);
+          const child = this.children.PasswordCheckInput as unknown as TAuthInputError;
 
           if (this.props.formState.data.password !== target.value) {
             this.setProps({
@@ -243,7 +268,7 @@ export default class SignupPage extends Block {
               },
             });
 
-            this.children.PasswordCheckInput.setProps({ error: 'Пароли не совпадают' });
+            child.setProps({ error: errorMessage });
             return;
           }
 
@@ -258,7 +283,7 @@ export default class SignupPage extends Block {
             },
           });
 
-          this.children.PasswordCheckInput.setProps({ error: errorMessage });
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;

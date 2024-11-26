@@ -6,10 +6,11 @@ type TMessagesBoardProps = {
     isOwner: boolean;
     text: string;
   }[];
+  className?: string;
   date: string;
 };
 
-export default class MessagesBoard extends Block {
+export default class MessagesBoard extends Block<TMessagesBoardProps> {
   constructor(props: TMessagesBoardProps) {
     super('div', {
       ...props,

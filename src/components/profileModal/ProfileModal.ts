@@ -4,10 +4,17 @@ import { FileInput } from '../fileInput';
 
 type TProfileModalProps = {
   title: string;
+  className?: string;
+  formState?: {
+    data: Record<string, FileList | null>;
+    error: Record<string, string>;
+  };
+  SubmitButton?: Button;
+  FileInput?: FileInput;
   onCloseModal: () => void;
 };
 
-export default class ProfileModal extends Block {
+export default class ProfileModal extends Block<TProfileModalProps> {
   constructor(props: TProfileModalProps) {
     super('div', {
       ...props,
@@ -20,6 +27,8 @@ export default class ProfileModal extends Block {
       SubmitButton: new Button({
         label: 'Поменять',
         onClick: () => {
+          if (!this.props.formState) return;
+
           console.log('formSubmit', this.props.formState.data);
           props.onCloseModal();
         },
@@ -28,8 +37,11 @@ export default class ProfileModal extends Block {
       FileInput: new FileInput({
         onBlur: (e) => console.log(e),
         onChange: (e: Event) => {
+          if (!this.props.formState) return;
+
           const target = e.target as HTMLInputElement;
           this.setProps({
+            ...this.props,
             formState: {
               ...this.props.formState,
               data: {

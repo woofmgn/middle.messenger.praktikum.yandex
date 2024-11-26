@@ -1,8 +1,22 @@
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
+import { TAuthInputError } from '../../components/authInput';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
-export default class Signin extends Block {
+type TSigninProps = {
+  className?: string;
+  formState: {
+    data: Record<string, string>;
+    error: Record<string, string>;
+  };
+  AuthTitle?: AuthTitle;
+  AuthLoginInput?: AuthInput;
+  AuthPasswordInput?: AuthInput;
+  Button?: Button;
+  Link?: Link;
+};
+
+export default class Signin extends Block<TSigninProps> {
   constructor() {
     super('div', {
       className: 'auth-layout',
@@ -32,7 +46,8 @@ export default class Signin extends Block {
             },
           });
 
-          this.children.AuthLoginInput.setProps({ error: errorMessage });
+          const child = this.children.AuthLoginInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
@@ -68,7 +83,8 @@ export default class Signin extends Block {
             },
           });
 
-          this.children.AuthPasswordInput.setProps({ error: errorMessage });
+          const child = this.children.AuthPasswordInput as unknown as TAuthInputError;
+          child.setProps({ error: errorMessage });
         },
         onChange: (e) => {
           const target = e.target as HTMLInputElement;

@@ -4,11 +4,14 @@ type TInputFieldProps = {
   id: string;
   name: string;
   placeholder: string;
+  className?: string;
+  attrs?: Record<string, string>;
+  events?: Record<string, (e: Event) => void>;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
 };
 
-export default class InputField extends Block {
+export default class InputField extends Block<TInputFieldProps> {
   constructor(props: TInputFieldProps) {
     super('input', {
       ...props,

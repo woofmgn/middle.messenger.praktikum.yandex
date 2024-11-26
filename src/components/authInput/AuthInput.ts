@@ -1,18 +1,8 @@
 import Block from '../../utils/Block';
+import { TAuthInputProps } from './authInput.types';
 import Input from './Input';
 
-type TAuthInputProps = {
-  name: string;
-  id: string;
-  label: string;
-  optionalClass?: string;
-  error?: string;
-  type?: string;
-  onBlur: (e: Event) => void;
-  onChange: (e: Event) => void;
-};
-
-export default class AuthInput extends Block {
+export default class AuthInput extends Block<TAuthInputProps> {
   constructor(props: TAuthInputProps) {
     super('div', {
       ...props,

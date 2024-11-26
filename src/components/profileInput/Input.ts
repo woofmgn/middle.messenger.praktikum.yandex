@@ -6,11 +6,14 @@ type TInputProps = {
   id: string;
   value: string | number;
   type?: string;
+  className?: string;
+  attrs?: Record<string, string | number | undefined>;
+  events?: Record<string, (e: Event) => void>;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
 };
 
-export default class Input extends Block {
+export default class Input extends Block<TInputProps> {
   constructor(props: TInputProps) {
     super('input', {
       ...props,

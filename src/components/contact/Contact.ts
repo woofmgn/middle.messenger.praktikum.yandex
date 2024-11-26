@@ -1,6 +1,7 @@
 import Block from '../../utils/Block';
 
 type TContactProps = {
+  className?: string;
   avatar: string;
   message: string;
   name: string;
@@ -8,7 +9,7 @@ type TContactProps = {
   count?: string;
 };
 
-export default class Contact extends Block {
+export default class Contact extends Block<TContactProps> {
   constructor(props: TContactProps) {
     super('li', {
       ...props,

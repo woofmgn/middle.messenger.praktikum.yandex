@@ -2,12 +2,15 @@ import Block from '../../utils/Block';
 import { Button } from '../button';
 
 type TChatDropdownProps = {
+  className?: string;
+  AddUserButton?: Button;
+  RemoveUserButton?: Button;
   onClose: () => void;
   onAddUser: () => void;
   onRemoveUser: () => void;
 };
 
-export default class ChatDropdown extends Block {
+export default class ChatDropdown extends Block<TChatDropdownProps> {
   constructor(props: TChatDropdownProps) {
     super('div', {
       ...props,

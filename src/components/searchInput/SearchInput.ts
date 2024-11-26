@@ -2,11 +2,13 @@ import Block from '../../utils/Block';
 import InputField from './InputField';
 
 type TSearchInputProps = {
+  className?: string;
+  SearchChatInput?: InputField;
   onChange: (e: Event) => void;
   onBlur: (e: Event) => void;
 };
 
-export default class SearchInput extends Block {
+export default class SearchInput extends Block<TSearchInputProps> {
   constructor(props: TSearchInputProps) {
     super('div', {
       ...props,

@@ -1,13 +1,9 @@
 import Block from '../../utils/Block';
 import { ChatDropdown } from '../chatDropdown';
 import { UserModal } from '../userModal';
+import { TChatHeaderProps, THeaderButtonProps } from './chatHeader.types';
 
-type TChatHeaderProps = {
-  avatar: string;
-  name: string;
-};
-
-class HeaderButton extends Block {
+export class HeaderButton extends Block<THeaderButtonProps> {
   constructor(props: { onClick: () => void }) {
     super('button', {
       ...props,
@@ -19,7 +15,7 @@ class HeaderButton extends Block {
   }
 }
 
-export default class ChatHeader extends Block {
+export default class ChatHeader extends Block<TChatHeaderProps> {
   constructor(props: TChatHeaderProps) {
     super('div', {
       ...props,

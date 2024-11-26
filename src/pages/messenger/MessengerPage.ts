@@ -1,7 +1,13 @@
 import { Chat, ChatList } from '../../components';
 import Block from '../../utils/Block';
 
-export default class MessengerPage extends Block {
+type TMessagePageProps = {
+  className?: string;
+  ChatList?: ChatList;
+  Chat?: Chat;
+};
+
+export default class MessengerPage extends Block<TMessagePageProps> {
   constructor() {
     super('div', {
       className: 'messenger-block',

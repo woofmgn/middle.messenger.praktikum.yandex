@@ -4,7 +4,7 @@ type TAuthTitleProps = {
   text: string;
 };
 
-export default class AuthTitle extends Block {
+export default class AuthTitle extends Block<TAuthTitleProps> {
   constructor(props: TAuthTitleProps) {
     super('h1', {
       ...props,
