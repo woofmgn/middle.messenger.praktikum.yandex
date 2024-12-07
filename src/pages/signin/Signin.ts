@@ -3,7 +3,7 @@ import { TAuthInputError } from '../../components/authInput';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
-type TSigninProps = {
+export type TSigninProps = {
   className?: string;
   formState: {
     data: Record<string, string>;
@@ -116,7 +116,7 @@ export default class Signin extends Block<TSigninProps> {
       }),
       Link: new Link({
         label: 'Зарегистрироваться',
-        to: '#',
+        to: () => window.router.go('/signup'),
         optionalClass: 'auth-link',
       }),
     });

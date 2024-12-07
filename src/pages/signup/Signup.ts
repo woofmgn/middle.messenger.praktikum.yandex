@@ -315,7 +315,7 @@ export default class SignupPage extends Block<TSignupPageProps> {
       }),
       Link: new Link({
         label: 'Войти',
-        to: '#',
+        to: () => window.router.go('/'),
         optionalClass: 'auth-link',
       }),
     });
