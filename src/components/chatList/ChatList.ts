@@ -1,5 +1,5 @@
 import Block from '../../utils/Block';
-import { contacts } from '../../utils/conts';
+import { contacts, ROUTES } from '../../utils/conts';
 import { Contact } from '../contact';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
@@ -16,7 +16,7 @@ export default class ChatList extends Block<TChatListProps> {
     super('section', {
       className: 'chat-list',
       Link: new Link({
-        to: '#',
+        to: () => window.router.go(ROUTES.PROFILE),
         label: 'Профиль',
         optionalClass: 'chat-list__to-profile-link',
       }),

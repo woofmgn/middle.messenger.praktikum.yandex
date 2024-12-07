@@ -2,6 +2,7 @@ import Block from '../../utils/Block';
 import emptyAvatar from '../../assets/image/empty-avatar.svg';
 import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
 import { TProfileUserFormProps } from '../../components/profileUserForm/ProfileUserForm';
+import { ROUTES } from '../../utils/conts';
 
 type TPropfilePageProps = {
   className?: string;
@@ -71,7 +72,11 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
         btnText: true,
         label: 'Выйти',
         optClass: 'profile-button-container__logout-button',
-        onClick: () => console.log('button click'),
+        onClick: (e) => {
+          e.preventDefault();
+          console.log('button click');
+          window.router.go(ROUTES.SIGNIN);
+        },
       }),
       ButtonAvatar: new Button({
         btnText: true,

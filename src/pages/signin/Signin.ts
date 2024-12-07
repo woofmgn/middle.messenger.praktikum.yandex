@@ -1,6 +1,7 @@
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import { TAuthInputError } from '../../components/authInput';
 import Block from '../../utils/Block';
+import { ROUTES } from '../../utils/conts';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
 export type TSigninProps = {
@@ -112,11 +113,12 @@ export default class Signin extends Block<TSigninProps> {
           }
 
           console.log('form submit', this.props.formState.data);
+          window.router.go(ROUTES.MESSENGER);
         },
       }),
       Link: new Link({
         label: 'Зарегистрироваться',
-        to: () => window.router.go('/signup'),
+        to: () => window.router.go(ROUTES.SINGUP),
         optionalClass: 'auth-link',
       }),
     });

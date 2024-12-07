@@ -1,6 +1,7 @@
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import { TAuthInputError } from '../../components/authInput';
 import Block from '../../utils/Block';
+import { ROUTES } from '../../utils/conts';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
 type TSignupPageProps = {
@@ -315,7 +316,7 @@ export default class SignupPage extends Block<TSignupPageProps> {
       }),
       Link: new Link({
         label: 'Войти',
-        to: () => window.router.go('/'),
+        to: () => window.router.go(ROUTES.SIGNIN),
         optionalClass: 'auth-link',
       }),
     });
