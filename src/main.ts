@@ -4,12 +4,24 @@ import * as Pages from './pages';
 
 import Router from './utils/Router';
 import { ROUTES } from './utils/conts';
+import { Store, StoreEvents } from './store/Store';
 
 Object.entries(Components).forEach(([name, template]) => {
   if (typeof template === 'function') {
     return;
   }
   Handlebars.registerPartial(name, template);
+});
+
+window.store = new Store({
+  isLoading: false,
+  user: null,
+  loginError: null,
+});
+
+window.store.on(StoreEvents.Updated, (prevState, newState) => {
+  console.log('prevState', prevState);
+  console.log('newState', newState);
 });
 
 const APP_ROOT_ELEMNT = '#app';

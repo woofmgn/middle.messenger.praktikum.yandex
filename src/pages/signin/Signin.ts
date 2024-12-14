@@ -1,5 +1,9 @@
+import { TSigninData } from '../../api/AuthApi';
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import { TAuthInputError } from '../../components/authInput';
+import { loginUser } from '../../service/authService';
+import { connect } from '../../store/connect';
+import { TStoreState } from '../../store/Store';
 import Block from '../../utils/Block';
 import { ROUTES } from '../../utils/conts';
 import { checkValidityForm, validation } from '../../utils/formValidation';
@@ -17,7 +21,7 @@ export type TSigninProps = {
   Link?: Link;
 };
 
-export default class Signin extends Block<TSigninProps> {
+class Signin extends Block<TSigninProps> {
   constructor() {
     super('div', {
       className: 'auth-layout',
@@ -105,15 +109,15 @@ export default class Signin extends Block<TSigninProps> {
         label: 'Войти',
         optClass: 'button-auth',
         type: 'submit',
-        onClick: (e) => {
+        onClick: async (e) => {
           e.preventDefault();
           const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {
             return;
           }
 
+          await loginUser(this.props.formState.data as TSigninData);
           console.log('form submit', this.props.formState.data);
-          window.router.go(ROUTES.MESSENGER);
         },
       }),
       Link: new Link({
@@ -138,3 +142,14 @@ export default class Signin extends Block<TSigninProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: TStoreState) => {
+  return {
+    isLoading: state.isLoading,
+    loginError: state.loginError,
+  };
+};
+
+export default connect(mapStateToProps)(Signin);
+
+// export default Signin;

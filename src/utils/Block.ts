@@ -133,7 +133,7 @@ export default abstract class Block<Props extends Record<string, any>> {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    console.log('componentDidUpdate', oldProps, newProps);
+    // console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 

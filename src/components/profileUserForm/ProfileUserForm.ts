@@ -1,3 +1,7 @@
+import { TUserInfoResponse } from '../../api/AuthApi';
+import { TChangePfofileInfoData } from '../../api/UserApi';
+import { changeUserInfo } from '../../service/profileService';
+import { connect } from '../../store/connect';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 import { Button } from '../button';
@@ -10,6 +14,7 @@ export type TProfileUserFormProps = {
     data: Record<string, string>;
     error: Record<string, string>;
   };
+  user: TUserInfoResponse;
   EmailInput?: ProfileInput;
   LoginInput?: ProfileInput;
   FirstNameInput?: ProfileInput;
@@ -20,7 +25,7 @@ export type TProfileUserFormProps = {
   onSubmit: () => void;
 };
 
-export default class ProfileUserForm extends Block<TProfileUserFormProps> {
+class ProfileUserForm extends Block<TProfileUserFormProps> {
   constructor(props: TProfileUserFormProps) {
     super('form', {
       ...props,
@@ -33,7 +38,7 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'email',
         name: 'email',
         label: 'Почта',
-        value: 'pochta@yandex.ru',
+        value: props.user.email,
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -76,7 +81,7 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'login',
         name: 'login',
         label: 'Логин',
-        value: 'ivanivanov',
+        value: props.user.login,
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -118,7 +123,7 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'first_name',
         name: 'first_name',
         label: 'Имя',
-        value: 'Иван',
+        value: props.user.first_name,
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -157,10 +162,10 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
       }),
 
       LastNameInput: new ProfileInput({
-        id: 'last_name',
-        name: 'last_name',
+        id: 'second_name',
+        name: 'second_name',
         label: 'Фамилия',
-        value: 'Иванов',
+        value: props.user.second_name || '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -202,7 +207,7 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'display_name',
         name: 'display_name',
         label: 'Имя в чате',
-        value: 'Иван',
+        value: props.user.display_name || '',
         onBlur: (e) => {
           console.log('ChatNameInput', e);
         },
@@ -227,7 +232,7 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'phone',
         name: 'phone',
         label: 'Телефон',
-        value: '+7(909)9673030',
+        value: props.user.phone,
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -269,7 +274,7 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
         label: 'Сохранить',
         type: 'submit',
         optClass: 'profile-form__submit-button',
-        onClick: (e) => {
+        onClick: async (e) => {
           if (!this.props.formState) return;
 
           e.preventDefault();
@@ -278,7 +283,12 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
             return;
           }
 
-          console.log('form submit', this.props.formState.data);
+          console.log('form submit', {
+            ...props.user,
+            ...(this.props.formState.data as TChangePfofileInfoData),
+          });
+          console.log(1);
+          await changeUserInfo(this.props.formState.data as TChangePfofileInfoData);
           props.onSubmit();
         },
       }),
@@ -299,3 +309,11 @@ export default class ProfileUserForm extends Block<TProfileUserFormProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: { user: TUserInfoResponse }) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect<TProfileUserFormProps>(mapStateToProps)(ProfileUserForm);
