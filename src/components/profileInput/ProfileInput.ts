@@ -34,6 +34,7 @@ export default class ProfileInput extends Block<TProfileInputProps> {
   }
 
   render(): string {
+    console.log('props', this.props.value);
     return `
       <div class="profile-input-container__wrapper">
         <label class="profile-input-container__label" for={{name}}>{{label}}</label>

@@ -1,5 +1,6 @@
-import { TUserInfoResponse } from '../../api/AuthApi';
+import { authApi, TUserInfoResponse } from '../../api/AuthApi';
 import { TChangePfofileInfoData } from '../../api/UserApi';
+import { getUserInfo } from '../../service/authService';
 import { changeUserInfo } from '../../service/profileService';
 import { connect } from '../../store/connect';
 import Block from '../../utils/Block';
@@ -14,7 +15,7 @@ export type TProfileUserFormProps = {
     data: Record<string, string>;
     error: Record<string, string>;
   };
-  user: TUserInfoResponse;
+  user?: TUserInfoResponse;
   EmailInput?: ProfileInput;
   LoginInput?: ProfileInput;
   FirstNameInput?: ProfileInput;
@@ -38,7 +39,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'email',
         name: 'email',
         label: 'Почта',
-        value: props.user.email,
+        value: props.user?.email || '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -81,7 +82,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'login',
         name: 'login',
         label: 'Логин',
-        value: props.user.login,
+        value: props.user?.login || '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -123,7 +124,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'first_name',
         name: 'first_name',
         label: 'Имя',
-        value: props.user.first_name,
+        value: props.user?.first_name || '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -165,7 +166,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'second_name',
         name: 'second_name',
         label: 'Фамилия',
-        value: props.user.second_name || '',
+        value: props.user?.second_name || '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -207,7 +208,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'display_name',
         name: 'display_name',
         label: 'Имя в чате',
-        value: props.user.display_name || '',
+        value: props.user?.display_name || '',
         onBlur: (e) => {
           console.log('ChatNameInput', e);
         },
@@ -232,7 +233,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
         id: 'phone',
         name: 'phone',
         label: 'Телефон',
-        value: props.user.phone,
+        value: props.user?.phone || '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -295,8 +296,26 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
     });
   }
 
+  componentDidMount(): void {
+    if (!this.props.user) {
+      getUserInfo()
+        .then(() => {
+          // this.children.EmailInput.setProps({ value: this.props.user?.email || '' });
+          // this.children.LoginInput.setProps({ value: this.props.user?.login || '' });
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
   render(): string {
+    console.log('render', this.props.user);
+
+    if (!this.props.user) {
+      return '';
+    }
+
     return `
+      <p>{{user.email}}</p>
       {{{EmailInput}}}
       {{{LoginInput}}}
       {{{FirstNameInput}}}
@@ -310,10 +329,11 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
   }
 }
 
-const mapStateToProps = (state: { user: TUserInfoResponse }) => {
+const mapStateToProps = (state: { user: TUserInfoResponse; isLoading: boolean }) => {
   return {
+    isLoading: state.isLoading,
     user: state.user,
   };
 };
 
-export default connect<TProfileUserFormProps>(mapStateToProps)(ProfileUserForm);
+export default connect(mapStateToProps)(ProfileUserForm);

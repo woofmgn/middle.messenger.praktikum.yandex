@@ -96,11 +96,9 @@ export default abstract class Block<Props extends Record<string, any>> {
         this._element.setAttribute(attrName, attrValue as string);
 
         if (attrName === 'disable' && attrValue) {
-          console.log(1);
           this._element.setAttribute('disabled', attrValue as string);
         }
         if (attrName === 'disable' && !attrValue) {
-          console.log(2);
           this._element.removeAttribute('disabled');
         }
       });
@@ -117,8 +115,8 @@ export default abstract class Block<Props extends Record<string, any>> {
     this.componentDidMount();
   }
 
-  componentDidMount() {}
-  // componentDidMount(oldProps) {}
+  public componentDidMount() {}
+  // public componentDidMount(oldProps) {}
 
   dispatchComponentDidMount() {
     this.eventBus.emit(Block.EVENTS.FLOW_CDM);
@@ -129,11 +127,12 @@ export default abstract class Block<Props extends Record<string, any>> {
     if (!response) {
       return;
     }
+
     this._render();
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    // console.log('componentDidUpdate', oldProps, newProps);
+    console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 
@@ -151,6 +150,7 @@ export default abstract class Block<Props extends Record<string, any>> {
 
   private _render() {
     this._removeEvents();
+
     const block = this._compile();
 
     if (!this._element) {
@@ -207,6 +207,7 @@ export default abstract class Block<Props extends Record<string, any>> {
       }
     });
 
+    this._componentDidMount();
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
     const template = Handlebars.compile(this.render());
     fragment.innerHTML = template(propsAndStubs);

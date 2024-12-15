@@ -24,16 +24,8 @@ export default class EventBus {
     this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
   }
 
-  // emit(event: string, ...args: unknown[]) {
-  //   if (!this.listeners[event]) {
-  //     // throw new Error(`Нет события: ${event}`);
-  //   }
-
-  //   this.listeners[event].forEach(function (listener) {
-  //     listener(...args);
-  //   });
-  // }
-  emit<T extends any[] = []>(event: E, ...args: T) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  emit<T extends any[] = []>(event: string, ...args: T) {
     if (!this.listeners[event]) {
       return;
       // throw new Error(`Нет события: ${event}`);
@@ -43,33 +35,3 @@ export default class EventBus {
     });
   }
 }
-
-// export default class EventBus<E extends string> {
-//   private listeners: Record<string, Function[]>;
-//   constructor() {
-//     this.listeners = {};
-//   }
-//   on(event: E, callback: Function) {
-//     if (!this.listeners[event]) {
-//       this.listeners[event] = [];
-//     }
-//     this.listeners[event].push(callback);
-//   }
-//   off(event: E, callback: Function) {
-//     if (!this.listeners[event]) {
-//       throw new Error(`Нет события: ${event}`);
-//     }
-//     this.listeners[event] = this.listeners[event].filter(
-//       (listener) => listener !== callback,
-//     );
-//   }
-//   emit<T extends any[] = []>(event: E, ...args: T) {
-//     if (!this.listeners[event]) {
-//       return;
-//       // throw new Error(`Нет события: ${event}`);
-//     }
-//     this.listeners[event].forEach(function (listener) {
-//       listener(...args);
-//     });
-//   }
-// }

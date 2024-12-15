@@ -1,7 +1,5 @@
-import Block from '../utils/Block';
 import isEqual from '../utils/isEqual';
 import { StoreEvents } from './Store';
-// import isEqual from './isEqual';
 
 export function connect(mapStateToProps) {
   return function (Component) {

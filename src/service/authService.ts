@@ -1,6 +1,20 @@
 import { authApi, TSigninData, TSignupData } from '../api/AuthApi';
 import { ROUTES } from '../utils/conts';
 
+export const getUserInfo = async () => {
+  try {
+    const response = await authApi.getCurrentUser();
+
+    if (!response) {
+      return;
+    }
+
+    window.store.set({ user: response });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const loginUser = async (data: TSigninData) => {
   try {
     const response = await authApi.signin(data);
@@ -8,9 +22,7 @@ export const loginUser = async (data: TSigninData) => {
     console.log('response', response);
 
     if (response === null) {
-      const userResponse = await authApi.getCurrentUser();
-      console.log('userResponse', userResponse);
-      window.store.set({ user: userResponse });
+      await getUserInfo();
       window.router.go(ROUTES.MESSENGER);
     }
   } catch (err) {

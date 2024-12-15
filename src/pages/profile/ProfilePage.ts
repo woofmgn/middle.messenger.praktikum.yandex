@@ -2,7 +2,7 @@ import Block from '../../utils/Block';
 import emptyAvatar from '../../assets/image/empty-avatar.svg';
 import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
 import { TProfileUserFormProps } from '../../components/profileUserForm/ProfileUserForm';
-import { ROUTES } from '../../utils/conts';
+
 import { logoutUser } from '../../service/authService';
 
 type TPropfilePageProps = {
@@ -95,7 +95,6 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
     });
   }
   render(): string {
-    console.log('state.avatar.emptyAvatar', this.props.state.avatar);
     return `
       {{{BackButton}}}
       <section class="profile-container">
