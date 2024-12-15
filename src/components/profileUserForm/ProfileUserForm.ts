@@ -300,8 +300,12 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
     if (!this.props.user) {
       getUserInfo()
         .then(() => {
-          // this.children.EmailInput.setProps({ value: this.props.user?.email || '' });
-          // this.children.LoginInput.setProps({ value: this.props.user?.login || '' });
+          this.children.EmailInput.setProps({ value: this.props.user?.email || '' });
+          this.children.LoginInput.setProps({ value: this.props.user?.login || '' });
+          this.children.FirstNameInput.setProps({ value: this.props.user?.first_name || '' });
+          this.children.LastNameInput.setProps({ value: this.props.user?.second_name || '' });
+          this.children.ChatNameInput.setProps({ value: this.props.user?.display_name || '' });
+          this.children.PhoneInput.setProps({ value: this.props.user?.phone || '' });
         })
         .catch((err) => console.log(err));
     }

@@ -30,4 +30,10 @@ export default class Input extends Block<TInputProps> {
       },
     });
   }
+  render() {
+    console.log('Input', this.props.value);
+    return `
+      <p>{{value}}</p>
+    `;
+  }
 }

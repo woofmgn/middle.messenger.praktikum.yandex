@@ -113,6 +113,7 @@ export default abstract class Block<Props extends Record<string, any>> {
 
   private _componentDidMount() {
     this.componentDidMount();
+    // console.log('this._element', this._element);
   }
 
   public componentDidMount() {}
@@ -126,6 +127,31 @@ export default abstract class Block<Props extends Record<string, any>> {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
+    }
+
+    const { props } = this._meta;
+
+    if (typeof props.attrs === 'object' && props.attrs !== null) {
+      console.log('this._element', this._element);
+      console.log('meta', props);
+      Object.entries(props.attrs).forEach(([attrName, attrValue]) => {
+        if (!this._element) {
+          return;
+        }
+
+        Object.entries(props).forEach(([propKey, propValue]) => {
+          if (propKey === attrName) {
+            this._element?.setAttribute(attrName, propValue as string);
+          }
+        });
+
+        if (attrName === 'disable' && attrValue) {
+          this._element.setAttribute('disabled', attrValue as string);
+        }
+        if (attrName === 'disable' && !attrValue) {
+          this._element.removeAttribute('disabled');
+        }
+      });
     }
 
     this._render();
