@@ -129,17 +129,13 @@ export default abstract class Block<Props extends Record<string, any>> {
       return;
     }
 
-    const { props } = this._meta;
-
-    if (typeof props.attrs === 'object' && props.attrs !== null) {
-      console.log('this._element', this._element);
-      console.log('meta', props);
-      Object.entries(props.attrs).forEach(([attrName, attrValue]) => {
+    if (typeof this._meta?.props.attrs === 'object' && this._meta?.props.attrs !== null && this._meta) {
+      Object.entries(this._meta?.props.attrs).forEach(([attrName, attrValue]) => {
         if (!this._element) {
           return;
         }
 
-        Object.entries(props).forEach(([propKey, propValue]) => {
+        Object.entries(this._meta!.props).forEach(([propKey, propValue]) => {
           if (propKey === attrName) {
             this._element?.setAttribute(attrName, propValue as string);
           }
@@ -158,7 +154,7 @@ export default abstract class Block<Props extends Record<string, any>> {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    console.log('componentDidUpdate', oldProps, newProps);
+    // console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 

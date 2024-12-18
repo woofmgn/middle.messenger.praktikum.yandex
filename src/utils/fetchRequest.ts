@@ -112,8 +112,15 @@ class HTTPTransport {
       };
 
       if (isGet || !data) {
+        console.log('data if', data);
+        console.log(1);
         xhr.send();
       } else {
+        if (data instanceof FormData) {
+          console.log('data', data);
+          xhr.send(data);
+          return;
+        }
         xhr.send(JSON.stringify(data));
       }
     });

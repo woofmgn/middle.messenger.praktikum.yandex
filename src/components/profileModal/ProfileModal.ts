@@ -1,3 +1,4 @@
+import { changeUserAvatar } from '../../service/profileService';
 import Block from '../../utils/Block';
 import { Button } from '../button';
 import { FileInput } from '../fileInput';
@@ -26,10 +27,13 @@ export default class ProfileModal extends Block<TProfileModalProps> {
       },
       SubmitButton: new Button({
         label: 'Поменять',
-        onClick: () => {
+        onClick: async (e) => {
+          e.preventDefault();
           if (!this.props.formState) return;
 
           console.log('formSubmit', this.props.formState.data);
+          const response = await changeUserAvatar(this.props.formState.data.avatar as unknown as FileList);
+          console.log(response);
           props.onCloseModal();
         },
         type: 'submit',
@@ -40,6 +44,7 @@ export default class ProfileModal extends Block<TProfileModalProps> {
           if (!this.props.formState) return;
 
           const target = e.target as HTMLInputElement;
+          console.log(target.files);
           this.setProps({
             ...this.props,
             formState: {

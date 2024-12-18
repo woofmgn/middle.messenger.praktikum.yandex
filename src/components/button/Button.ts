@@ -7,6 +7,7 @@ type TButtonProps = {
   events?: Record<string, (e: MouseEvent) => void>;
   btnText?: boolean;
   label: string;
+  avatar?: string | undefined;
   type?: 'submit' | 'reset' | 'button';
   onClick: (e: MouseEvent) => void;
 };
@@ -26,8 +27,13 @@ export default class Button extends Block<TButtonProps> {
   }
 
   public render(): string {
+    console.log(this.props.avatar);
     return `
-      {{label}}
+      {{#if avatar}}
+        <img class='button__avatar' src=${this.props.avatar} alt='alt'/>
+          {{else}}
+        {{label}}
+      {{/if}}
     `;
   }
 }

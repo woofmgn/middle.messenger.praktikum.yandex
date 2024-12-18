@@ -1,4 +1,4 @@
-import { authApi, TUserInfoResponse } from '../../api/AuthApi';
+import { TUserInfoResponse } from '../../api/AuthApi';
 import { TChangePfofileInfoData } from '../../api/UserApi';
 import { getUserInfo } from '../../service/authService';
 import { changeUserInfo } from '../../service/profileService';
@@ -300,26 +300,30 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
     if (!this.props.user) {
       getUserInfo()
         .then(() => {
-          this.children.EmailInput.setProps({ value: this.props.user?.email || '' });
-          this.children.LoginInput.setProps({ value: this.props.user?.login || '' });
-          this.children.FirstNameInput.setProps({ value: this.props.user?.first_name || '' });
-          this.children.LastNameInput.setProps({ value: this.props.user?.second_name || '' });
-          this.children.ChatNameInput.setProps({ value: this.props.user?.display_name || '' });
-          this.children.PhoneInput.setProps({ value: this.props.user?.phone || '' });
+          const emailInputChild = this.children.EmailInput as unknown as Block<{ value: string }>;
+          const loginInputChild = this.children.LoginInput as unknown as Block<{ value: string }>;
+          const firstNameInputChild = this.children.FirstNameInput as unknown as Block<{ value: string }>;
+          const lastNameInputChild = this.children.LastNameInput as unknown as Block<{ value: string }>;
+          const chatNameInputChild = this.children.ChatNameInput as unknown as Block<{ value: string }>;
+          const phoneInputChild = this.children.PhoneInput as unknown as Block<{ value: string }>;
+
+          emailInputChild.setProps({ value: this.props.user?.email || '' });
+          loginInputChild.setProps({ value: this.props.user?.login || '' });
+          firstNameInputChild.setProps({ value: this.props.user?.first_name || '' });
+          lastNameInputChild.setProps({ value: this.props.user?.second_name || '' });
+          chatNameInputChild.setProps({ value: this.props.user?.display_name || '' });
+          phoneInputChild.setProps({ value: this.props.user?.phone || '' });
         })
         .catch((err) => console.log(err));
     }
   }
 
   render(): string {
-    console.log('render', this.props.user);
-
     if (!this.props.user) {
       return '';
     }
 
     return `
-      <p>{{user.email}}</p>
       {{{EmailInput}}}
       {{{LoginInput}}}
       {{{FirstNameInput}}}

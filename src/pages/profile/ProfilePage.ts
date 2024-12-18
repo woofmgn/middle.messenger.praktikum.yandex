@@ -4,9 +4,12 @@ import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm 
 import { TProfileUserFormProps } from '../../components/profileUserForm/ProfileUserForm';
 
 import { logoutUser } from '../../service/authService';
+import { TUserInfoResponse } from '../../api/AuthApi';
+import { connect } from '../../store/connect';
 
 type TPropfilePageProps = {
   className?: string;
+  user?: TUserInfoResponse;
   state: {
     avatar: string;
     isShownUserForm: boolean;
@@ -23,8 +26,8 @@ type TPropfilePageProps = {
   ProfileModal?: ProfileModal;
 };
 
-export default class PropfilePage extends Block<TPropfilePageProps> {
-  constructor() {
+class PropfilePage extends Block<TPropfilePageProps> {
+  constructor(props: TPropfilePageProps) {
     super('div', {
       className: 'profile-layout',
       state: {
@@ -82,6 +85,7 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
         btnText: true,
         optClass: 'profile-container__avatar-button',
         label: '',
+        avatar: props.user?.avatar,
         onClick: () => {
           this.setProps({ ...this.props, state: { ...this.props.state, isOpenModal: true } });
         },
@@ -94,6 +98,14 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
       }),
     });
   }
+
+  public componentDidMount(): void {
+    if (this.props.user) {
+      const child = this.children.ButtonAvatar as unknown as Block<{ avatar: string }>;
+      child.setProps({ avatar: this.props.user.avatar });
+    }
+  }
+
   render(): string {
     return `
       {{{BackButton}}}
@@ -126,3 +138,12 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: { user: TUserInfoResponse; isLoading: boolean }) => {
+  return {
+    isLoading: state.isLoading,
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(PropfilePage);

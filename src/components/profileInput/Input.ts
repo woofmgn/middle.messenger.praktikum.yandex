@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 
-type TInputProps = {
+export type TInputProps = {
   optionalClass?: string;
   name: string;
   id: string;
@@ -31,7 +31,6 @@ export default class Input extends Block<TInputProps> {
     });
   }
   render() {
-    console.log('Input', this.props.value);
     return `
       <p>{{value}}</p>
     `;

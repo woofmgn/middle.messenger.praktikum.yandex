@@ -37,17 +37,14 @@ class UserApi {
     });
   };
 
-  // public changePfofileAvatar = async (data: TChangePfofileInfoData) => {
-  //   return await this.request.put<TChangePfofileInfoResponse>(`${this.baseUrl}/user/profile`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     data,
-  //   });
-  // };
+  public changePfofileAvatar = async (data: FormData) => {
+    return await this.request.put<TChangePfofileInfoResponse>(`${this.baseUrl}/user/profile/avatar`, {
+      data,
+    });
+  };
 
   public changeUserPassword = async (data: TChangeUserPasswordData) => {
-    return await this.request.put(`${this.baseUrl}/user/profile`, {
+    return await this.request.put(`${this.baseUrl}/user/password`, {
       headers: {
         'Content-Type': 'application/json',
       },
