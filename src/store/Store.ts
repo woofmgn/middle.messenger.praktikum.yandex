@@ -1,4 +1,5 @@
 import { TUserInfoResponse } from '../api/AuthApi';
+import { TGetChatListResponse } from '../api/ChatApi/types';
 import EventBus from '../utils/EventBus';
 
 export enum StoreEvents {
@@ -8,6 +9,7 @@ export enum StoreEvents {
 export type TStoreState = {
   isLoading: boolean;
   user: TUserInfoResponse | null;
+  chatList: TGetChatListResponse[] | null;
   loginError: null | string;
 };
 

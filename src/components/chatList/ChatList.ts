@@ -1,5 +1,6 @@
+import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
-import { contacts, ROUTES } from '../../utils/conts';
+import { ROUTES } from '../../utils/conts';
 import { Contact } from '../contact';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
@@ -8,11 +9,11 @@ type TChatListProps = {
   className?: string;
   Link: Link;
   SearchInput: SearchInput;
-  contactList: Contact[];
+  ContactList: Contact;
 };
 
 export default class ChatList extends Block<TChatListProps> {
-  constructor() {
+  constructor(props: TChatListProps) {
     super('section', {
       className: 'chat-list',
       Link: new Link({
@@ -24,27 +25,36 @@ export default class ChatList extends Block<TChatListProps> {
         onBlur: (e) => console.log(e),
         onChange: (e) => console.log(e),
       }),
-      contactList: contacts.map((contact) => {
-        return new Contact({
-          ...contact,
-        });
-      }),
+      ContactList: new Contact({}),
     });
   }
 
+  public componentDidMount(): void {
+    loadChatList()
+      .then()
+      .catch((err) => console.log(err));
+  }
+
   render(): string {
+    // console.log('chatik', this.props.chatList);
+
     return `
       <div class="chat-list__container">
         <div class="chat-list__header">
           {{{Link}}}
           {{{SearchInput}}}
         </div>
-        <ul class="chat-list__list-wrapper">
-          {{#each contactList}}
-            {{{this}}}
-          {{/each}}
-        </ul>
+        {{{ContactList}}}
       </div>
     `;
   }
 }
+
+// const mapStateToProps = (state: { chatList: TGetChatListResponse[]; isLoading: boolean }) => {
+//   return {
+//     isLoading: state.isLoading,
+//     chatList: state.chatList,
+//   };
+// };
+
+// export default connect(mapStateToProps)(ChatList);

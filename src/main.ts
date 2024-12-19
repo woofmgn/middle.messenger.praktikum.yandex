@@ -16,6 +16,7 @@ Object.entries(Components).forEach(([name, template]) => {
 window.store = new Store({
   isLoading: false,
   user: null,
+  chatList: null,
   loginError: null,
 });
 
