@@ -154,7 +154,7 @@ export default abstract class Block<Props extends Record<string, any>> {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    // console.log('componentDidUpdate', oldProps, newProps);
+    console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 
@@ -163,7 +163,12 @@ export default abstract class Block<Props extends Record<string, any>> {
       return;
     }
 
-    Object.assign(this.props, nextProps);
+    // Object.assign(this.props, nextProps);
+    const oldProps = { ...this.props };
+    this.props = { ...this.props, ...nextProps };
+
+    // Эмитируем событие обновления свойств
+    this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this.props);
   };
 
   get element() {
@@ -199,6 +204,8 @@ export default abstract class Block<Props extends Record<string, any>> {
       if (!this._element) {
         return;
       }
+      // console.log(`events ${this.props.className}`, events);
+      // console.log('this._element', this._element);
       this._element.addEventListener(eventName, events[eventName]);
     });
   }

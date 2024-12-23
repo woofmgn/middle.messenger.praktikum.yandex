@@ -6,18 +6,21 @@ import Router from './utils/Router';
 import { ROUTES } from './utils/conts';
 import { Store, StoreEvents } from './store/Store';
 
-Object.entries(Components).forEach(([name, template]) => {
-  if (typeof template === 'function') {
-    return;
-  }
-  Handlebars.registerPartial(name, template);
-});
+// Object.entries(Components).forEach(([name, template]) => {
+//   if (typeof template === 'function') {
+//     // console.log('template func', template);
+//     return;
+//   }
+//   console.log(name, template);
+//   Handlebars.registerPartial(name, template);
+// });
 
 window.store = new Store({
   isLoading: false,
   user: null,
-  chatList: null,
+  chatList: [],
   loginError: null,
+  id: null,
 });
 
 window.store.on(StoreEvents.Updated, (prevState, newState) => {

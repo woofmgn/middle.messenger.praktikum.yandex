@@ -19,7 +19,7 @@ export const loadChatList = async () => {
     });
 
     window.store.set({ chatList: normalizedData });
-    return response;
+    return normalizedData;
   } catch (err) {
     console.log(err);
   }

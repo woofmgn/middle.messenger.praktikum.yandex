@@ -11,6 +11,7 @@ export type TStoreState = {
   user: TUserInfoResponse | null;
   chatList: TGetChatListResponse[] | null;
   loginError: null | string;
+  id: string | number | null;
 };
 
 export class Store extends EventBus {

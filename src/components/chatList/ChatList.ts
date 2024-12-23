@@ -1,7 +1,7 @@
 import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
 import { ROUTES } from '../../utils/conts';
-import { Contact } from '../contact';
+import { ContactList } from '../contactList';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
 
@@ -9,11 +9,11 @@ type TChatListProps = {
   className?: string;
   Link: Link;
   SearchInput: SearchInput;
-  ContactList: Contact;
+  ContactList: ContactList;
 };
 
 export default class ChatList extends Block<TChatListProps> {
-  constructor(props: TChatListProps) {
+  constructor() {
     super('section', {
       className: 'chat-list',
       Link: new Link({
@@ -25,19 +25,22 @@ export default class ChatList extends Block<TChatListProps> {
         onBlur: (e) => console.log(e),
         onChange: (e) => console.log(e),
       }),
-      ContactList: new Contact({}),
+      ContactList: new ContactList({
+        onClick: (index) => console.log(index),
+        chatList: [],
+      }),
     });
   }
 
-  public componentDidMount(): void {
-    loadChatList()
-      .then()
-      .catch((err) => console.log(err));
-  }
+  // public componentDidMount(): void {
+  //   loadChatList()
+  //     .then((res) => {
+  //       this.children.ContactList.setProps({ chatList: res });
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
 
   render(): string {
-    // console.log('chatik', this.props.chatList);
-
     return `
       <div class="chat-list__container">
         <div class="chat-list__header">

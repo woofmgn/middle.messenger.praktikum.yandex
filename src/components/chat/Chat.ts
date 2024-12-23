@@ -4,6 +4,7 @@ import { ChatHeader } from '../chatHeader';
 import { MessagesBoard } from '../messagesBoard';
 import avatarImg from '../../assets/image/empty-contact-avatar.svg';
 import { ChatInput } from '../chatInput';
+import { connect } from '../../store/connect';
 
 type TChatProps = {
   className: string;
@@ -12,7 +13,7 @@ type TChatProps = {
   ChatInput: ChatInput;
 };
 
-export default class Chat extends Block<TChatProps> {
+class Chat extends Block<TChatProps> {
   constructor() {
     super('section', {
       className: 'chat',
@@ -42,3 +43,11 @@ export default class Chat extends Block<TChatProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: { index: number }) => {
+  return {
+    index: state.index,
+  };
+};
+
+export default connect(mapStateToProps)(Chat);
