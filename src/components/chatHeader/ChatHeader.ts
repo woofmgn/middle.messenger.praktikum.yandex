@@ -34,11 +34,18 @@ export default class ChatHeader extends Block<TChatHeaderProps> {
       }),
       ChatDropdown: new ChatDropdown({
         onClose: () => this.setProps({ ...this.props, isShownDropdown: false }),
-        onAddUser: () => this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: true }),
-        onRemoveUser: () => this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: false }),
+        onAddUser: () => {
+          this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: true });
+          (this.children.UserModal as unknown as Block<{ modalTypeAdd: boolean }>).setProps({ modalTypeAdd: true });
+        },
+        onRemoveUser: () => {
+          this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: false });
+          (this.children.UserModal as unknown as Block<{ modalTypeAdd: boolean }>).setProps({ modalTypeAdd: false });
+        },
       }),
       UserModal: new UserModal({
         onClose: () => this.setProps({ ...this.props, isOpenedModal: false }),
+        modalTypeAdd: true,
       }),
     });
   }

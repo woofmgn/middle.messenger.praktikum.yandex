@@ -1,3 +1,4 @@
+import { createChat, createNewChatAndAddUser, deleteChat } from '../../service/chatService';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 import { AuthInput, TAuthInputError } from '../authInput';
@@ -14,6 +15,7 @@ type TUserModalProps = {
   UserInput?: AuthInput;
   AddButton?: Button;
   RemoveButton?: Button;
+  modalTypeAdd: boolean;
   onClose: () => void;
 };
 
@@ -54,10 +56,8 @@ export default class UserModal extends Block<TUserModalProps> {
         },
         onBlur: (e) => {
           if (!this.props.formState) return;
-
           const target = e.target as HTMLInputElement;
           const errorMessage = validation('login', target.value);
-
           this.setProps({
             ...this.props,
             formState: {
@@ -68,7 +68,6 @@ export default class UserModal extends Block<TUserModalProps> {
               },
             },
           });
-
           const child = this.children.UserInput as unknown as TAuthInputError;
           child.setProps({ error: errorMessage });
         },
@@ -76,7 +75,7 @@ export default class UserModal extends Block<TUserModalProps> {
       AddButton: new Button({
         label: 'Добавить',
         type: 'submit',
-        onClick: (e) => {
+        onClick: async (e) => {
           if (!this.props.formState) return;
 
           e.preventDefault();
@@ -85,13 +84,15 @@ export default class UserModal extends Block<TUserModalProps> {
             return;
           }
 
-          console.log('submit', this.props.formState.data);
+          // await createChat(this.props.formState.data.title);
+          await createNewChatAndAddUser(this.props.formState.data.login);
+          props.onClose();
         },
       }),
       RemoveButton: new Button({
         label: 'Удалить',
         type: 'submit',
-        onClick: (e) => {
+        onClick: async (e) => {
           if (!this.props.formState) return;
 
           e.preventDefault();
@@ -100,13 +101,15 @@ export default class UserModal extends Block<TUserModalProps> {
             return;
           }
 
-          console.log('submit', this.props.formState.data);
+          await deleteChat(this.props.formState.data.title);
+          props.onClose();
         },
       }),
     });
   }
 
   render(): string {
+    console.log('add', this.props.modalTypeAdd);
     return `
       <div class="modal-overlay"></div>
       <div class="modal">

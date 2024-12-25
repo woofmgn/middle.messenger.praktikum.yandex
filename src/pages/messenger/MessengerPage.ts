@@ -13,7 +13,7 @@ export default class MessengerPage extends Block<TMessagePageProps> {
     super('div', {
       className: 'messenger-block',
       ChatList: new ChatList(),
-      Chat: new Chat(),
+      Chat: new Chat({}),
     });
   }
 

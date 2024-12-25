@@ -5,17 +5,20 @@ import { MessagesBoard } from '../messagesBoard';
 import avatarImg from '../../assets/image/empty-contact-avatar.svg';
 import { ChatInput } from '../chatInput';
 import { connect } from '../../store/connect';
+import { onOpenWS } from '../../service/chatService';
 
 type TChatProps = {
   className: string;
   ChatHeader: ChatHeader;
   MessagesBoard: MessagesBoard;
   ChatInput: ChatInput;
+  chatId: number | null;
 };
 
 class Chat extends Block<TChatProps> {
-  constructor() {
+  constructor(props: TChatProps) {
     super('section', {
+      ...props,
       className: 'chat',
       ChatHeader: new ChatHeader({
         avatar: avatarImg,
@@ -29,7 +32,18 @@ class Chat extends Block<TChatProps> {
     });
   }
 
+  async componentDidUpdate(oldProps: TChatProps, newProps: TChatProps): Promise<boolean> {
+    if (oldProps.chatId !== newProps.chatId && newProps.chatId) {
+      console.log(222);
+      const response = await onOpenWS(newProps.chatId);
+      console.log('response', response);
+      return true;
+    }
+    return false;
+  }
+
   render(): string {
+    console.log('this.props.currentChat', this.props.chatId);
     return `
       <div class="chat__wrapper">
         {{#if empty}}
@@ -44,9 +58,9 @@ class Chat extends Block<TChatProps> {
   }
 }
 
-const mapStateToProps = (state: { index: number }) => {
+const mapStateToProps = (state: { chatId: number }) => {
   return {
-    index: state.index,
+    chatId: state.chatId,
   };
 };
 

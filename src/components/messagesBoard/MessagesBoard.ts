@@ -19,6 +19,7 @@ export default class MessagesBoard extends Block<TMessagesBoardProps> {
   }
 
   render(): string {
+    console.log('messages', this.props.messages);
     return `
       <div class="messages-boards__container">
         <span class="message-date">{{date}}</span>

@@ -1,3 +1,4 @@
+import { TGetChatListResponse } from '../../api/ChatApi/types';
 import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
 import { ROUTES } from '../../utils/conts';
@@ -7,9 +8,9 @@ import { SearchInput } from '../searchInput';
 
 type TChatListProps = {
   className?: string;
-  Link: Link;
-  SearchInput: SearchInput;
-  ContactList: ContactList;
+  Link?: Link;
+  SearchInput?: SearchInput;
+  ContactList?: ContactList;
 };
 
 export default class ChatList extends Block<TChatListProps> {
@@ -26,19 +27,17 @@ export default class ChatList extends Block<TChatListProps> {
         onChange: (e) => console.log(e),
       }),
       ContactList: new ContactList({
-        onClick: (index) => console.log(index),
+        onClick: (id: number) => console.log(id),
         chatList: [],
       }),
     });
   }
 
-  // public componentDidMount(): void {
-  //   loadChatList()
-  //     .then((res) => {
-  //       this.children.ContactList.setProps({ chatList: res });
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
+  public componentDidMount(): void {
+    loadChatList()
+      .then()
+      .catch((err) => console.log(err));
+  }
 
   render(): string {
     return `

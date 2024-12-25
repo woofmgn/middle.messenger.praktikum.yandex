@@ -10,13 +10,15 @@ export type TStoreState = {
   isLoading: boolean;
   user: TUserInfoResponse | null;
   chatList: TGetChatListResponse[] | null;
+  currentChat: TGetChatListResponse | null;
   loginError: null | string;
   id: string | number | null;
+  chatId: number | null;
 };
 
 export class Store extends EventBus {
   private static __instance: Store;
-  private state: TStoreState | object = {};
+  private state: TStoreState | null = null;
 
   constructor(defaultState: TStoreState) {
     if (Store.__instance) {

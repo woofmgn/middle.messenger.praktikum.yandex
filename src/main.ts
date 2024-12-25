@@ -1,19 +1,8 @@
-import Handlebars from 'handlebars';
-import * as Components from './components';
 import * as Pages from './pages';
 
 import Router from './utils/Router';
 import { ROUTES } from './utils/conts';
 import { Store, StoreEvents } from './store/Store';
-
-// Object.entries(Components).forEach(([name, template]) => {
-//   if (typeof template === 'function') {
-//     // console.log('template func', template);
-//     return;
-//   }
-//   console.log(name, template);
-//   Handlebars.registerPartial(name, template);
-// });
 
 window.store = new Store({
   isLoading: false,
@@ -21,6 +10,8 @@ window.store = new Store({
   chatList: [],
   loginError: null,
   id: null,
+  currentChat: null,
+  chatId: null,
 });
 
 window.store.on(StoreEvents.Updated, (prevState, newState) => {
