@@ -10,6 +10,8 @@ export const getUserInfo = async () => {
     }
 
     window.store.set({ user: { ...response, avatar: `https://ya-praktikum.tech/api/v2/resources${response.avatar}` } });
+
+    return response;
   } catch (err) {
     console.log(err);
   }

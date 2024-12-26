@@ -75,6 +75,10 @@ class Router {
     }
     return route;
   }
+
+  getCurrentRoute() {
+    return this._currentRoute;
+  }
 }
 
 export default Router;

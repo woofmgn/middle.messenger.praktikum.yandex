@@ -3,9 +3,10 @@ import emptyAvatar from '../../assets/image/empty-avatar.svg';
 import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
 import { TProfileUserFormProps } from '../../components/profileUserForm/ProfileUserForm';
 
-import { logoutUser } from '../../service/authService';
+import { getUserInfo, logoutUser } from '../../service/authService';
 import { TUserInfoResponse } from '../../api/AuthApi';
 import { connect } from '../../store/connect';
+import { ROUTES } from '../../utils/conts';
 
 type TPropfilePageProps = {
   className?: string;
@@ -100,6 +101,17 @@ class PropfilePage extends Block<TPropfilePageProps> {
   }
 
   public componentDidMount(): void {
+    getUserInfo()
+      .then((res) => {
+        if (!res) {
+          window.router.go(ROUTES.SIGNIN);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        window.router.go(ROUTES.SIGNIN);
+      });
+
     if (this.props.user) {
       const child = this.children.ButtonAvatar as unknown as Block<{ avatar: string }>;
       child.setProps({ avatar: this.props.user.avatar });

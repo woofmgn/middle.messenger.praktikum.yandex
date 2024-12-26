@@ -1,7 +1,7 @@
 import { TSignupData } from '../../api/AuthApi';
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import { TAuthInputError } from '../../components/authInput';
-import { registrationUser } from '../../service/authService';
+import { getUserInfo, registrationUser } from '../../service/authService';
 import Block from '../../utils/Block';
 import { ROUTES } from '../../utils/conts';
 import { checkValidityForm, validation } from '../../utils/formValidation';
@@ -324,6 +324,16 @@ export default class SignupPage extends Block<TSignupPageProps> {
         optionalClass: 'auth-link',
       }),
     });
+  }
+
+  public componentDidMount(): void {
+    getUserInfo()
+      .then((res) => {
+        if (res) {
+          window.router.go(ROUTES.MESSENGER);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   render(): string {

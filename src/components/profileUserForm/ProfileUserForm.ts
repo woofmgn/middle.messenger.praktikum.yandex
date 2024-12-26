@@ -297,7 +297,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
   }
 
   componentDidMount(): void {
-    if (!this.props.user) {
+    if (this.props.user) {
       getUserInfo()
         .then(() => {
           const emailInputChild = this.children.EmailInput as unknown as Block<{ value: string }>;
