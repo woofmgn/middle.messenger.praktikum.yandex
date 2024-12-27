@@ -1,4 +1,5 @@
 import { chatApi } from '../api/ChatApi/ChatApi';
+import { TMessagesResponse } from '../api/ChatApi/types';
 import emptyAvatar from '../assets/image/empty-contact-avatar.svg';
 
 export const loadChatList = async () => {
@@ -12,7 +13,9 @@ export const loadChatList = async () => {
       if (!contact.avatar) {
         return {
           ...contact,
-          avatar: emptyAvatar,
+          avatar: contact.last_message?.user.avatar
+            ? `https://ya-praktikum.tech/api/v2/resources/${contact.last_message?.user.avatar}`
+            : emptyAvatar,
         };
       }
       return contact;
@@ -25,14 +28,13 @@ export const loadChatList = async () => {
   }
 };
 
-export const loadChatById = async (id: number) => {
-  try {
-    const response = await chatApi.getChat(id);
-    console.log(response);
-    window.store.set({ currentChat: response });
-  } catch (err) {
-    console.log(err);
+export const setCurrentChat = (id: number) => {
+  const chat = window.store.getState()?.chatList?.find((chat) => chat.id === id);
+  if (chat?.last_message?.user.avatar) {
+    chat.avatar = `https://ya-praktikum.tech/api/v2/resources/${chat?.last_message?.user.avatar}`;
   }
+  window.store.set({ chatId: id });
+  window.store.set({ currentChat: chat });
 };
 
 export const createChat = async (title: string) => {
@@ -40,9 +42,6 @@ export const createChat = async (title: string) => {
     console.log('title', title);
     const response = await chatApi.addChat(title);
 
-    // if (response) {
-    //   await loadChatList();
-    // }
     return response;
   } catch (err) {
     console.log(err);
@@ -50,7 +49,7 @@ export const createChat = async (title: string) => {
 };
 
 export const deleteChat = async (title: string) => {
-  const chat = window.store.getState()!.chatList!.find((chat) => chat.title === title);
+  const chat = window.store.getState()?.chatList?.find((chat) => chat.title === title);
   try {
     if (!chat?.id) {
       return;
@@ -66,15 +65,6 @@ export const deleteChat = async (title: string) => {
   }
 };
 
-// const searchUserByLogin = async (login: string) => {
-//   try {
-//     const response = await chatApi.getUserByLogin(login);
-//     return response;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 const addUserToCurrentChat = async ({ userId, chatId }: { userId: number; chatId: number }) => {
   try {
     const response = await chatApi.addUserToChat({ userId, chatId });
@@ -89,7 +79,6 @@ const addUserToCurrentChat = async ({ userId, chatId }: { userId: number; chatId
 
 export const createNewChatAndAddUser = async (login: string) => {
   try {
-    console.log('login', login);
     const userLoginResponse = await chatApi.getUserByLogin(login);
 
     if (!userLoginResponse) {
@@ -106,7 +95,6 @@ export const createNewChatAndAddUser = async (login: string) => {
 
     await loadChatList();
   } catch (err) {
-    // throw err
     return err;
   }
 };
@@ -118,9 +106,41 @@ export const onOpenWS = async (chatId: number) => {
     if (!response) {
       throw new Error('Не удалось получить токен чата');
     }
-
-    // return response;
   } catch (err) {
     return err;
   }
+};
+
+export const reformatAndSaveMessage = (message: TMessagesResponse | TMessagesResponse[]) => {
+  const userId = window.store.getState()?.user?.id;
+
+  if (!Array.isArray(message)) {
+    const messageList = (window.store.getState()?.messages || []).slice();
+    messageList.push({
+      content: message.content,
+      id: message.id,
+      isOwner: message.user_id === userId ? true : false,
+      time: new Date(message.time).toLocaleTimeString(),
+      type: message.type,
+      user_id: message.user_id,
+    });
+
+    window.store.set({ messages: messageList });
+    return;
+  }
+
+  const reformatMessageList = message
+    .map((item) => {
+      return {
+        content: item.content,
+        id: item.id,
+        isOwner: item.user_id === userId ? true : false,
+        time: new Date(item.time).toLocaleTimeString(),
+        type: item.type,
+        user_id: item.user_id,
+      };
+    })
+    .reverse();
+
+  window.store.set({ messages: reformatMessageList });
 };

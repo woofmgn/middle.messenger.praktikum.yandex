@@ -54,4 +54,24 @@ export type TGetUSerByLoginResponse = {
 
 export type TGetChatTokenResponse = {
   token: string;
-}
+};
+
+export type TMessagesResponse = {
+  id: number;
+  user_id: number;
+  chat_id: number;
+  type: string;
+  time: Date;
+  content: string;
+  is_read: boolean;
+  file: null;
+};
+
+export type TMessagesList = {
+  isOwner: boolean;
+  content: string;
+  type: string;
+  time: string;
+  user_id: number;
+  id: number;
+};

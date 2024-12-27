@@ -12,6 +12,7 @@ window.store = new Store({
   id: null,
   currentChat: null,
   chatId: null,
+  messages: null,
 });
 
 window.store.on(StoreEvents.Updated, (prevState, newState) => {

@@ -1,6 +1,12 @@
 import { fetchRequest } from '../../utils/fetchRequest';
 import { API_BASE_URL } from '../const';
-import { TDeleteChatResponse, TGetChatListResponse, TGetChatResponse, TGetChatTokenResponse, TGetUSerByLoginResponse } from './types';
+import {
+  TDeleteChatResponse,
+  TGetChatListResponse,
+  TGetChatResponse,
+  TGetChatTokenResponse,
+  TGetUSerByLoginResponse,
+} from './types';
 
 class ChatApi {
   private request: typeof fetchRequest;
@@ -64,7 +70,7 @@ class ChatApi {
   };
 
   public getChatToken = async (chatId: number) => {
-    return await this.request.post<TGetChatTokenResponse[]>(`${this.baseUrl}/chats/token/${chatId}`, {
+    return await this.request.post<TGetChatTokenResponse>(`${this.baseUrl}/chats/token/${chatId}`, {
       headers: {
         'Content-Type': 'application/json',
       },

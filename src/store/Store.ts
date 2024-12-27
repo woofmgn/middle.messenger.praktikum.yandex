@@ -1,5 +1,5 @@
 import { TUserInfoResponse } from '../api/AuthApi';
-import { TGetChatListResponse } from '../api/ChatApi/types';
+import { TGetChatListResponse, TMessagesList } from '../api/ChatApi/types';
 import EventBus from '../utils/EventBus';
 
 export enum StoreEvents {
@@ -14,6 +14,7 @@ export type TStoreState = {
   loginError: null | string;
   id: string | number | null;
   chatId: number | null;
+  messages: TMessagesList[] | null;
 };
 
 export class Store extends EventBus {
@@ -39,7 +40,7 @@ export class Store extends EventBus {
   public set(nextState: object) {
     const prevState = { ...this.state };
 
-    this.state = { ...this.state, ...nextState };
+    this.state = { ...this.state!, ...nextState };
 
     this.emit(StoreEvents.Updated, prevState, nextState);
   }

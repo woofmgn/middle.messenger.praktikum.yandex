@@ -1,4 +1,4 @@
-import { createChat, createNewChatAndAddUser, deleteChat } from '../../service/chatService';
+import { createNewChatAndAddUser, deleteChat } from '../../service/chatService';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 import { AuthInput, TAuthInputError } from '../authInput';
@@ -84,7 +84,6 @@ export default class UserModal extends Block<TUserModalProps> {
             return;
           }
 
-          // await createChat(this.props.formState.data.title);
           await createNewChatAndAddUser(this.props.formState.data.login);
           props.onClose();
         },
@@ -101,7 +100,7 @@ export default class UserModal extends Block<TUserModalProps> {
             return;
           }
 
-          await deleteChat(this.props.formState.data.title);
+          await deleteChat(this.props.formState.data.login);
           props.onClose();
         },
       }),

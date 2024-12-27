@@ -1,3 +1,5 @@
+import { TGetChatListResponse } from '../../api/ChatApi/types';
+import { connect } from '../../store/connect';
 import Block from '../../utils/Block';
 import { ChatDropdown } from '../chatDropdown';
 import { UserModal } from '../userModal';
@@ -15,7 +17,7 @@ export class HeaderButton extends Block<THeaderButtonProps> {
   }
 }
 
-export default class ChatHeader extends Block<TChatHeaderProps> {
+class ChatHeader extends Block<TChatHeaderProps> {
   constructor(props: TChatHeaderProps) {
     super('div', {
       ...props,
@@ -50,12 +52,22 @@ export default class ChatHeader extends Block<TChatHeaderProps> {
     });
   }
 
+  componentDidUpdate(_oldProps: TChatHeaderProps, _newProps: TChatHeaderProps): boolean | Promise<boolean> {
+    if (_oldProps !== _newProps) {
+      return true;
+    }
+    return false;
+  }
+
   render(): string {
+    console.log('this.props.currentChat', this.props.currentChat);
     return `
       <div class="chat-header__wrapper">
         <div class="chat-header__user-info">
-          <img class="chat-header__avatar" src={{avatar}} alt="Изображение аватара пользователя" class="contact__avatar">
-          <h3 class="chat-header__username">{{name}}</h3>
+        {{#if currentChat.title}}
+          <img class="chat-header__avatar" src={{currentChat.avatar}} alt="Изображение аватара пользователя" class="contact__avatar">
+          <h3 class="chat-header__username">{{currentChat.title}}</h3>
+        {{/if}}
         </div>
         {{{HeaderButton}}}
       </div>
@@ -68,3 +80,11 @@ export default class ChatHeader extends Block<TChatHeaderProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: { currentChat: TGetChatListResponse }) => {
+  return {
+    currentChat: state.currentChat,
+  };
+};
+
+export default connect(mapStateToProps)(ChatHeader);

@@ -1,5 +1,5 @@
 import { TGetChatListResponse } from '../../api/ChatApi/types';
-import { loadChatById } from '../../service/chatService';
+import { setCurrentChat } from '../../service/chatService';
 import { connect } from '../../store/connect';
 import Block from '../../utils/Block';
 import Contact from '../contact/Contact';
@@ -29,15 +29,12 @@ class ContactList extends Block<TContactProps> {
   }
 
   componentDidUpdate(oldProps: TContactProps, newProps: TContactProps) {
-    console.log('oldProps', oldProps);
-    console.log('newProps', newProps);
     if (oldProps.chatList !== newProps.chatList) {
       const res = newProps.chatList.map((contact) => {
         return new Contact({
           onClick: () => {
             this.props.onClick(contact.id);
             this.setProps({ ...this.props, isActive: contact.id });
-            console.log('this.props.isActive', this.props.isActive);
           },
           chatList: contact,
           isActive: false,
@@ -49,18 +46,13 @@ class ContactList extends Block<TContactProps> {
     }
 
     if (oldProps.isActive !== newProps.isActive) {
-      console.log('is', oldProps.isActive, newProps.isActive);
       const { contacts } = this.children;
 
       (contacts as unknown as Contact[]).forEach(async (contact) => {
-        console.log(1);
         if (contact.props.chatList.id === this.props.isActive) {
           contact.setProps({ ...contact.props, isActive: true });
-          console.log('is Active', contact.props.chatList.id, this.props.isActive);
 
-          window.store.set({ chatId: contact.props.chatList.id });
-
-          // await loadChatById(this.props.isActive);
+          setCurrentChat(contact.props.chatList.id);
           return;
         }
         contact.setProps({ ...contact.props, isActive: false });

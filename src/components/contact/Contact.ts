@@ -31,10 +31,10 @@ export default class Contact extends Block<TContactProps> {
                 <div class="contact__message-module">
                   <div class="contact__message-wrapper">
                     <h3 class="contact__name">${this.props.chatList.title}</h3>
-                    <p class="contact__second-message">${this.props.chatList.last_message || ''}</p>
+                    <p class="contact__second-message">${this.props.chatList.last_message?.content || ''}</p>
                   </div>
                   <div class="contact__info-wrapper">
-                    <span class="contact__date">${this.props.chatList.created_by}</span>
+                    <span class="contact__date">${this.props.chatList.last_message?.time ? new Date(this.props.chatList.last_message?.time).toLocaleTimeString() : ''}</span>
                     {{#if this.unread_count}}
                       <div class="contact__count-wrapper">
                         <span class="contact__count">${this.props.chatList.unread_count}</span>

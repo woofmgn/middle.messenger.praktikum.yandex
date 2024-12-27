@@ -112,8 +112,6 @@ class HTTPTransport {
       };
 
       if (isGet || !data) {
-        console.log('data if', data);
-        console.log(1);
         xhr.send();
       } else {
         if (data instanceof FormData) {

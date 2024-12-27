@@ -27,7 +27,6 @@ export default class Button extends Block<TButtonProps> {
   }
 
   public render(): string {
-    console.log(this.props.avatar);
     return `
       {{#if avatar}}
         <img class='button__avatar' src=${this.props.avatar} alt='alt'/>

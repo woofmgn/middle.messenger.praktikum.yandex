@@ -5,13 +5,15 @@
   display: flex;
   gap: 10px;
   cursor: pointer;
+  padding: 4px;
 }
 
 .contact_active {
+  padding: 4px;
   display: flex;
   gap: 10px;
   cursor: pointer;
-  border: 1px solid blue;
+  background-color: #d9e8fa;
   border-radius: 4px;
 }
 
@@ -78,4 +80,10 @@
   line-height: 12px;
   font-weight: 500;
   color: $white;
+}
+
+.contact__avatar {
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
 }

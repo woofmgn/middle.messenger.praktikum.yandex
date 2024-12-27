@@ -1,4 +1,5 @@
 import Block from '../../utils/Block';
+import { webSocket } from '../../utils/WebSocket';
 import { TChatInputProps, TInputButtonProps, TInputProps } from './chatInput.types';
 
 export class Input extends Block<TInputProps> {
@@ -48,14 +49,14 @@ export default class ChatInput extends Block<TChatInputProps> {
         onChange: (e) => {
           const target = e.target as HTMLInputElement;
           this.setProps({ ...this.props, formData: { data: { [target.name]: target.value } } });
-          console.log('onChange', target.value);
         },
         onBlur: (e) => console.log('blur', e),
       }),
       Button: new InputButton({
         onClick: (e) => {
           e.preventDefault();
-          console.log('submit', this.props.formData);
+
+          webSocket.sendMessage(this.props.formData.data.message);
         },
       }),
     });
