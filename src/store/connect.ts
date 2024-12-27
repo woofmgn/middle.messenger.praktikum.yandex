@@ -2,11 +2,11 @@ import Block from '../utils/Block';
 import isEqual, { PlainObject } from '../utils/isEqual';
 import { StoreEvents, TStoreState } from './Store';
 
-export function connect<T extends Record<string, any>>(
+export function connect<T extends Record<string, unknown>>(
   mapStateToProps: (state: TStoreState) => Record<string, unknown>
 ) {
   return function (Component) {
-    return class extends Component {
+    return class WithStore extends Component {
       private onChangeStoreCallback: () => void;
       constructor(props: T) {
         const store = window.store;

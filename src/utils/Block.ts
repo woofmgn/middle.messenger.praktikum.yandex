@@ -205,8 +205,6 @@ export default abstract class Block<Props extends Record<string, any>> {
       if (!this._element) {
         return;
       }
-      // console.log(`events ${this.props.className}`, events);
-      // console.log('this._element', this._element);
       this._element.addEventListener(eventName, events[eventName]);
     });
   }
