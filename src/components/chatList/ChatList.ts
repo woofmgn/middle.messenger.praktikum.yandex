@@ -9,13 +9,13 @@ import { SearchInput } from '../searchInput';
 
 type TChatListProps = {
   className?: string;
-  CreateChatButton: Button;
+  CreateChatButton?: Button;
   Link?: Link;
   SearchInput?: SearchInput;
   ContactList?: Block<TContactProps>;
   CreateChatModal?: CreateChatModal;
-  isOpenModal: boolean;
-  currentChatId: null | number;
+  isOpenModal?: boolean;
+  currentChatId?: null | number;
 };
 
 export default class ChatList extends Block<TChatListProps> {
