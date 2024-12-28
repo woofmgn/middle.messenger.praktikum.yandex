@@ -24,11 +24,12 @@ export default class EventBus {
     this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
   }
 
-  emit(event: string, ...args: unknown[]) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  emit<T extends any[] = []>(event: string, ...args: T) {
     if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+      return;
+      // throw new Error(`Нет события: ${event}`);
     }
-
     this.listeners[event].forEach(function (listener) {
       listener(...args);
     });

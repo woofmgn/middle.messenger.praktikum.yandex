@@ -12,6 +12,7 @@ export { FileInput } from './fileInput';
 export { ChatList } from './chatList';
 export { Chat } from './chat';
 export { SearchInput } from './searchInput';
+export { ContactList } from './contactList';
 export { Contact } from './contact';
 export { ChatHeader } from './chatHeader';
 export { ChatDropdown } from './chatDropdown';

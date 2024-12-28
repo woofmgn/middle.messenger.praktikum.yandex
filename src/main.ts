@@ -1,56 +1,31 @@
-import Handlebars from 'handlebars';
-import * as Components from './components';
 import * as Pages from './pages';
 
-import renderDOM from './utils/renderDom';
-import Block from './utils/Block';
+import Router from './utils/Router';
+import { ROUTES } from './utils/conts';
+import { Store, StoreEvents } from './store/Store';
 
-const pages = {
-  signin: [Pages.SigninPage],
-  signup: [Pages.SignupPage],
-  error: [Pages.ErrorPage],
-  notFound: [Pages.NotFoundPage],
-  profile: [Pages.ProfilePage],
-  messenger: [Pages.MessengerPage],
-  navigation: [Pages.NavigationPage],
-};
-
-Object.entries(Components).forEach(([name, template]) => {
-  if (typeof template === 'function') {
-    return;
-  }
-  Handlebars.registerPartial(name, template);
+window.store = new Store({
+  isLoading: false,
+  user: null,
+  chatList: [],
+  loginError: null,
+  id: null,
+  currentChat: null,
+  chatId: null,
+  messages: null,
 });
 
-function navigate(page: keyof typeof pages) {
-  const pageInfo = pages[page];
-  if (!pageInfo) {
-    console.error(`Page "${page}" not found`);
-    return;
-  }
-
-  const [source, context] = pageInfo;
-
-  if (typeof source === 'function') {
-    renderDOM(new source() as Block<Record<string, unknown>>);
-    return;
-  }
-
-  const container = document.getElementById('app')!;
-
-  const temlpatingFunction = Handlebars.compile(source);
-  container.innerHTML = temlpatingFunction(context);
-}
-
-document.addEventListener('DOMContentLoaded', () => navigate('navigation'));
-
-document.addEventListener('click', (e: MouseEvent) => {
-  const target = e.target as HTMLElement;
-  const page = target.getAttribute('data-page') as keyof typeof pages;
-  if (page) {
-    navigate(page);
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
+window.store.on(StoreEvents.Updated, (prevState, newState) => {
+  console.log('prevState', prevState);
+  console.log('newState', newState);
 });
+
+const APP_ROOT_ELEMNT = '#app';
+window.router = new Router(APP_ROOT_ELEMNT);
+window.router
+  .use(ROUTES.SIGNIN, Pages.SigninPage)
+  .use(ROUTES.SINGUP, Pages.SignupPage)
+  .use(ROUTES.PROFILE, Pages.ProfilePage)
+  .use(ROUTES.MESSENGER, Pages.MessengerPage)
+  .use('*', Pages.NotFoundPage)
+  .start();

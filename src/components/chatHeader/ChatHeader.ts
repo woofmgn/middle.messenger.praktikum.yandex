@@ -1,3 +1,5 @@
+import { connect } from '../../store/connect';
+import { TStoreState } from '../../store/Store';
 import Block from '../../utils/Block';
 import { ChatDropdown } from '../chatDropdown';
 import { UserModal } from '../userModal';
@@ -15,7 +17,7 @@ export class HeaderButton extends Block<THeaderButtonProps> {
   }
 }
 
-export default class ChatHeader extends Block<TChatHeaderProps> {
+class ChatHeader extends Block<TChatHeaderProps> {
   constructor(props: TChatHeaderProps) {
     super('div', {
       ...props,
@@ -34,21 +36,38 @@ export default class ChatHeader extends Block<TChatHeaderProps> {
       }),
       ChatDropdown: new ChatDropdown({
         onClose: () => this.setProps({ ...this.props, isShownDropdown: false }),
-        onAddUser: () => this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: true }),
-        onRemoveUser: () => this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: false }),
+        onAddUser: () => {
+          this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: true });
+          (this.children.UserModal as unknown as Block<{ modalTypeAdd: boolean }>).setProps({ modalTypeAdd: true });
+        },
+        onRemoveUser: () => {
+          this.setProps({ ...this.props, isOpenedModal: true, modalTypeAdd: false });
+          (this.children.UserModal as unknown as Block<{ modalTypeAdd: boolean }>).setProps({ modalTypeAdd: false });
+        },
       }),
       UserModal: new UserModal({
         onClose: () => this.setProps({ ...this.props, isOpenedModal: false }),
+        modalTypeAdd: true,
       }),
     });
   }
 
+  componentDidUpdate(_oldProps: TChatHeaderProps, _newProps: TChatHeaderProps): boolean | Promise<boolean> {
+    if (_oldProps !== _newProps) {
+      return true;
+    }
+    return false;
+  }
+
   render(): string {
+    console.log('this.props.currentChat', this.props.currentChat);
     return `
       <div class="chat-header__wrapper">
         <div class="chat-header__user-info">
-          <img class="chat-header__avatar" src={{avatar}} alt="Изображение аватара пользователя" class="contact__avatar">
-          <h3 class="chat-header__username">{{name}}</h3>
+        {{#if currentChat.title}}
+          <img class="chat-header__avatar" src={{currentChat.avatar}} alt="Изображение аватара пользователя" class="contact__avatar">
+          <h3 class="chat-header__username">{{currentChat.title}}</h3>
+        {{/if}}
         </div>
         {{{HeaderButton}}}
       </div>
@@ -61,3 +80,11 @@ export default class ChatHeader extends Block<TChatHeaderProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: TStoreState) => {
+  return {
+    currentChat: state.currentChat,
+  };
+};
+
+export default connect(mapStateToProps)(ChatHeader);

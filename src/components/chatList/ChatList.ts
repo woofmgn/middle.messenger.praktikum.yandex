@@ -1,14 +1,15 @@
+import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
-import { contacts } from '../../utils/conts';
-import { Contact } from '../contact';
+import { ROUTES } from '../../utils/conts';
+import { ContactList, TContactProps } from '../contactList';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
 
 type TChatListProps = {
   className?: string;
-  Link: Link;
-  SearchInput: SearchInput;
-  contactList: Contact[];
+  Link?: Link;
+  SearchInput?: SearchInput;
+  ContactList?: Block<TContactProps>;
 };
 
 export default class ChatList extends Block<TChatListProps> {
@@ -16,7 +17,7 @@ export default class ChatList extends Block<TChatListProps> {
     super('section', {
       className: 'chat-list',
       Link: new Link({
-        to: '#',
+        to: () => window.router.go(ROUTES.PROFILE),
         label: 'Профиль',
         optionalClass: 'chat-list__to-profile-link',
       }),
@@ -24,12 +25,17 @@ export default class ChatList extends Block<TChatListProps> {
         onBlur: (e) => console.log(e),
         onChange: (e) => console.log(e),
       }),
-      contactList: contacts.map((contact) => {
-        return new Contact({
-          ...contact,
-        });
+      ContactList: new ContactList({
+        onClick: (id: number) => console.log(id),
+        chatList: [],
       }),
     });
+  }
+
+  public componentDidMount(): void {
+    loadChatList()
+      .then()
+      .catch((err) => console.log(err));
   }
 
   render(): string {
@@ -39,12 +45,17 @@ export default class ChatList extends Block<TChatListProps> {
           {{{Link}}}
           {{{SearchInput}}}
         </div>
-        <ul class="chat-list__list-wrapper">
-          {{#each contactList}}
-            {{{this}}}
-          {{/each}}
-        </ul>
+        {{{ContactList}}}
       </div>
     `;
   }
 }
+
+// const mapStateToProps = (state: { chatList: TGetChatListResponse[]; isLoading: boolean }) => {
+//   return {
+//     isLoading: state.isLoading,
+//     chatList: state.chatList,
+//   };
+// };
+
+// export default connect(mapStateToProps)(ChatList);

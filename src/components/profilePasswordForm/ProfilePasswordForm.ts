@@ -1,3 +1,4 @@
+import { changeUserPassword } from '../../service/profileService';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 import { Button } from '../button';
@@ -30,7 +31,7 @@ export default class ProfilePasswordForm extends Block<TProfilePasswordFormProps
         name: 'oldPassword',
         type: 'password',
         label: 'Старый пароль',
-        value: '*****',
+        value: '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -72,7 +73,7 @@ export default class ProfilePasswordForm extends Block<TProfilePasswordFormProps
         name: 'newPassword',
         label: 'Новый пароль',
         type: 'password',
-        value: '*****',
+        value: '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -114,7 +115,7 @@ export default class ProfilePasswordForm extends Block<TProfilePasswordFormProps
         name: 'newPasswordRepeat',
         type: 'password',
         label: 'Повторите новый пароль',
-        value: '*****',
+        value: '',
         onBlur: (e) => {
           if (!this.props.formState) return;
 
@@ -170,16 +171,27 @@ export default class ProfilePasswordForm extends Block<TProfilePasswordFormProps
       Button: new Button({
         label: 'Сохранить',
         type: 'submit',
-        onClick: (e) => {
+        onClick: async (e) => {
           if (!this.props.formState) return;
 
           e.preventDefault();
+
           const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {
             return;
           }
 
-          console.log('form submit', this.props.formState.data);
+          if (this.props.formState.data['oldPassword'] === this.props.formState.data['newPassword']) {
+            console.log(1);
+            const child = this.children.NewPasswordInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
+            child.setProps({ error: 'Старый пароль не может быть использован в качестве нового' });
+            return;
+          }
+          console.log(this.props.formState.data);
+          await changeUserPassword({
+            newPassword: this.props.formState.data.newPassword,
+            oldPassword: this.props.formState.data.oldPassword,
+          });
           props.onSubmit();
         },
         optClass: 'profile-form__submit-button',

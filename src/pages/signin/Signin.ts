@@ -1,9 +1,14 @@
+import { TSigninData } from '../../api/AuthApi';
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import { TAuthInputError } from '../../components/authInput';
+import { getUserInfo, loginUser } from '../../service/authService';
+import { connect } from '../../store/connect';
+import { TStoreState } from '../../store/Store';
 import Block from '../../utils/Block';
+import { ROUTES } from '../../utils/conts';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
-type TSigninProps = {
+export type TSigninProps = {
   className?: string;
   formState: {
     data: Record<string, string>;
@@ -16,7 +21,7 @@ type TSigninProps = {
   Link?: Link;
 };
 
-export default class Signin extends Block<TSigninProps> {
+class Signin extends Block<TSigninProps> {
   constructor() {
     super('div', {
       className: 'auth-layout',
@@ -104,22 +109,33 @@ export default class Signin extends Block<TSigninProps> {
         label: 'Войти',
         optClass: 'button-auth',
         type: 'submit',
-        onClick: (e) => {
+        onClick: async (e) => {
           e.preventDefault();
           const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {
             return;
           }
 
+          await loginUser(this.props.formState.data as TSigninData);
           console.log('form submit', this.props.formState.data);
         },
       }),
       Link: new Link({
         label: 'Зарегистрироваться',
-        to: '#',
+        to: () => window.router.go(ROUTES.SINGUP),
         optionalClass: 'auth-link',
       }),
     });
+  }
+
+  public componentDidMount(): void {
+    getUserInfo()
+      .then((res) => {
+        if (res) {
+          window.router.go(ROUTES.MESSENGER);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   render(): string {
@@ -136,3 +152,14 @@ export default class Signin extends Block<TSigninProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: TStoreState) => {
+  return {
+    isLoading: state.isLoading,
+    loginError: state.loginError,
+  };
+};
+
+export default connect(mapStateToProps)(Signin);
+
+// export default Signin;

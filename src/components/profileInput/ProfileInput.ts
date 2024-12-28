@@ -1,5 +1,5 @@
 import Block from '../../utils/Block';
-import Input from './Input';
+import Input, { TInputProps } from './Input';
 
 export type TProfileInputProps = {
   name: string;
@@ -31,6 +31,11 @@ export default class ProfileInput extends Block<TProfileInputProps> {
         onChange: (e) => props.onChange(e),
       }),
     });
+  }
+
+  public componentDidMount(): void {
+    const child = this.children.Input as unknown as Block<Pick<TInputProps, 'value'>>;
+    child.setProps({ value: this.props.value });
   }
 
   render(): string {

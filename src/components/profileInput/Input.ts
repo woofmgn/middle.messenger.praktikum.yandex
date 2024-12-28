@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 
-type TInputProps = {
+export type TInputProps = {
   optionalClass?: string;
   name: string;
   id: string;
@@ -29,5 +29,10 @@ export default class Input extends Block<TInputProps> {
         blur: props.onBlur,
       },
     });
+  }
+  render() {
+    return `
+      <p>{{value}}</p>
+    `;
   }
 }
