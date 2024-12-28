@@ -10,9 +10,9 @@ export type THeaderButtonProps = {
 
 export type TChatHeaderProps = {
   avatar: string;
-  name: string;
+  name?: string;
   isShownDropdown?: boolean;
-  currentChat: TGetChatListResponse;
+  currentChat?: TGetChatListResponse;
   className?: string;
   isOpenedModal?: boolean;
   modalTypeAdd?: boolean;

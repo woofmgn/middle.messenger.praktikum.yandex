@@ -1,8 +1,7 @@
-import { TGetChatListResponse } from '../../api/ChatApi/types';
 import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
 import { ROUTES } from '../../utils/conts';
-import { ContactList } from '../contactList';
+import { ContactList, TContactProps } from '../contactList';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
 
@@ -10,7 +9,7 @@ type TChatListProps = {
   className?: string;
   Link?: Link;
   SearchInput?: SearchInput;
-  ContactList?: ContactList;
+  ContactList?: Block<TContactProps>;
 };
 
 export default class ChatList extends Block<TChatListProps> {

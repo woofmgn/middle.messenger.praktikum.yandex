@@ -160,6 +160,8 @@ export default abstract class Block<Props extends Record<string, any>> {
     return true;
   }
 
+  componentWillUnmount() {}
+
   public setProps = (nextProps: Props) => {
     if (!nextProps) {
       return;

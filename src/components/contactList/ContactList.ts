@@ -1,15 +1,16 @@
 import { TGetChatListResponse } from '../../api/ChatApi/types';
 import { setCurrentChat } from '../../service/chatService';
 import { connect } from '../../store/connect';
+import { TStoreState } from '../../store/Store';
 import Block from '../../utils/Block';
 import Contact from '../contact/Contact';
 
-type TContactProps = {
+export type TContactProps = {
   className?: string;
   chatList: TGetChatListResponse[];
   onClick: (id: number) => void;
-  isActive: number;
-  contacts: Contact[] | null;
+  isActive?: number;
+  contacts?: Contact[] | null;
 };
 
 class ContactList extends Block<TContactProps> {
@@ -76,7 +77,7 @@ class ContactList extends Block<TContactProps> {
   }
 }
 
-const mapStateToProps = (state: { chatList: TGetChatListResponse[]; isLoading: boolean }) => {
+const mapStateToProps = (state: TStoreState) => {
   return {
     isLoading: state.isLoading,
     chatList: state.chatList,

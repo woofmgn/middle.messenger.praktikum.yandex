@@ -38,10 +38,11 @@ class Route implements RouteInterface {
 
   render() {
     if (!this._block) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       this._block = new this._blockClass({});
     }
 
-    // this._block.show();
     if (!this._block) {
       return;
     }

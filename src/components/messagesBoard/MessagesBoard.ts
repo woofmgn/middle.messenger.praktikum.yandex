@@ -1,9 +1,10 @@
 import { TMessagesList } from '../../api/ChatApi/types';
 import { connect } from '../../store/connect';
+import { TStoreState } from '../../store/Store';
 import Block from '../../utils/Block';
 
-type TMessagesBoardProps = {
-  messages: TMessagesList[];
+export type TMessagesBoardProps = {
+  messages?: TMessagesList[];
   className?: string;
   date: string;
 };
@@ -18,14 +19,14 @@ class MessagesBoard extends Block<TMessagesBoardProps> {
 
   public componentDidMount(): void {
     setTimeout(() => {
-      const collection = document.getElementsByClassName('messages-boards__container');
-      if (collection.length) {
-        collection[0].scrollTo({
-          top: collection[0].scrollHeight,
+      const collection = document.querySelector('.messages-boards__container');
+      if (collection) {
+        collection.scrollTo({
+          top: collection.scrollHeight,
           behavior: 'smooth',
         });
       }
-    }, 100);
+    }, 0);
   }
 
   render(): string {
@@ -45,7 +46,7 @@ class MessagesBoard extends Block<TMessagesBoardProps> {
   }
 }
 
-const mapStateToProps = (state: { messages: TMessagesList[] }) => {
+const mapStateToProps = (state: TStoreState) => {
   return {
     messages: state.messages,
   };

@@ -1,18 +1,19 @@
 import { Chat, ChatList } from '../../components';
+import { TChatProps } from '../../components/chat';
 import { getUserInfo } from '../../service/authService';
-import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
 import { ROUTES } from '../../utils/conts';
 
 type TMessagePageProps = {
   className?: string;
   ChatList?: ChatList;
-  Chat?: Chat;
+  Chat?: Block<TChatProps>;
 };
 
 export default class MessengerPage extends Block<TMessagePageProps> {
   constructor(props: TMessagePageProps) {
     super('div', {
+      ...props,
       className: 'messenger-block',
       ChatList: new ChatList(),
       Chat: new Chat({}),

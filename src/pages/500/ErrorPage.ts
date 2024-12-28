@@ -9,7 +9,7 @@ export default class ErrorPage extends Block<TErrorPageProps> {
   constructor() {
     super('div', {
       className: 'layout',
-      Link: new Link({ label: 'Назад к чатам', to: '#' }),
+      Link: new Link({ label: 'Назад к чатам', to: () => window.router.back() }),
     });
   }
 

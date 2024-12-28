@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
-import { ChatHeader } from '../chatHeader';
-import { MessagesBoard } from '../messagesBoard';
+import { ChatHeader, TChatHeaderProps } from '../chatHeader';
+import { MessagesBoard, TMessagesBoardProps } from '../messagesBoard';
 import avatarImg from '../../assets/image/empty-contact-avatar.svg';
 import { ChatInput } from '../chatInput';
 import { connect } from '../../store/connect';
@@ -8,13 +8,13 @@ import { webSocket } from '../../utils/WebSocket';
 import { TUserInfoResponse } from '../../api/AuthApi';
 import { TStoreState } from '../../store/Store';
 
-type TChatProps = {
-  className: string;
-  ChatHeader?: ChatHeader;
-  MessagesBoard?: MessagesBoard;
-  ChatInput: ChatInput;
-  chatId: number | null;
-  user: TUserInfoResponse | null;
+export type TChatProps = {
+  className?: string;
+  ChatHeader?: Block<TChatHeaderProps>;
+  MessagesBoard?: Block<TMessagesBoardProps>;
+  ChatInput?: ChatInput;
+  chatId?: number | null;
+  user?: TUserInfoResponse | null;
 };
 
 class Chat extends Block<TChatProps> {
@@ -58,11 +58,6 @@ class Chat extends Block<TChatProps> {
   }
 }
 
-type TMapProps = {
-  chatId: number | null;
-  user: TUserInfoResponse | null;
-};
-
 const mapStateToProps = (state: TStoreState) => {
   return {
     chatId: state.chatId,
@@ -70,4 +65,4 @@ const mapStateToProps = (state: TStoreState) => {
   };
 };
 
-export default connect<TChatProps>(mapStateToProps)(Chat);
+export default connect(mapStateToProps)(Chat);

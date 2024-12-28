@@ -1,4 +1,3 @@
-import { TChangeUserPasswordData } from '../../api/UserApi';
 import { changeUserPassword } from '../../service/profileService';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';

@@ -7,6 +7,7 @@ import { getUserInfo, logoutUser } from '../../service/authService';
 import { TUserInfoResponse } from '../../api/AuthApi';
 import { connect } from '../../store/connect';
 import { ROUTES } from '../../utils/conts';
+import { TStoreState } from '../../store/Store';
 
 type TPropfilePageProps = {
   className?: string;
@@ -18,7 +19,7 @@ type TPropfilePageProps = {
     isOpenModal: boolean;
   };
   BackButton?: BackButton;
-  ProfileUserForm?: ProfileUserForm;
+  ProfileUserForm?: Block<TProfileUserFormProps>;
   ProfilePasswordForm?: ProfilePasswordForm;
   ButtonChangeData?: Button;
   ButtonChangePassword?: Button;
@@ -151,7 +152,7 @@ class PropfilePage extends Block<TPropfilePageProps> {
   }
 }
 
-const mapStateToProps = (state: { user: TUserInfoResponse; isLoading: boolean }) => {
+const mapStateToProps = (state: TStoreState) => {
   return {
     isLoading: state.isLoading,
     user: state.user,

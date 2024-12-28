@@ -3,6 +3,7 @@ import { TChangePfofileInfoData } from '../../api/UserApi';
 import { getUserInfo } from '../../service/authService';
 import { changeUserInfo } from '../../service/profileService';
 import { connect } from '../../store/connect';
+import { TStoreState } from '../../store/Store';
 import Block from '../../utils/Block';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 import { Button } from '../button';
@@ -337,7 +338,7 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
   }
 }
 
-const mapStateToProps = (state: { user: TUserInfoResponse; isLoading: boolean }) => {
+const mapStateToProps = (state: TStoreState) => {
   return {
     isLoading: state.isLoading,
     user: state.user,

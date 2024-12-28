@@ -1,5 +1,5 @@
-import { TGetChatListResponse } from '../../api/ChatApi/types';
 import { connect } from '../../store/connect';
+import { TStoreState } from '../../store/Store';
 import Block from '../../utils/Block';
 import { ChatDropdown } from '../chatDropdown';
 import { UserModal } from '../userModal';
@@ -81,7 +81,7 @@ class ChatHeader extends Block<TChatHeaderProps> {
   }
 }
 
-const mapStateToProps = (state: { currentChat: TGetChatListResponse }) => {
+const mapStateToProps = (state: TStoreState) => {
   return {
     currentChat: state.currentChat,
   };
