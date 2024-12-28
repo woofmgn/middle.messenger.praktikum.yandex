@@ -124,7 +124,7 @@ class PropfilePage extends Block<TPropfilePageProps> {
       {{{BackButton}}}
       <section class="profile-container">
         {{{ButtonAvatar}}}
-        <h1 class="profile-container__username">Иван</h1>
+        <h1 class="profile-container__username">{{user.first_name}}</h1>
         {{#if state.isShownUserForm}}
           {{{ProfileUserForm}}}
             {{else}}

@@ -55,7 +55,9 @@ export default class ChatInput extends Block<TChatInputProps> {
       Button: new InputButton({
         onClick: (e) => {
           e.preventDefault();
-
+          if (!this.props.formData.data.message) {
+            return;
+          }
           webSocket.sendMessage(this.props.formData.data.message);
         },
       }),

@@ -69,6 +69,15 @@ class ChatApi {
     });
   };
 
+  public deleteUserFromChat = async ({ userId, chatId }: { userId: number; chatId: number }) => {
+    return await this.request.delete(`${this.baseUrl}/chats/users`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: { users: [userId], chatId },
+    });
+  };
+
   public getChatToken = async (chatId: number) => {
     return await this.request.post<TGetChatTokenResponse>(`${this.baseUrl}/chats/token/${chatId}`, {
       headers: {
