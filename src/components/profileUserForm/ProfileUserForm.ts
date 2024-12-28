@@ -1,6 +1,5 @@
 import { TUserInfoResponse } from '../../api/AuthApi';
 import { TChangePfofileInfoData } from '../../api/UserApi';
-import { getUserInfo } from '../../service/authService';
 import { changeUserInfo } from '../../service/profileService';
 import { connect } from '../../store/connect';
 import { TStoreState } from '../../store/Store';
@@ -298,24 +297,21 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
   }
 
   componentDidMount(): void {
+    console.log('this.props.user', this.props.user);
     if (this.props.user) {
-      getUserInfo()
-        .then(() => {
-          const emailInputChild = this.children.EmailInput as unknown as Block<{ value: string }>;
-          const loginInputChild = this.children.LoginInput as unknown as Block<{ value: string }>;
-          const firstNameInputChild = this.children.FirstNameInput as unknown as Block<{ value: string }>;
-          const lastNameInputChild = this.children.LastNameInput as unknown as Block<{ value: string }>;
-          const chatNameInputChild = this.children.ChatNameInput as unknown as Block<{ value: string }>;
-          const phoneInputChild = this.children.PhoneInput as unknown as Block<{ value: string }>;
+      const emailInputChild = this.children.EmailInput as unknown as Block<{ value: string }>;
+      const loginInputChild = this.children.LoginInput as unknown as Block<{ value: string }>;
+      const firstNameInputChild = this.children.FirstNameInput as unknown as Block<{ value: string }>;
+      const lastNameInputChild = this.children.LastNameInput as unknown as Block<{ value: string }>;
+      const chatNameInputChild = this.children.ChatNameInput as unknown as Block<{ value: string }>;
+      const phoneInputChild = this.children.PhoneInput as unknown as Block<{ value: string }>;
 
-          emailInputChild.setProps({ value: this.props.user?.email || '' });
-          loginInputChild.setProps({ value: this.props.user?.login || '' });
-          firstNameInputChild.setProps({ value: this.props.user?.first_name || '' });
-          lastNameInputChild.setProps({ value: this.props.user?.second_name || '' });
-          chatNameInputChild.setProps({ value: this.props.user?.display_name || '' });
-          phoneInputChild.setProps({ value: this.props.user?.phone || '' });
-        })
-        .catch((err) => console.log(err));
+      emailInputChild.setProps({ value: this.props.user?.email || '' });
+      loginInputChild.setProps({ value: this.props.user?.login || '' });
+      firstNameInputChild.setProps({ value: this.props.user?.first_name || '' });
+      lastNameInputChild.setProps({ value: this.props.user?.second_name || '' });
+      chatNameInputChild.setProps({ value: this.props.user?.display_name || '' });
+      phoneInputChild.setProps({ value: this.props.user?.phone || '' });
     }
   }
 

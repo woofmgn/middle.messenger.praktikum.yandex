@@ -1,21 +1,35 @@
 import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
 import { ROUTES } from '../../utils/conts';
+import { Button } from '../button';
 import { ContactList, TContactProps } from '../contactList';
+import { CreateChatModal } from '../createChatModal';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
 
 type TChatListProps = {
   className?: string;
+  CreateChatButton?: Button;
   Link?: Link;
   SearchInput?: SearchInput;
   ContactList?: Block<TContactProps>;
+  CreateChatModal?: CreateChatModal;
+  isOpenModal?: boolean;
+  currentChatId?: null | number;
 };
 
 export default class ChatList extends Block<TChatListProps> {
-  constructor() {
+  constructor(props: TChatListProps) {
     super('section', {
+      ...props,
       className: 'chat-list',
+      isOpenModal: false,
+      currentChatId: null,
+      CreateChatButton: new Button({
+        label: 'Добавить чат',
+        onClick: () => this.setProps({ ...this.props, isOpenModal: true }),
+        btnText: true,
+      }),
       Link: new Link({
         to: () => window.router.go(ROUTES.PROFILE),
         label: 'Профиль',
@@ -28,6 +42,10 @@ export default class ChatList extends Block<TChatListProps> {
       ContactList: new ContactList({
         onClick: (id: number) => console.log(id),
         chatList: [],
+      }),
+      CreateChatModal: new CreateChatModal({
+        modalTypeAdd: true,
+        onClose: () => this.setProps({ ...this.props, isOpenModal: false }),
       }),
     });
   }
@@ -42,11 +60,17 @@ export default class ChatList extends Block<TChatListProps> {
     return `
       <div class="chat-list__container">
         <div class="chat-list__header">
-          {{{Link}}}
-          {{{SearchInput}}}
+            <div class="chat-list__button-wrapper">
+              {{{CreateChatButton}}}
+              {{{Link}}}
+            </div>
+            {{{SearchInput}}}
         </div>
         {{{ContactList}}}
       </div>
+      {{#if isOpenModal}}
+        {{{CreateChatModal}}}
+      {{/if}}
     `;
   }
 }

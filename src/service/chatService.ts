@@ -48,50 +48,62 @@ export const createChat = async (title: string) => {
   }
 };
 
-export const deleteChat = async (title: string) => {
-  const chat = window.store.getState()?.chatList?.find((chat) => chat.title === title);
+export const addUserToCurrentChat = async ({ login }: { login: string }) => {
+  const chatId = window.store.getState()?.chatId;
   try {
-    if (!chat?.id) {
-      return;
-    }
-    const response = await chatApi.deleteChat(chat.id);
-
-    if (response) {
-      const filteredChats = window.store.getState()!.chatList!.filter((chat) => chat.id !== response.result.id);
-      window.store.set({ chatList: filteredChats });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const addUserToCurrentChat = async ({ userId, chatId }: { userId: number; chatId: number }) => {
-  try {
-    const response = await chatApi.addUserToChat({ userId, chatId });
-
-    if (!response) {
-      throw new Error('Не удалось добавить пользователя в чат');
-    }
-  } catch (err) {
-    return err;
-  }
-};
-
-export const createNewChatAndAddUser = async (login: string) => {
-  try {
+    console.log('isChatId', window.store.getState()?.chatId);
     const userLoginResponse = await chatApi.getUserByLogin(login);
 
     if (!userLoginResponse) {
       throw new Error(`Не удолось найти пользователя ${login}`);
     }
 
-    const createChatResponse = await createChat(login);
-
-    if (!createChatResponse) {
-      throw new Error(`Не удалось создать чат ${login}`);
+    if (!chatId) {
+      throw new Error('Не передан chatId');
     }
 
-    await addUserToCurrentChat({ userId: userLoginResponse[0].id, chatId: createChatResponse.id });
+    const response = await chatApi.addUserToChat({ userId: userLoginResponse[0].id, chatId });
+    console.log('resp', response);
+    // if (!response) {
+    //   throw new Error('Не удалось добавить пользователя в чат');
+    // }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteUser = async (login: string) => {
+  const chatId = window.store.getState()?.chatId;
+
+  try {
+    console.log('isChatId', window.store.getState()?.chatId);
+    const userLoginResponse = await chatApi.getUserByLogin(login);
+
+    if (!userLoginResponse) {
+      throw new Error(`Не удолось найти пользователя ${login}`);
+    }
+
+    if (!chatId) {
+      throw new Error('Не передан chatId');
+    }
+
+    const response = await chatApi.deleteUserFromChat({ userId: userLoginResponse[0].id, chatId });
+    console.log('resp', response);
+    // if (!response) {
+    //   throw new Error('Не удалось удалить пользователя из чата');
+    // }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createNewChat = async (title: string) => {
+  try {
+    const createChatResponse = await createChat(title);
+
+    if (!createChatResponse) {
+      throw new Error(`Не удалось создать чат ${title}`);
+    }
 
     await loadChatList();
   } catch (err) {

@@ -15,7 +15,7 @@ export default class MessengerPage extends Block<TMessagePageProps> {
     super('div', {
       ...props,
       className: 'messenger-block',
-      ChatList: new ChatList(),
+      ChatList: new ChatList({}),
       Chat: new Chat({}),
     });
   }

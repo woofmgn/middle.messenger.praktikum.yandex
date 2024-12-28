@@ -5,9 +5,9 @@ import { TProfileUserFormProps } from '../../components/profileUserForm/ProfileU
 
 import { getUserInfo, logoutUser } from '../../service/authService';
 import { TUserInfoResponse } from '../../api/AuthApi';
-import { connect } from '../../store/connect';
 import { ROUTES } from '../../utils/conts';
 import { TStoreState } from '../../store/Store';
+import { connect } from '../../store/connect';
 
 type TPropfilePageProps = {
   className?: string;
@@ -17,6 +17,7 @@ type TPropfilePageProps = {
     isShownUserForm: boolean;
     isShownUserButton: boolean;
     isOpenModal: boolean;
+    first_name: string;
   };
   BackButton?: BackButton;
   ProfileUserForm?: Block<TProfileUserFormProps>;
@@ -31,9 +32,11 @@ type TPropfilePageProps = {
 class PropfilePage extends Block<TPropfilePageProps> {
   constructor(props: TPropfilePageProps) {
     super('div', {
+      ...props,
       className: 'profile-layout',
       state: {
         avatar: emptyAvatar,
+        first_name: '',
         isShownUserForm: true,
         isShownUserButton: true,
         isOpenModal: false,
@@ -102,16 +105,19 @@ class PropfilePage extends Block<TPropfilePageProps> {
   }
 
   public componentDidMount(): void {
-    getUserInfo()
-      .then((res) => {
-        if (!res) {
+    if (!this.props.user) {
+      getUserInfo()
+        .then((res) => {
+          if (!res) {
+            window.router.go(ROUTES.SIGNIN);
+            return;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
           window.router.go(ROUTES.SIGNIN);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        window.router.go(ROUTES.SIGNIN);
-      });
+        });
+    }
 
     if (this.props.user) {
       const child = this.children.ButtonAvatar as unknown as Block<{ avatar: string }>;
@@ -124,7 +130,7 @@ class PropfilePage extends Block<TPropfilePageProps> {
       {{{BackButton}}}
       <section class="profile-container">
         {{{ButtonAvatar}}}
-        <h1 class="profile-container__username">Иван</h1>
+        <h1 class="profile-container__username">{{user.first_name}}</h1>
         {{#if state.isShownUserForm}}
           {{{ProfileUserForm}}}
             {{else}}
