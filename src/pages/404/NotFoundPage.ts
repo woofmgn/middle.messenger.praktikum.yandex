@@ -10,7 +10,7 @@ export default class NotFoundPage extends Block<TNotFoundPageProps> {
   constructor() {
     super('div', {
       className: 'layout',
-      Link: new Link({ label: 'Назад к чатам', to: '#' }),
+      Link: new Link({ label: 'Назад к чатам', to: () => window.router.back() }),
     });
   }
 

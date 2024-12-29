@@ -1,3 +1,4 @@
+import { TGetChatListResponse } from '../../api/ChatApi/types';
 import { ChatDropdown } from '../chatDropdown';
 import { UserModal } from '../userModal';
 import { HeaderButton } from './ChatHeader';
@@ -9,8 +10,9 @@ export type THeaderButtonProps = {
 
 export type TChatHeaderProps = {
   avatar: string;
-  name: string;
+  name?: string;
   isShownDropdown?: boolean;
+  currentChat?: TGetChatListResponse;
   className?: string;
   isOpenedModal?: boolean;
   modalTypeAdd?: boolean;

@@ -1,12 +1,16 @@
+import { TSignupData } from '../../api/AuthApi';
 import { AuthInput, AuthTitle, Button, Link } from '../../components';
 import { TAuthInputError } from '../../components/authInput';
+import { getUserInfo, registrationUser } from '../../service/authService';
 import Block from '../../utils/Block';
+import { ROUTES } from '../../utils/conts';
 import { checkValidityForm, validation } from '../../utils/formValidation';
 
 type TSignupPageProps = {
   className?: string;
   formState: {
     data: Record<string, string>;
+    // data: TSignupData | null;
     error: Record<string, string>;
   };
   AuthTitle?: AuthTitle;
@@ -303,22 +307,33 @@ export default class SignupPage extends Block<TSignupPageProps> {
         label: 'Зарегистрироваться',
         optClass: 'button-auth',
         type: 'submit',
-        onClick: (e) => {
+        onClick: async (e) => {
           e.preventDefault();
           const isValid = checkValidityForm(this.props.formState.error);
           if (!isValid) {
             return;
           }
 
+          await registrationUser(this.props.formState.data as TSignupData);
           console.log('form submit', this.props.formState.data);
         },
       }),
       Link: new Link({
         label: 'Войти',
-        to: '#',
+        to: () => window.router.go(ROUTES.SIGNIN),
         optionalClass: 'auth-link',
       }),
     });
+  }
+
+  public componentDidMount(): void {
+    getUserInfo()
+      .then((res) => {
+        if (res) {
+          window.router.go(ROUTES.MESSENGER);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   render(): string {

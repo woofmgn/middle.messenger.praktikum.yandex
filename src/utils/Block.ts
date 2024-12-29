@@ -96,11 +96,9 @@ export default abstract class Block<Props extends Record<string, any>> {
         this._element.setAttribute(attrName, attrValue as string);
 
         if (attrName === 'disable' && attrValue) {
-          console.log(1);
           this._element.setAttribute('disabled', attrValue as string);
         }
         if (attrName === 'disable' && !attrValue) {
-          console.log(2);
           this._element.removeAttribute('disabled');
         }
       });
@@ -115,10 +113,11 @@ export default abstract class Block<Props extends Record<string, any>> {
 
   private _componentDidMount() {
     this.componentDidMount();
+    // console.log('this._element', this._element);
   }
 
-  componentDidMount() {}
-  // componentDidMount(oldProps) {}
+  public componentDidMount() {}
+  // public componentDidMount(oldProps) {}
 
   dispatchComponentDidMount() {
     this.eventBus.emit(Block.EVENTS.FLOW_CDM);
@@ -129,20 +128,51 @@ export default abstract class Block<Props extends Record<string, any>> {
     if (!response) {
       return;
     }
+
+    if (typeof this._meta?.props.attrs === 'object' && this._meta?.props.attrs !== null && this._meta) {
+      Object.entries(this._meta?.props.attrs).forEach(([attrName, attrValue]) => {
+        if (!this._element) {
+          return;
+        }
+
+        Object.entries(this._meta!.props).forEach(([propKey, _propValue]) => {
+          if (propKey === attrName) {
+            // this._element?.setAttribute(attrName, propValue as string);
+            this._element?.setAttribute(attrName, newProps[propKey] as string);
+          }
+        });
+
+        if (attrName === 'disable' && attrValue) {
+          this._element.setAttribute('disabled', attrValue as string);
+        }
+        if (attrName === 'disable' && !attrValue) {
+          this._element.removeAttribute('disabled');
+        }
+      });
+    }
+
     this._render();
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props) {
-    console.log('componentDidUpdate', oldProps, newProps);
+  componentDidUpdate(_oldProps: Props, _newProps: Props): boolean | Promise<boolean> {
+    // console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
+
+  componentWillUnmount() {}
 
   public setProps = (nextProps: Props) => {
     if (!nextProps) {
       return;
     }
 
-    Object.assign(this.props, nextProps);
+    // Object.assign(this.props, nextProps);
+    console.log('this.props attrs', this.props);
+    console.log('new props attrs', nextProps);
+    const oldProps = { ...this.props };
+    this.props = { ...this.props, ...nextProps };
+
+    this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this.props);
   };
 
   get element() {
@@ -151,6 +181,7 @@ export default abstract class Block<Props extends Record<string, any>> {
 
   private _render() {
     this._removeEvents();
+
     const block = this._compile();
 
     if (!this._element) {
@@ -207,6 +238,7 @@ export default abstract class Block<Props extends Record<string, any>> {
       }
     });
 
+    this._componentDidMount();
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
     const template = Handlebars.compile(this.render());
     fragment.innerHTML = template(propsAndStubs);

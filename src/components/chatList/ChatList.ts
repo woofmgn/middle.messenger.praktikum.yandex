@@ -1,22 +1,37 @@
+import { loadChatList } from '../../service/chatService';
 import Block from '../../utils/Block';
-import { contacts } from '../../utils/conts';
-import { Contact } from '../contact';
+import { ROUTES } from '../../utils/conts';
+import { Button } from '../button';
+import { ContactList, TContactProps } from '../contactList';
+import { CreateChatModal } from '../createChatModal';
 import { Link } from '../link';
 import { SearchInput } from '../searchInput';
 
 type TChatListProps = {
   className?: string;
-  Link: Link;
-  SearchInput: SearchInput;
-  contactList: Contact[];
+  CreateChatButton?: Button;
+  Link?: Link;
+  SearchInput?: SearchInput;
+  ContactList?: Block<TContactProps>;
+  CreateChatModal?: CreateChatModal;
+  isOpenModal?: boolean;
+  currentChatId?: null | number;
 };
 
 export default class ChatList extends Block<TChatListProps> {
-  constructor() {
+  constructor(props: TChatListProps) {
     super('section', {
+      ...props,
       className: 'chat-list',
+      isOpenModal: false,
+      currentChatId: null,
+      CreateChatButton: new Button({
+        label: 'Добавить чат',
+        onClick: () => this.setProps({ ...this.props, isOpenModal: true }),
+        btnText: true,
+      }),
       Link: new Link({
-        to: '#',
+        to: () => window.router.go(ROUTES.PROFILE),
         label: 'Профиль',
         optionalClass: 'chat-list__to-profile-link',
       }),
@@ -24,27 +39,47 @@ export default class ChatList extends Block<TChatListProps> {
         onBlur: (e) => console.log(e),
         onChange: (e) => console.log(e),
       }),
-      contactList: contacts.map((contact) => {
-        return new Contact({
-          ...contact,
-        });
+      ContactList: new ContactList({
+        onClick: (id: number) => console.log(id),
+        chatList: [],
+      }),
+      CreateChatModal: new CreateChatModal({
+        modalTypeAdd: true,
+        onClose: () => this.setProps({ ...this.props, isOpenModal: false }),
       }),
     });
+  }
+
+  public componentDidMount(): void {
+    loadChatList()
+      .then()
+      .catch((err) => console.log(err));
   }
 
   render(): string {
     return `
       <div class="chat-list__container">
         <div class="chat-list__header">
-          {{{Link}}}
-          {{{SearchInput}}}
+            <div class="chat-list__button-wrapper">
+              {{{CreateChatButton}}}
+              {{{Link}}}
+            </div>
+            {{{SearchInput}}}
         </div>
-        <ul class="chat-list__list-wrapper">
-          {{#each contactList}}
-            {{{this}}}
-          {{/each}}
-        </ul>
+        {{{ContactList}}}
       </div>
+      {{#if isOpenModal}}
+        {{{CreateChatModal}}}
+      {{/if}}
     `;
   }
 }
+
+// const mapStateToProps = (state: { chatList: TGetChatListResponse[]; isLoading: boolean }) => {
+//   return {
+//     isLoading: state.isLoading,
+//     chatList: state.chatList,
+//   };
+// };
+
+// export default connect(mapStateToProps)(ChatList);

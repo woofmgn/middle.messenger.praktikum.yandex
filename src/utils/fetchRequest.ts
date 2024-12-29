@@ -7,7 +7,7 @@ const METHODS = {
 
 type TOptions = {
   timeout?: number;
-  method: keyof typeof METHODS;
+  method?: keyof typeof METHODS;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
   headers?: Record<string, string>;
@@ -43,7 +43,7 @@ class HTTPTransport {
     );
   };
 
-  public post = <T>(url: string, options: TOptions = { method: METHODS.GET }) => {
+  public post = <T>(url: string, options: TOptions = { method: METHODS.POST }) => {
     return this.request<T>(
       url,
       {
@@ -54,7 +54,7 @@ class HTTPTransport {
     );
   };
 
-  public put = <T>(url: string, options: TOptions = { method: METHODS.GET }) => {
+  public put = <T>(url: string, options: TOptions = { method: METHODS.PUT }) => {
     return this.request<T>(
       url,
       {
@@ -65,7 +65,7 @@ class HTTPTransport {
     );
   };
 
-  public delete = <T>(url: string, options: TOptions = { method: METHODS.GET }) => {
+  public delete = <T>(url: string, options: TOptions = { method: METHODS.DELETE }) => {
     return this.request<T>(
       url,
       {
@@ -83,7 +83,7 @@ class HTTPTransport {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHODS.GET;
 
-      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
+      xhr.open(method!, isGet && !!data ? `${url}${queryStringify(data)}` : url);
 
       if ('headers' in options && headers) {
         Object.keys(headers).forEach((key) => {
@@ -95,16 +95,31 @@ class HTTPTransport {
         resolve(xhr as unknown as Promise<T>);
       };
 
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
       xhr.onabort = reject;
       xhr.onerror = reject;
 
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
+      xhr.onload = () => {
+        if (xhr.status >= 400) {
+          reject(xhr.response);
+          return;
+        }
+        resolve(xhr.response);
+      };
+
       if (isGet || !data) {
         xhr.send();
       } else {
-        xhr.send(data);
+        if (data instanceof FormData) {
+          console.log('data', data);
+          xhr.send(data);
+          return;
+        }
+        xhr.send(JSON.stringify(data));
       }
     });
   };

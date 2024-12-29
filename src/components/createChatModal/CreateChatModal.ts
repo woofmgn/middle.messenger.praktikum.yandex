@@ -1,10 +1,10 @@
-import { addUserToCurrentChat, deleteUser } from '../../service/chatService';
+import { createNewChat } from '../../service/chatService';
 import Block from '../../utils/Block';
-import { checkValidityForm, validation } from '../../utils/formValidation';
-import { AuthInput, TAuthInputError } from '../authInput';
+import { checkValidityForm } from '../../utils/formValidation';
+import { AuthInput } from '../authInput';
 import { Button } from '../button';
 
-type TUserModalProps = {
+type TCreateChatModalProps = {
   className?: string;
   formState?: {
     data: Record<string, string>;
@@ -19,8 +19,8 @@ type TUserModalProps = {
   onClose: () => void;
 };
 
-export default class UserModal extends Block<TUserModalProps> {
-  constructor(props: TUserModalProps) {
+export default class CreateChatModal extends Block<TCreateChatModalProps> {
+  constructor(props: TCreateChatModalProps) {
     super('div', {
       ...props,
       className: 'modal-layout',
@@ -36,9 +36,9 @@ export default class UserModal extends Block<TUserModalProps> {
         onClick: props.onClose,
       }),
       UserInput: new AuthInput({
-        label: 'Логин',
-        name: 'login',
-        id: 'login',
+        label: 'Название чата',
+        name: 'title',
+        id: 'title',
         onChange: (e) => {
           if (!this.props.formState) return;
 
@@ -55,21 +55,7 @@ export default class UserModal extends Block<TUserModalProps> {
           });
         },
         onBlur: (e) => {
-          if (!this.props.formState) return;
-          const target = e.target as HTMLInputElement;
-          const errorMessage = validation('login', target.value);
-          this.setProps({
-            ...this.props,
-            formState: {
-              ...this.props.formState,
-              error: {
-                ...this.props.formState.error,
-                [target.name]: errorMessage,
-              },
-            },
-          });
-          const child = this.children.UserInput as unknown as TAuthInputError;
-          child.setProps({ error: errorMessage });
+          console.log(e);
         },
       }),
       AddButton: new Button({
@@ -84,9 +70,11 @@ export default class UserModal extends Block<TUserModalProps> {
             return;
           }
 
-          await addUserToCurrentChat({
-            login: this.props.formState.data.login,
-          });
+          if (!this.props.formState.data.title) {
+            return;
+          }
+
+          await createNewChat(this.props.formState.data.title);
           props.onClose();
         },
       }),
@@ -102,7 +90,7 @@ export default class UserModal extends Block<TUserModalProps> {
             return;
           }
 
-          await deleteUser(this.props.formState.data.login);
+          // await deleteChat(this.props.formState.data.login);
           props.onClose();
         },
       }),
@@ -117,9 +105,9 @@ export default class UserModal extends Block<TUserModalProps> {
         {{{CloseButton}}}
         <h2 class="modal__title">
           {{#if modalTypeAdd}}
-            Добавить пользователя
+            Добавить чат
             {{else}}
-            Удалить пользователя
+            Удалить чат
           {{/if}}
         </h2>
         <form action="" class="modal__form modal__form-user">

@@ -3,16 +3,24 @@ import emptyAvatar from '../../assets/image/empty-avatar.svg';
 import { BackButton, Button, ProfileModal, ProfilePasswordForm, ProfileUserForm } from '../../components';
 import { TProfileUserFormProps } from '../../components/profileUserForm/ProfileUserForm';
 
+import { getUserInfo, logoutUser } from '../../service/authService';
+import { TUserInfoResponse } from '../../api/AuthApi';
+import { ROUTES } from '../../utils/conts';
+import { TStoreState } from '../../store/Store';
+import { connect } from '../../store/connect';
+
 type TPropfilePageProps = {
   className?: string;
+  user?: TUserInfoResponse;
   state: {
     avatar: string;
     isShownUserForm: boolean;
     isShownUserButton: boolean;
     isOpenModal: boolean;
+    first_name: string;
   };
   BackButton?: BackButton;
-  ProfileUserForm?: ProfileUserForm;
+  ProfileUserForm?: Block<TProfileUserFormProps>;
   ProfilePasswordForm?: ProfilePasswordForm;
   ButtonChangeData?: Button;
   ButtonChangePassword?: Button;
@@ -21,12 +29,14 @@ type TPropfilePageProps = {
   ProfileModal?: ProfileModal;
 };
 
-export default class PropfilePage extends Block<TPropfilePageProps> {
-  constructor() {
+class PropfilePage extends Block<TPropfilePageProps> {
+  constructor(props: TPropfilePageProps) {
     super('div', {
+      ...props,
       className: 'profile-layout',
       state: {
         avatar: emptyAvatar,
+        first_name: '',
         isShownUserForm: true,
         isShownUserButton: true,
         isOpenModal: false,
@@ -71,12 +81,16 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
         btnText: true,
         label: 'Выйти',
         optClass: 'profile-button-container__logout-button',
-        onClick: () => console.log('button click'),
+        onClick: async (e) => {
+          e.preventDefault();
+          await logoutUser();
+        },
       }),
       ButtonAvatar: new Button({
         btnText: true,
         optClass: 'profile-container__avatar-button',
         label: '',
+        avatar: props.user?.avatar,
         onClick: () => {
           this.setProps({ ...this.props, state: { ...this.props.state, isOpenModal: true } });
         },
@@ -89,13 +103,34 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
       }),
     });
   }
+
+  public componentDidMount(): void {
+    if (!this.props.user) {
+      getUserInfo()
+        .then((res) => {
+          if (!res) {
+            window.router.go(ROUTES.SIGNIN);
+            return;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          window.router.go(ROUTES.SIGNIN);
+        });
+    }
+
+    if (this.props.user) {
+      const child = this.children.ButtonAvatar as unknown as Block<{ avatar: string }>;
+      child.setProps({ avatar: this.props.user.avatar });
+    }
+  }
+
   render(): string {
-    console.log('state.avatar.emptyAvatar', this.props.state.avatar);
     return `
       {{{BackButton}}}
       <section class="profile-container">
         {{{ButtonAvatar}}}
-        <h1 class="profile-container__username">Иван</h1>
+        <h1 class="profile-container__username">{{user.first_name}}</h1>
         {{#if state.isShownUserForm}}
           {{{ProfileUserForm}}}
             {{else}}
@@ -122,3 +157,12 @@ export default class PropfilePage extends Block<TPropfilePageProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: TStoreState) => {
+  return {
+    isLoading: state.isLoading,
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(PropfilePage);
