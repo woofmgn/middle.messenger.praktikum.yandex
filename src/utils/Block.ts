@@ -11,10 +11,10 @@ export default abstract class Block<Props extends Record<string, any>> {
     FLOW_RENDER: 'flow:render',
   };
 
-  eventBus: EventBus;
-  props: Props;
-  children: Record<string, Block<Props>>;
+  public props: Props;
+  public children: Record<string, Block<Props>>;
 
+  private eventBus: EventBus;
   private _element: HTMLElement | null = null;
   private _meta: { tagName: string; props: Props } | null = null;
   private _id = uuid();
@@ -105,7 +105,7 @@ export default abstract class Block<Props extends Record<string, any>> {
     }
   }
 
-  init() {
+  private init() {
     this._createResources();
 
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
@@ -113,11 +113,9 @@ export default abstract class Block<Props extends Record<string, any>> {
 
   private _componentDidMount() {
     this.componentDidMount();
-    // console.log('this._element', this._element);
   }
 
   public componentDidMount() {}
-  // public componentDidMount(oldProps) {}
 
   dispatchComponentDidMount() {
     this.eventBus.emit(Block.EVENTS.FLOW_CDM);
@@ -154,12 +152,12 @@ export default abstract class Block<Props extends Record<string, any>> {
     this._render();
   }
 
-  componentDidUpdate(_oldProps: Props, _newProps: Props): boolean | Promise<boolean> {
+  public componentDidUpdate(_oldProps: Props, _newProps: Props): boolean | Promise<boolean> {
     // console.log('componentDidUpdate', oldProps, newProps);
     return true;
   }
 
-  componentWillUnmount() {}
+  public componentWillUnmount() {}
 
   public setProps = (nextProps: Props) => {
     if (!nextProps) {
@@ -167,15 +165,13 @@ export default abstract class Block<Props extends Record<string, any>> {
     }
 
     // Object.assign(this.props, nextProps);
-    console.log('this.props attrs', this.props);
-    console.log('new props attrs', nextProps);
     const oldProps = { ...this.props };
     this.props = { ...this.props, ...nextProps };
 
     this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, this.props);
   };
 
-  get element() {
+  public get element() {
     return this._element;
   }
 
@@ -284,13 +280,5 @@ export default abstract class Block<Props extends Record<string, any>> {
 
   private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
-  }
-
-  public show() {
-    this.getContent().style.display = 'block';
-  }
-
-  public hide() {
-    this.getContent().style.display = 'none';
   }
 }
