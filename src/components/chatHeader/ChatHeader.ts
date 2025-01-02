@@ -60,7 +60,6 @@ class ChatHeader extends Block<TChatHeaderProps> {
   }
 
   render(): string {
-    console.log('this.props.currentChat', this.props.currentChat);
     return `
       <div class="chat-header__wrapper">
         <div class="chat-header__user-info">
