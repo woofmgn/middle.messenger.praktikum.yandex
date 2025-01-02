@@ -97,7 +97,6 @@ export default class CreateChatModal extends Block<TCreateChatModalProps> {
   }
 
   render(): string {
-    console.log('add', this.props.modalTypeAdd);
     return `
       <div class="modal-overlay"></div>
       <div class="modal">
