@@ -14,7 +14,8 @@
     "lint": "eslint . && tsc --noEmit",
     "lint:fix": "eslint . --fix",
     "test": "mocha",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/chai": "^5.0.1",
@@ -27,6 +28,7 @@
     "eslint": "^8.57.1",
     "eslint-plugin-prettier": "^5.2.1",
     "handlebars": "^4.7.8",
+    "husky": "^9.1.7",
     "jsdom": "^25.0.1",
     "mocha": "^11.0.1",
     "path": "^0.12.7",
