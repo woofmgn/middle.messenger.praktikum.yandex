@@ -34,7 +34,6 @@ export default class ProfileInput extends Block<TProfileInputProps> {
   }
 
   public componentDidMount(): void {
-    console.log('this.props.value input', this.props.value);
     const child = this.children.Input as unknown as Block<Pick<TInputProps, 'value'>>;
     child.setProps({ value: this.props.value });
   }
