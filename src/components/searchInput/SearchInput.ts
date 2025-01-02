@@ -22,7 +22,6 @@ export default class SearchInput extends Block<TSearchInputProps> {
           props.onChange(e);
         },
         onBlur: (e) => {
-          console.log('blur', e);
           props.onBlur(e);
         },
       }),
