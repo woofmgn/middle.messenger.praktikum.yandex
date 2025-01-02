@@ -1,4 +1,4 @@
 {
   "*.scss": ["npm run lint:style:fix", "prettier --write"],
-  "*.{ts}": ["npm run lint:ts", "prettier --write", "npm run test"]
+  "*.ts": ["npm run lint:ts", "prettier --write", "npm run test"]
 }
