@@ -72,7 +72,6 @@ class PropfilePage extends Block<TPropfilePageProps> {
         label: 'Изменить пароль',
         onClick: (e) => {
           e.preventDefault();
-          console.log('button click');
           this.setProps({ ...this.props, state: { ...this.props.state, isShownUserForm: false } });
           this.setProps({ ...this.props, state: { ...this.props.state, isShownUserButton: false } });
         },
