@@ -7,3 +7,4 @@ global.document = jsdom.window.document;
 global.MouseEvent = jsdom.window.MouseEvent;
 global.Node = jsdom.window.Node;
 global.XMLHttpRequest = jsdom.window.XMLHttpRequest;
+global.FormData = jsdom.window.FormData;
