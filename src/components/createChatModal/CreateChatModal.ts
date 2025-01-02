@@ -90,7 +90,6 @@ export default class CreateChatModal extends Block<TCreateChatModalProps> {
             return;
           }
 
-          // await deleteChat(this.props.formState.data.login);
           props.onClose();
         },
       }),

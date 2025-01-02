@@ -5,7 +5,7 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -25,5 +25,5 @@
     // Remove if you want ts-node to do typechecking.
     "transpileOnly": true
   },
-  "include": ["src", "global.d.ts"]
+  "include": ["src/**/*.ts", "global.d.ts"]
 }
