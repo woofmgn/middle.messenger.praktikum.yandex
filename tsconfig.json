@@ -5,7 +5,7 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -19,5 +19,11 @@
     "sourceMap": true,
     "strictNullChecks": true
   },
-  "include": ["src", "global.d.ts"]
+  "ts-node": {
+    "experimentalSpecifierResolution": "node",
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": true
+  },
+  "include": ["src/**/*.ts", "global.d.ts"]
 }

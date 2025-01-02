@@ -19,7 +19,6 @@ export default class ChatDropdown extends Block<TChatDropdownProps> {
         label: 'Добавить пользователя',
         btnText: true,
         onClick: () => {
-          console.log('click');
           props.onAddUser();
           props.onClose();
         },
@@ -28,7 +27,6 @@ export default class ChatDropdown extends Block<TChatDropdownProps> {
         label: 'Удалить пользователя',
         btnText: true,
         onClick: () => {
-          console.log('click');
           props.onRemoveUser();
           props.onClose();
         },

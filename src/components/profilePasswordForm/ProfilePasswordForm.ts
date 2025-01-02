@@ -182,12 +182,11 @@ export default class ProfilePasswordForm extends Block<TProfilePasswordFormProps
           }
 
           if (this.props.formState.data['oldPassword'] === this.props.formState.data['newPassword']) {
-            console.log(1);
             const child = this.children.NewPasswordInput as unknown as Block<Pick<TProfileInputProps, 'error'>>;
             child.setProps({ error: 'Старый пароль не может быть использован в качестве нового' });
             return;
           }
-          console.log(this.props.formState.data);
+
           await changeUserPassword({
             newPassword: this.props.formState.data.newPassword,
             oldPassword: this.props.formState.data.oldPassword,
