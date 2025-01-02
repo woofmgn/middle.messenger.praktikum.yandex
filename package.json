@@ -17,7 +17,7 @@
     "lint:style:fix": "stylelint **/*.scss --fix",
     "test": "mocha",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "husky": {
     "hooks": {
@@ -35,7 +35,7 @@
     "eslint": "^8.57.1",
     "eslint-plugin-prettier": "^5.2.1",
     "handlebars": "^4.7.8",
-    "husky": "^9.1.7",
+    "husky": "^8.0.3",
     "jsdom": "^25.0.1",
     "lint-staged": "^15.3.0",
     "mocha": "^11.0.1",
