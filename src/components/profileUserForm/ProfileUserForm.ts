@@ -284,10 +284,6 @@ class ProfileUserForm extends Block<TProfileUserFormProps> {
             return;
           }
 
-          console.log('form submit', {
-            ...props.user,
-            ...(this.props.formState.data as TChangePfofileInfoData),
-          });
           console.log(1);
           await changeUserInfo(this.props.formState.data as TChangePfofileInfoData);
           props.onSubmit();

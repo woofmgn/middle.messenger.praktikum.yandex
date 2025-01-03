@@ -20,7 +20,7 @@ window.store.on(StoreEvents.Updated, (prevState, newState) => {
   console.log('newState', newState);
 });
 
-const APP_ROOT_ELEMNT = '#app';
+export const APP_ROOT_ELEMNT = '#app';
 window.router = new Router(APP_ROOT_ELEMNT);
 window.router
   .use(ROUTES.SIGNIN, Pages.SigninPage)

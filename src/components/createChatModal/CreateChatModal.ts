@@ -90,7 +90,6 @@ export default class CreateChatModal extends Block<TCreateChatModalProps> {
             return;
           }
 
-          // await deleteChat(this.props.formState.data.login);
           props.onClose();
         },
       }),
@@ -98,7 +97,6 @@ export default class CreateChatModal extends Block<TCreateChatModalProps> {
   }
 
   render(): string {
-    console.log('add', this.props.modalTypeAdd);
     return `
       <div class="modal-overlay"></div>
       <div class="modal">
